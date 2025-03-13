@@ -1,0 +1,1 @@
+ALTER TABLE agendamentos ADD CONSTRAINT fk_agendamento_user FOREIGN KEY (user_id) REFERENCES user_academia(id) ON DELETE CASCADE;
