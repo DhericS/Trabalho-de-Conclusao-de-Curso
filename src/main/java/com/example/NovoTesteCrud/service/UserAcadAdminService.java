@@ -25,7 +25,7 @@ public class UserAcadAdminService {
     public List<UserAcadAdmin> getAllUserAcadAdmins() {
         return repository.findAll();
     }
-
+    //Teste commit
     @Transactional
     public void registerUserAcadAdmin(RequestUserAcadAdmin data) {
         Academia academia = academiaRepository.findById(data.academiaId())
