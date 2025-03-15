@@ -20,12 +20,14 @@ public class AcademiaService {
         return repository.findAll();
     }
 
-    public void registerAcademia(RequestAcademia data) {
+    @Transactional
+    public Academia registerAcademia(RequestAcademia data) {
         Academia newAcademia = new Academia();
         newAcademia.setNome(data.nome());
         newAcademia.setEndereco(data.endereco());
         newAcademia.setTelefone(data.telefone());
-        repository.save(newAcademia);
+
+        return repository.save(newAcademia);
     }
 
     @Transactional

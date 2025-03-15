@@ -1,5 +1,9 @@
 package com.example.NovoTesteCrud.domain.acad;
 
-public record RequestAcademia(String nome, String endereco, String telefone) {
+import jakarta.validation.constraints.NotBlank;
 
-}
+public record RequestAcademia(
+        @NotBlank(message = "O nome é obrigatório") String nome,
+        @NotBlank(message = "O endereço é obrigatório") String endereco,
+        @NotBlank(message = "O telefone é obrigatório") String telefone
+) {}

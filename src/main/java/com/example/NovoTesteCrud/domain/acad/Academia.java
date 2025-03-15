@@ -15,11 +15,8 @@ public class Academia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O nome é obrigatório")
     private String nome;
-    @NotBlank(message = "O endereco é obrigatório")
     private String endereco;
-    @NotBlank(message = "O telefone é obrigatório")
     private String telefone;
 
     @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)

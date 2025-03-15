@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,6 +41,7 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentos);
     }
 
+    //GET http://localhost:8080/user/7/date?start=2024-03-01T08:00:00&end=2024-03-10T18:00:00
     @GetMapping("/user/{userId}/date")
     public ResponseEntity<List<AgendamentoDTO>> getAgendamentosByUserAndDate(
             @PathVariable Long userId,
@@ -101,9 +104,13 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerAgendamento(@RequestBody @Valid RequestAgendamento data) {
+    public ResponseEntity<Map<String, String>> registerAgendamento(@RequestBody @Valid RequestAgendamento data) {
         agendamentoService.registerAgendamento(data);
-        return ResponseEntity.ok().build();
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Agendamento inserido com sucesso");
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
@@ -115,8 +122,13 @@ public class AgendamentoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAgendamento(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteAgendamento(@PathVariable Long id) {
         agendamentoService.deleteAgendamento(id);
-        return ResponseEntity.noContent().build();
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Agendamento removido com sucesso");
+
+        return ResponseEntity.ok(response);
     }
+
 }

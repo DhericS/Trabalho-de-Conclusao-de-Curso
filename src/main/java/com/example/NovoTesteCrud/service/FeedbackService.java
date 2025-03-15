@@ -4,11 +4,11 @@ import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
 import com.example.NovoTesteCrud.domain.feedback.Feedback;
 import com.example.NovoTesteCrud.domain.feedback.FeedbackRepository;
+import com.example.NovoTesteCrud.domain.feedback.RequestFeedback;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.personal.PersonalRepository;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
 import com.example.NovoTesteCrud.domain.user.UserAcadRepository;
-import com.example.NovoTesteCrud.domain.feedback.RequestFeedback;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +20,7 @@ import java.util.List;
 public class FeedbackService {
 
     @Autowired
-    private FeedbackRepository repository;
-
-    @Autowired
-    private UserAcadRepository userRepository;
+    private FeedbackRepository feedbackRepository;
 
     @Autowired
     private AcademiaRepository academiaRepository;
@@ -31,27 +28,38 @@ public class FeedbackService {
     @Autowired
     private PersonalRepository personalRepository;
 
+    @Autowired
+    private UserAcadRepository userAcadRepository;
+
     public List<Feedback> getAllFeedbacks() {
-        return repository.findAll();
+        return feedbackRepository.findAll();
     }
 
     public List<Feedback> getFeedbacksByAcademia(Long academiaId) {
-        return repository.findByAcademiaId(academiaId);
+        List<Feedback> feedbacks = feedbackRepository.findByAcademiaId(academiaId);
+        if (feedbacks.isEmpty()) {
+            throw new EntityNotFoundException("Nenhum feedback encontrado para esta academia.");
+        }
+        return feedbacks;
     }
 
     public List<Feedback> getFeedbacksByPersonal(Long personalId) {
-        return repository.findByPersonalId(personalId);
+        List<Feedback> feedbacks = feedbackRepository.findByPersonalId(personalId);
+        if (feedbacks.isEmpty()) {
+            throw new EntityNotFoundException("Nenhum feedback encontrado para este personal.");
+        }
+        return feedbacks;
     }
 
-    public List<Feedback> getFeedbacksByUser(Long userId) {
-        return repository.findByUserId(userId);
+    public Feedback getFeedbackById(Long id) {
+        return feedbackRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Feedback não encontrado!"));
     }
-
 
     @Transactional
-    public void registerFeedback(RequestFeedback data) {
-        UserAcad user = userRepository.findById(data.userId())
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
+    public Feedback registerFeedback(RequestFeedback data) {
+        UserAcad user = userAcadRepository.findById(data.userId())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + data.userId() + " não encontrado!"));
 
         Feedback feedback = new Feedback();
         feedback.setDescricao(data.descricao());
@@ -60,44 +68,39 @@ public class FeedbackService {
 
         if (data.academiaId() != null) {
             Academia academia = academiaRepository.findById(data.academiaId())
-                    .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
+                    .orElseThrow(() -> new EntityNotFoundException("Academia com ID " + data.academiaId() + " não encontrada!"));
             feedback.setAcademia(academia);
         }
 
         if (data.personalId() != null) {
             Personal personal = personalRepository.findById(data.personalId())
-                    .orElseThrow(() -> new EntityNotFoundException("Personal não encontrado!"));
+                    .orElseThrow(() -> new EntityNotFoundException("Personal com ID " + data.personalId() + " não encontrado!"));
             feedback.setPersonal(personal);
         }
 
-
-        repository.save(feedback);
+        return feedbackRepository.save(feedback);
     }
 
     @Transactional
     public Feedback updateFeedback(Long feedbackId, RequestFeedback data) {
-        Feedback feedback = repository.findById(feedbackId)
+        Feedback feedback = feedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new EntityNotFoundException("Feedback não encontrado!"));
-
-        if (!feedback.getUser().getId().equals(data.userId())) {
-            throw new SecurityException("Usuário não tem permissão para editar este feedback!");
-        }
 
         feedback.setDescricao(data.descricao());
         feedback.setEstrelas(data.estrelas());
 
-        return repository.save(feedback);
+        return feedback;
     }
 
     @Transactional
-    public void deleteFeedback(Long feedbackId) {
-        Feedback feedback = repository.findById(feedbackId)
+    public void deleteFeedback(Long feedbackId, Long userId) {
+        Feedback feedback = feedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new EntityNotFoundException("Feedback não encontrado!"));
 
-        Long userId = feedback.getUser().getId();
+        if (!feedback.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("Você não tem permissão para excluir este feedback.");
+        }
 
-
-        repository.delete(feedback);
+        feedbackRepository.delete(feedback);
     }
-
 }

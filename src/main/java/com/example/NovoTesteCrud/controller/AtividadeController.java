@@ -2,13 +2,16 @@ package com.example.NovoTesteCrud.controller;
 
 import com.example.NovoTesteCrud.domain.atvd.Atividade;
 import com.example.NovoTesteCrud.domain.atvd.RequestAtividade;
+import com.example.NovoTesteCrud.dto.AtividadeDTO;
 import com.example.NovoTesteCrud.service.AtividadeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/atividades")
@@ -18,24 +21,39 @@ public class AtividadeController {
     private AtividadeService atividadeService;
 
     @GetMapping
-    public ResponseEntity<List<Atividade>> getAllAtividades() {
-        return ResponseEntity.ok(atividadeService.getAllAtividades());
+    public ResponseEntity<List<AtividadeDTO>> getAllAtividades() {
+        List<AtividadeDTO> atividades = atividadeService.getAllAtividades()
+                .stream().map(AtividadeDTO::new).toList();
+        return ResponseEntity.ok(atividades);
     }
 
+    @GetMapping("/academia/{academiaId}")
+    public ResponseEntity<List<AtividadeDTO>> getAtividadesByAcademia(@PathVariable Long academiaId) {
+        List<AtividadeDTO> atividades = atividadeService.getAtividadesByAcademia(academiaId)
+                .stream().map(AtividadeDTO::new).toList();
+        return ResponseEntity.ok(atividades);
+    }
     @PostMapping
-    public ResponseEntity<Void> registerAtividade(@RequestBody @Valid RequestAtividade data) {
-        atividadeService.registerAtividade(data);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<AtividadeDTO> registerAtividade(@RequestBody @Valid RequestAtividade data) {
+        Atividade atividade = atividadeService.registerAtividade(data);
+        return ResponseEntity.ok(new AtividadeDTO(atividade));
     }
 
-    @PutMapping
-    public ResponseEntity<Atividade> updateAtividade(@RequestBody @Valid RequestAtividade data, @RequestParam Long id) {
-        return ResponseEntity.ok(atividadeService.updateAtividade(data, id));
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, String>> updateAtividade(@PathVariable Long id, @RequestBody @Valid RequestAtividade data) {
+        atividadeService.updateAtividade(data, id);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Atividade atualizada com sucesso");
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAtividade(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteAtividade(@PathVariable Long id) {
         atividadeService.deleteAtividade(id);
-        return ResponseEntity.noContent().build();
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Atividade removida com sucesso");
+        return ResponseEntity.ok(response);
     }
 }

@@ -25,15 +25,23 @@ public class AtividadeService {
         return atividadeRepository.findAll();
     }
 
+    public List<Atividade> getAtividadesByAcademia(Long academiaId) {
+        Academia academia = academiaRepository.findById(academiaId)
+                .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
+
+        return atividadeRepository.findByAcademia(academia);
+    }
+
     @Transactional
-    public void registerAtividade(RequestAtividade data) {
+    public Atividade registerAtividade(RequestAtividade data) {
         Academia academia = academiaRepository.findById(data.academiaId())
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
         Atividade newAtividade = new Atividade();
         newAtividade.setNome(data.name());
         newAtividade.setAcademia(academia);
-        atividadeRepository.save(newAtividade);
+
+        return atividadeRepository.save(newAtividade);
     }
 
     @Transactional
