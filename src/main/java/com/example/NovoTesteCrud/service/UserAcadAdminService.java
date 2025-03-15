@@ -28,18 +28,8 @@ public class UserAcadAdminService {
 
     @Transactional
     public void registerUserAcadAdmin(RequestUserAcadAdmin data) {
-        Academia academia;
-
-        if (data.academiaId() != null) {
-            academia = academiaRepository.findById(data.academiaId())
-                    .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
-        } else {
-            academia = new Academia();
-            academia.setNome(data.academiaNome());
-            academia.setEndereco(data.academiaEndereco());
-            academia.setTelefone(data.academiaTelefone());
-            academiaRepository.save(academia);
-        }
+        Academia academia = academiaRepository.findById(data.academiaId())
+                .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
         UserAcadAdmin newAdmin = new UserAcadAdmin();
         newAdmin.setName(data.name());
@@ -53,27 +43,25 @@ public class UserAcadAdminService {
     }
 
     @Transactional
-    public UserAcadAdmin updateUserAcadAdmin(RequestUserAcadAdmin data, Long id) {
-        Optional<UserAcadAdmin> optionalUser = repository.findById(id);
-        if (optionalUser.isPresent()) {
-            UserAcadAdmin user = optionalUser.get();
-            user.setName(data.name());
-            user.setEmail(data.email());
-            user.setPassword(data.password());
-            user.setTelefone(data.telefone());
-            return user;
-        } else {
-            throw new EntityNotFoundException("Usuário não encontrado!");
-        }
+    public void updateUserAcadAdmin(Long id, RequestUserAcadAdmin data) {
+        UserAcadAdmin user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário Administrador não encontrado!"));
+
+        Academia academia = academiaRepository.findById(data.academiaId())
+                .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
+
+        user.setName(data.name());
+        user.setEmail(data.email());
+        user.setPassword(data.password());
+        user.setCnpj(data.cnpj());
+        user.setAcademia(academia);
+        user.setTelefone(data.telefone());
     }
 
     @Transactional
     public void deleteUserAcadAdmin(Long id) {
-        Optional<UserAcadAdmin> optionalUser = repository.findById(id);
-        if (optionalUser.isPresent()) {
-            repository.delete(optionalUser.get());
-        } else {
-            throw new EntityNotFoundException("Usuário não encontrado!");
-        }
+        UserAcadAdmin user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário Administrador não encontrado!"));
+        repository.delete(user);
     }
 }

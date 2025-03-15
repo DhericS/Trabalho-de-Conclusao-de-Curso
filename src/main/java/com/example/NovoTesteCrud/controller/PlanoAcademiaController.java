@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,20 +41,33 @@ public class PlanoAcademiaController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerPlano(@RequestBody @Valid RequestPlanoAcademia data) {
+    public ResponseEntity<Map<String, String>> registerPlano(@RequestBody @Valid RequestPlanoAcademia data) {
         planoAcademiaService.registerPlano(data);
-        return ResponseEntity.ok().build();
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Plano de academia cadastrado com sucesso!");
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlanoAcademiaDTO> updatePlano(@PathVariable Long id, @RequestBody @Valid RequestPlanoAcademia data) {
-        PlanoAcademiaDTO updatedPlano = new PlanoAcademiaDTO(planoAcademiaService.updatePlano(id, data));
-        return ResponseEntity.ok(updatedPlano);
+    public ResponseEntity<Map<String, String>> updatePlano(@PathVariable Long id, @RequestBody @Valid RequestPlanoAcademia data) {
+        planoAcademiaService.updatePlano(id, data);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Plano de academia atualizado com sucesso!");
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlano(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deletePlano(@PathVariable Long id) {
         planoAcademiaService.deletePlano(id);
-        return ResponseEntity.noContent().build();
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Plano de academia deletado com sucesso!");
+
+        return ResponseEntity.ok(response);
     }
+
 }
