@@ -1,0 +1,1 @@
+ALTER TABLE agendamentos ADD COLUMN user_id BIGINT NOT NULL;
