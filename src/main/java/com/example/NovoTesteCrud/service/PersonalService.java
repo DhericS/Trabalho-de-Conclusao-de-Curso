@@ -47,6 +47,7 @@ public class PersonalService {
         personal.setTelefone(data.telefone());
         personal.setCref(data.cref());
 
+        repository.save(personal);
         return new PersonalDTO(personal);
     }
 

@@ -104,22 +104,28 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerAgendamento(@RequestBody @Valid RequestAgendamento data) {
-        agendamentoService.registerAgendamento(data);
+    public ResponseEntity<Map<String, Object>> registerAgendamento(@RequestBody @Valid RequestAgendamento data) {
+        AgendamentoDTO agendamentoDTO = new AgendamentoDTO(agendamentoService.registerAgendamento(data));
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("message", "Agendamento inserido com sucesso");
+        response.put("agendamento", agendamentoDTO);
 
         return ResponseEntity.ok(response);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<AgendamentoDTO> updateAgendamento(
-            @RequestBody @Valid RequestAgendamento data,
-            @PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> updateAgendamento(@RequestBody @Valid RequestAgendamento data, @PathVariable Long id) {
         AgendamentoDTO updatedAgendamento = new AgendamentoDTO(agendamentoService.updateAgendamento(data, id));
-        return ResponseEntity.ok(updatedAgendamento);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Agendamento atualizado com sucesso");
+        response.put("agendamento", updatedAgendamento);
+
+        return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteAgendamento(@PathVariable Long id) {

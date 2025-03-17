@@ -28,9 +28,5 @@ public class UserAcad {
     @NotBlank(message = "O telefone é obrigatório")
     private String telefone;
 
-    public UserAcad(RequestUserAcad requestUserAcad) {
-        this.name = requestUserAcad.name();
-        this.email = requestUserAcad.email();
-        this.senha = requestUserAcad.senha();
-    }
+
 }

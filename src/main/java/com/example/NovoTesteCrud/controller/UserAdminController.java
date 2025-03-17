@@ -1,14 +1,16 @@
 package com.example.NovoTesteCrud.controller;
 
 import com.example.NovoTesteCrud.domain.useradmin.RequestUserAdmin;
-import com.example.NovoTesteCrud.domain.useradmin.UserAdmin;
+import com.example.NovoTesteCrud.dto.UserAdminDTO;
 import com.example.NovoTesteCrud.service.UserAdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/useradmin")
@@ -18,24 +20,28 @@ public class UserAdminController {
     private UserAdminService userAdminService;
 
     @GetMapping
-    public ResponseEntity<List<UserAdmin>> getAllUserAdmin() {
+    public ResponseEntity<List<UserAdminDTO>> getAllUserAdmin() {
         return ResponseEntity.ok(userAdminService.getAllUserAdmin());
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerUserAdmin(@RequestBody @Valid RequestUserAdmin data) {
+    public ResponseEntity<Map<String, String>> registerUserAdmin(@RequestBody @Valid RequestUserAdmin data) {
         userAdminService.registerUserAdmin(data);
-        return ResponseEntity.ok().build();
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Usuário Admin cadastrado com sucesso!");
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping
-    public ResponseEntity<UserAdmin> updateUserAdmin(@RequestBody @Valid RequestUserAdmin data) {
-        return ResponseEntity.ok(userAdminService.updateUserAdmin(data));
+    @PutMapping("/{id}")
+    public ResponseEntity<UserAdminDTO> updateUserAdmin(@PathVariable Long id, @RequestBody @Valid RequestUserAdmin data) {
+        return ResponseEntity.ok(userAdminService.updateUserAdmin(id, data));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserAdmin(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteUserAdmin(@PathVariable Long id) {
         userAdminService.deleteUserAdmin(id);
-        return ResponseEntity.noContent().build();
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Usuário Admin deletado com sucesso!");
+        return ResponseEntity.ok(response);
     }
 }

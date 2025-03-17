@@ -41,24 +41,27 @@ public class PlanoAcademiaController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerPlano(@RequestBody @Valid RequestPlanoAcademia data) {
-        planoAcademiaService.registerPlano(data);
+    public ResponseEntity<Map<String, Object>> registerPlano(@RequestBody @Valid RequestPlanoAcademia data) {
+        PlanoAcademiaDTO planoDTO = planoAcademiaService.registerPlano(data);
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("message", "Plano de academia cadastrado com sucesso!");
+        response.put("plano", planoDTO);
 
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> updatePlano(@PathVariable Long id, @RequestBody @Valid RequestPlanoAcademia data) {
-        planoAcademiaService.updatePlano(id, data);
+    public ResponseEntity<Map<String, Object>> updatePlano(@PathVariable Long id, @RequestBody @Valid RequestPlanoAcademia data) {
+        PlanoAcademiaDTO updatedPlano = planoAcademiaService.updatePlano(id, data);
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("message", "Plano de academia atualizado com sucesso!");
+        response.put("plano", updatedPlano);
 
         return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletePlano(@PathVariable Long id) {

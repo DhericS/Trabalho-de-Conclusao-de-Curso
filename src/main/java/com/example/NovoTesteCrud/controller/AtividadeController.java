@@ -33,20 +33,29 @@ public class AtividadeController {
                 .stream().map(AtividadeDTO::new).toList();
         return ResponseEntity.ok(atividades);
     }
+
     @PostMapping
-    public ResponseEntity<AtividadeDTO> registerAtividade(@RequestBody @Valid RequestAtividade data) {
-        Atividade atividade = atividadeService.registerAtividade(data);
-        return ResponseEntity.ok(new AtividadeDTO(atividade));
+    public ResponseEntity<Map<String, Object>> registerAtividade(@RequestBody @Valid RequestAtividade data) {
+        AtividadeDTO atividadeDTO = new AtividadeDTO(atividadeService.registerAtividade(data));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Atividade cadastrada com sucesso!");
+        response.put("atividade", atividadeDTO);
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> updateAtividade(@PathVariable Long id, @RequestBody @Valid RequestAtividade data) {
-        atividadeService.updateAtividade(data, id);
+    public ResponseEntity<Map<String, Object>> updateAtividade(@PathVariable Long id, @RequestBody @Valid RequestAtividade data) {
+        AtividadeDTO updatedAtividade = new AtividadeDTO(atividadeService.updateAtividade(data, id));
 
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Atividade atualizada com sucesso");
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Atividade atualizada com sucesso!");
+        response.put("atividade", updatedAtividade);
+
         return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteAtividade(@PathVariable Long id) {

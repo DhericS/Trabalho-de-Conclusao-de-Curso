@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -46,15 +47,14 @@ public class AtividadeService {
 
     @Transactional
     public Atividade updateAtividade(RequestAtividade data, Long id) {
-        Optional<Atividade> optionalAtividade = atividadeRepository.findById(id);
-        if (optionalAtividade.isPresent()) {
-            Atividade atividade = optionalAtividade.get();
-            atividade.setNome(data.name());
-            return atividade;
-        } else {
-            throw new EntityNotFoundException("Atividade não encontrada!");
-        }
+        Atividade atividade = atividadeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada!"));
+
+        atividade.setNome(data.name());
+
+        return atividadeRepository.save(atividade);
     }
+
 
     @Transactional
     public void deleteAtividade(Long id) {

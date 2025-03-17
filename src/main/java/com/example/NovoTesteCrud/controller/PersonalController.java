@@ -25,20 +25,28 @@ public class PersonalController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerPersonal(@RequestBody @Valid RequestPersonal data) {
-        personalService.registerPersonal(data);
+    public ResponseEntity<Map<String, Object>> registerPersonal(@RequestBody @Valid RequestPersonal data) {
+        PersonalDTO personalDTO = personalService.registerPersonal(data);
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("message", "Personal cadastrado com sucesso!");
+        response.put("personal", personalDTO);
 
         return ResponseEntity.ok(response);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonalDTO> updatePersonal(@PathVariable Long id, @RequestBody @Valid RequestPersonal data) {
-        return ResponseEntity.ok(personalService.updatePersonal(data, id));
+    public ResponseEntity<Map<String, Object>> updatePersonal(@PathVariable Long id, @RequestBody @Valid RequestPersonal data) {
+        PersonalDTO updatedPersonal = personalService.updatePersonal(data, id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Personal atualizado com sucesso!");
+        response.put("personal", updatedPersonal);
+
+        return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletePersonal(@PathVariable Long id) {

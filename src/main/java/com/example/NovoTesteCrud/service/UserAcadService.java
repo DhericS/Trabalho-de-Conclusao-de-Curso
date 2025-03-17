@@ -21,10 +21,17 @@ public class UserAcadService {
         return repository.findAll();
     }
 
+    @Transactional
     public void registerUserAcad(RequestUserAcad data) {
-        UserAcad newUserAcad = new UserAcad(data);
-        repository.save(newUserAcad);
+        UserAcad newUser = new UserAcad();
+        newUser.setName(data.name());
+        newUser.setEmail(data.email());
+        newUser.setSenha(data.senha());
+        newUser.setTelefone(data.telefone());
+
+        repository.save(newUser);
     }
+
 
     @Transactional
     public UserAcad updateUserAcad(RequestUserAcad data) {

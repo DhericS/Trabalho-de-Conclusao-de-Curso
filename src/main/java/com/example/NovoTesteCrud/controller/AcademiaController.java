@@ -29,16 +29,28 @@ public class AcademiaController {
     }
 
     @PostMapping
-    public ResponseEntity<AcademiaDTO> registerAcademia(@RequestBody @Valid RequestAcademia data) {
-        Academia academia = academiaService.registerAcademia(data);
-        AcademiaDTO response = new AcademiaDTO(academia);
+    public ResponseEntity<Map<String, Object>> registerAcademia(@RequestBody @Valid RequestAcademia data) {
+        AcademiaDTO academiaDTO = new AcademiaDTO(academiaService.registerAcademia(data));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Academia cadastrada com sucesso!");
+        response.put("academia", academiaDTO);
+
         return ResponseEntity.ok(response);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<Academia> updateAcademia(@PathVariable Long id, @RequestBody @Valid RequestAcademia data) {
-        return ResponseEntity.ok(academiaService.updateAcademia(data, id));
+    public ResponseEntity<Map<String, Object>> updateAcademia(@PathVariable Long id, @RequestBody @Valid RequestAcademia data) {
+        AcademiaDTO updatedAcademia = new AcademiaDTO(academiaService.updateAcademia(data, id));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Academia atualizada com sucesso!");
+        response.put("academia", updatedAcademia);
+
+        return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteAcademia(@PathVariable Long id) {

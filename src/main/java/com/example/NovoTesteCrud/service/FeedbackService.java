@@ -89,8 +89,9 @@ public class FeedbackService {
         feedback.setDescricao(data.descricao());
         feedback.setEstrelas(data.estrelas());
 
-        return feedback;
+        return feedbackRepository.save(feedback);
     }
+
 
     @Transactional
     public void deleteFeedback(Long feedbackId, Long userId) {

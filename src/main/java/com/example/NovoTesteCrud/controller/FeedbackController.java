@@ -62,16 +62,28 @@ public class FeedbackController {
     }
 
     @PostMapping
-    public ResponseEntity<FeedbackDTO> registerFeedback(@RequestBody @Valid RequestFeedback data) {
-        Feedback feedback = feedbackService.registerFeedback(data);
-        return ResponseEntity.ok(new FeedbackDTO(feedback));
+    public ResponseEntity<Map<String, Object>> registerFeedback(@RequestBody @Valid RequestFeedback data) {
+        FeedbackDTO feedbackDTO = new FeedbackDTO(feedbackService.registerFeedback(data));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Feedback cadastrado com sucesso!");
+        response.put("feedback", feedbackDTO);
+
+        return ResponseEntity.ok(response);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<FeedbackDTO> updateFeedback(@PathVariable Long id, @RequestBody @Valid RequestFeedback data) {
-        Feedback feedback = feedbackService.updateFeedback(id, data);
-        return ResponseEntity.ok(new FeedbackDTO(feedback));
+    public ResponseEntity<Map<String, Object>> updateFeedback(@PathVariable Long id, @RequestBody @Valid RequestFeedback data) {
+        FeedbackDTO updatedFeedback = new FeedbackDTO(feedbackService.updateFeedback(id, data));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Feedback atualizado com sucesso!");
+        response.put("feedback", updatedFeedback);
+
+        return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{id}/user/{userId}")
     public ResponseEntity<Map<String, String>> deleteFeedback(@PathVariable Long id, @PathVariable Long userId) {
