@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.personal;
 
+import com.example.NovoTesteCrud.domain.userbase.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.RequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
@@ -23,10 +24,14 @@ public class Personal extends Usuario {
         this.cref = cref;
     }
 
-    public void atualizarDados(RequestUsuario data) {
-        super.atualizarDados(data);
-
+    @Override
+    public void atualizarDados(IRequestUsuario data) {
         if (data instanceof RequestPersonal personalData) {
+            super.setName(personalData.name());
+            super.setEmail(personalData.email());
+            super.setSenha(personalData.senha());
+            super.setTelefone(personalData.telefone());
+
             this.cref = personalData.cref();
         }
     }

@@ -1,5 +1,7 @@
 package com.example.NovoTesteCrud.domain.userbase;
 
+import com.example.NovoTesteCrud.domain.personal.Personal;
+import com.example.NovoTesteCrud.domain.personal.RequestPersonal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,12 +34,13 @@ public abstract class Usuario {
         this.telefone = telefone;
     }
 
-    public void atualizarDados(Usuario data) {
-        if (data.name != null) this.name = data.name;
-        if (data.email != null) this.email = data.email;
-        if (data.senha != null) this.senha = data.senha;
-        if (data.telefone != null) this.telefone = data.telefone;
+    public void atualizarDados(RequestUsuario data) {
+        this.name = data.name();
+        this.email = data.email();
+        this.senha = data.senha();
+        this.telefone = data.telefone();
     }
 
 
+    public abstract void atualizarDados(IRequestUsuario data);
 }

@@ -1,8 +1,7 @@
 package com.example.NovoTesteCrud.domain.useracadadmin;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
-import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
-import com.example.NovoTesteCrud.domain.userbase.RequestUsuario;
+import com.example.NovoTesteCrud.domain.userbase.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,10 +29,15 @@ public class UserAcadAdmin extends Usuario {
     }
 
     @Override
-    public void atualizarDados(RequestUsuario data) {
-        super.atualizarDados(data);
+    public void atualizarDados(IRequestUsuario data) {
         if (data instanceof RequestUserAcadAdmin adminData) {
-            if (adminData.cnpj() != null) this.cnpj = adminData.cnpj();
-            if (adminData.academiaId() != null) this.academia = new Academia(adminData.academiaId());
+            super.setName(adminData.name());
+            super.setEmail(adminData.email());
+            super.setSenha(adminData.senha());
+            super.setTelefone(adminData.telefone());
+
+            this.cnpj = adminData.cnpj();
+            this.academia = new Academia(adminData.academiaId());
         }
+    }
 }

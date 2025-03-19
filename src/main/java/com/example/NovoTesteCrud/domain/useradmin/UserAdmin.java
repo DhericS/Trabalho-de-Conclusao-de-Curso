@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.useradmin;
 
+import com.example.NovoTesteCrud.domain.userbase.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +14,8 @@ public class UserAdmin extends Usuario {
         super(name, email, senha, telefone);
     }
 
-    public void atualizarDados(RequestUserAdmin data) {
+    @Override
+    public void atualizarDados(IRequestUsuario data) {
         setName(data.name());
         setEmail(data.email());
         setSenha(data.senha());

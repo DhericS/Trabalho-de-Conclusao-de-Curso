@@ -7,7 +7,11 @@ public record RequestUsuario(
         @NotBlank(message = "O nome é obrigatório") String name,
         @NotBlank(message = "O e-mail é obrigatório") @Email(message = "E-mail inválido") String email,
         @NotBlank(message = "A senha é obrigatória") String senha,
-        String telefone,
-        @NotBlank(message = "O tipo de usuário é obrigatório") String tipoUsuario // NOVO CAMPO!
-) {
+        @NotBlank(message = "O telefone é obrigatório") String telefone
+) implements IRequestUsuario {
+
+    @Override
+    public String tipoUsuario() {
+        return "user";
+    }
 }
