@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/academias")
@@ -27,19 +29,37 @@ public class AcademiaController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerAcademia(@RequestBody @Valid RequestAcademia data) {
-        academiaService.registerAcademia(data);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Map<String, Object>> registerAcademia(@RequestBody @Valid RequestAcademia data) {
+        AcademiaDTO academiaDTO = new AcademiaDTO(academiaService.registerAcademia(data));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Academia cadastrada com sucesso!");
+        response.put("academia", academiaDTO);
+
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping
-    public ResponseEntity<Academia> updateAcademia(@RequestBody @Valid RequestAcademia data, @RequestParam Long id) {
-        return ResponseEntity.ok(academiaService.updateAcademia(data, id));
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateAcademia(@PathVariable Long id, @RequestBody @Valid RequestAcademia data) {
+        AcademiaDTO updatedAcademia = new AcademiaDTO(academiaService.updateAcademia(data, id));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Academia atualizada com sucesso!");
+        response.put("academia", updatedAcademia);
+
+        return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAcademia(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteAcademia(@PathVariable Long id) {
         academiaService.deleteAcademia(id);
-        return ResponseEntity.noContent().build();
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Academia deletada com sucesso!");
+
+        return ResponseEntity.ok(response);
     }
+
 }

@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -25,28 +26,35 @@ public class AtividadeService {
         return atividadeRepository.findAll();
     }
 
+    public List<Atividade> getAtividadesByAcademia(Long academiaId) {
+        Academia academia = academiaRepository.findById(academiaId)
+                .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
+
+        return atividadeRepository.findByAcademia(academia);
+    }
+
     @Transactional
-    public void registerAtividade(RequestAtividade data) {
+    public Atividade registerAtividade(RequestAtividade data) {
         Academia academia = academiaRepository.findById(data.academiaId())
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
         Atividade newAtividade = new Atividade();
         newAtividade.setNome(data.name());
         newAtividade.setAcademia(academia);
-        atividadeRepository.save(newAtividade);
+
+        return atividadeRepository.save(newAtividade);
     }
 
     @Transactional
     public Atividade updateAtividade(RequestAtividade data, Long id) {
-        Optional<Atividade> optionalAtividade = atividadeRepository.findById(id);
-        if (optionalAtividade.isPresent()) {
-            Atividade atividade = optionalAtividade.get();
-            atividade.setNome(data.name());
-            return atividade;
-        } else {
-            throw new EntityNotFoundException("Atividade não encontrada!");
-        }
+        Atividade atividade = atividadeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada!"));
+
+        atividade.setNome(data.name());
+
+        return atividadeRepository.save(atividade);
     }
+
 
     @Transactional
     public void deleteAtividade(Long id) {

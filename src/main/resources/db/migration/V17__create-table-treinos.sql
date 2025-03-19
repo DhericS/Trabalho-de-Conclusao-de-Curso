@@ -1,0 +1,7 @@
+CREATE TABLE treinos (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT NOT NULL,
+    user_id BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user_academia(id) ON DELETE CASCADE
+);

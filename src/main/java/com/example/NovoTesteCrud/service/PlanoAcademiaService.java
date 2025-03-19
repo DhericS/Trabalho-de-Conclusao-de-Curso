@@ -5,6 +5,7 @@ import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
 import com.example.NovoTesteCrud.domain.planoacad.PlanoAcademia;
 import com.example.NovoTesteCrud.domain.planoacad.PlanoAcademiaRepository;
 import com.example.NovoTesteCrud.domain.planoacad.RequestPlanoAcademia;
+import com.example.NovoTesteCrud.dto.PlanoAcademiaDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class PlanoAcademiaService {
     }
 
     @Transactional
-    public void registerPlano(RequestPlanoAcademia data) {
+    public PlanoAcademiaDTO registerPlano(RequestPlanoAcademia data) {
         Academia academia = academiaRepository.findById(data.academiaId())
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
@@ -41,10 +42,12 @@ public class PlanoAcademiaService {
         plano.setAcademia(academia);
 
         repository.save(plano);
+        return new PlanoAcademiaDTO(plano);
     }
 
+
     @Transactional
-    public PlanoAcademia updatePlano(Long id, RequestPlanoAcademia data) {
+    public PlanoAcademiaDTO updatePlano(Long id, RequestPlanoAcademia data) {
         PlanoAcademia plano = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Plano não encontrado!"));
 
@@ -52,7 +55,8 @@ public class PlanoAcademiaService {
         plano.setDescricao(data.descricao());
         plano.setPreco(data.preco());
 
-        return plano;
+        repository.save(plano);
+        return new PlanoAcademiaDTO(plano);
     }
 
     @Transactional

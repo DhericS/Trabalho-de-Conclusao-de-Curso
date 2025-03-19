@@ -1,13 +1,15 @@
 package com.example.NovoTesteCrud.domain.useracadadmin;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public record RequestUserAcadAdmin(
-        String name,
-        String email,
-        String password,
-        String cnpj,
-        String telefone,
+        @NotBlank(message = "O nome é obrigatório") String name,
+        @Email(message = "E-mail inválido") @NotBlank(message = "O e-mail é obrigatório") String email,
+        @NotBlank(message = "O CNPJ é obrigatório") String cnpj,
+        @NotBlank(message = "A senha é obrigatória") String senha,
         Long academiaId,
-        String academiaNome,
-        String academiaEndereco,
-        String academiaTelefone
+        @NotBlank(message = "O telefone é obrigatório")
+        @Pattern(regexp = "\\d{10,11}", message = "O telefone deve ter entre 10 e 11 dígitos") String telefone
 ) {}

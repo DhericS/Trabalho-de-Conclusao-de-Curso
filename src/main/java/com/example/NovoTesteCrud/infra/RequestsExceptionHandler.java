@@ -16,8 +16,9 @@ import java.util.Map;
 public class RequestsExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ExceptionDTO> handleNotFoundException() {
-        ExceptionDTO response = new ExceptionDTO("Not found", 404);
+    public ResponseEntity<Map<String, String>> handleNotFoundException(EntityNotFoundException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
@@ -44,8 +45,9 @@ public class RequestsExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionDTO> handleGeneralException(Exception ex) {
-        ExceptionDTO response = new ExceptionDTO("Internal Server Error: " + ex.getMessage(), 500);
+    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Erro interno no servidor: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }

@@ -62,7 +62,7 @@ public class AgendamentoService {
     }
 
     @Transactional
-    public void registerAgendamento(RequestAgendamento data) {
+    public Agendamento registerAgendamento(RequestAgendamento data) {
         Academia academia = academiaRepository.findById(data.academiaId())
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
@@ -78,8 +78,9 @@ public class AgendamentoService {
         agendamento.setPersonal(personal);
         agendamento.setUser(user);
 
-        repository.save(agendamento);
+        return repository.save(agendamento);
     }
+
 
     @Transactional
     public Agendamento updateAgendamento(RequestAgendamento data, Long id) {
@@ -100,7 +101,7 @@ public class AgendamentoService {
         agendamento.setPersonal(personal);
         agendamento.setUser(user);
 
-        return agendamento;
+        return repository.save(agendamento);
     }
 
     @Transactional

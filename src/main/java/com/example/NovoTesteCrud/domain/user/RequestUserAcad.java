@@ -1,4 +1,21 @@
 package com.example.NovoTesteCrud.domain.user;
 
-public record RequestUserAcad(String name, String email, String senha, String telefone, Long id) { //DTO
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record RequestUserAcad(
+        @NotBlank(message = "O nome é obrigatório")
+        String name,
+
+        @NotBlank(message = "O e-mail é obrigatório")
+        @Email(message = "E-mail inválido")
+        String email,
+
+        @NotBlank(message = "A senha é obrigatória")
+        String senha,
+
+        @NotBlank(message = "O telefone é obrigatório")
+        String telefone,
+        Long id
+) {
 }

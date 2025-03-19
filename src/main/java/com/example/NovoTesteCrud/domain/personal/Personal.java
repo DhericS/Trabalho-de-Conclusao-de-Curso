@@ -1,33 +1,34 @@
 package com.example.NovoTesteCrud.domain.personal;
 
+import com.example.NovoTesteCrud.domain.userbase.RequestUsuario;
+import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@Entity(name = "personais")
 @Table(name = "personais")
-public class Personal {
+@Entity
+@NoArgsConstructor
+@Getter
+@Setter
+public class Personal extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank(message = "O nome é obrigatório")
-    private String name;
-
-    @NotBlank(message = "O e-mail é obrigatório")
-    @Email(message = "E-mail inválido")
-    private String email;
-
-    @NotBlank(message = "A senha é obrigatória")
-    private String password;
-
-    @NotBlank(message = "O telefone é obrigatório")
-    private String telefone;
-
-    @NotBlank(message = "O CREF é obrigatório")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String cref;
+
+    public Personal(String name, String email, String senha, String telefone, String cref) {
+        super(null, name, email, senha, telefone);
+        this.cref = cref;
+    }
+
+    public void atualizarDados(RequestUsuario data) {
+        super.atualizarDados(data);
+
+        if (data instanceof RequestPersonal personalData) {
+            this.cref = personalData.cref();
+        }
+    }
+
 }

@@ -4,8 +4,6 @@ import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -19,8 +17,6 @@ public class Agendamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "A data e hora do agendamento são obrigatórias")
-    @Future(message = "A data do agendamento deve ser no futuro")
     private LocalDateTime dataHora;
 
     @ManyToOne
