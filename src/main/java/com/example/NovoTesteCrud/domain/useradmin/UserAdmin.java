@@ -1,20 +1,22 @@
 package com.example.NovoTesteCrud.domain.useradmin;
 
+import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Table(name = "user_admin")
 @Entity(name = "user_admin")
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class UserAdmin {
+public class UserAdmin extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public UserAdmin(String name, String email, String senha, String telefone) {
+        super(name, email, senha, telefone);
+    }
 
-    private String name;
-    private String email;
-    private String senha;
+    public void atualizarDados(RequestUserAdmin data) {
+        setName(data.name());
+        setEmail(data.email());
+        setSenha(data.senha());
+        setTelefone(data.telefone());
+    }
 }

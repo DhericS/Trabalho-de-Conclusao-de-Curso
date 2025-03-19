@@ -1,32 +1,23 @@
 package com.example.NovoTesteCrud.domain.user;
 
 
+import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+@Entity
 @Table(name = "user_academia")
-@Entity(name = "user_academia")
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
+public class UserAcad extends Usuario {
 
+    public UserAcad(String name, String email, String senha, String telefone) {
+        super(name, email, senha, telefone);
+    }
 
-public class UserAcad {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @NotBlank(message = "O nome é obrigatório")
-    private String name;
-    @NotBlank(message = "O e-mail é obrigatório")
-    @Email(message = "E-mail inválido")
-    private String email;
-    @NotBlank(message = "A senha é obrigatória")
-    private String senha;
-    @NotBlank(message = "O telefone é obrigatório")
-    private String telefone;
-
-
+    public void atualizarDados(RequestUserAcad data) {
+        setName(data.name());
+        setEmail(data.email());
+        setSenha(data.senha());
+        setTelefone(data.telefone());
+    }
 }

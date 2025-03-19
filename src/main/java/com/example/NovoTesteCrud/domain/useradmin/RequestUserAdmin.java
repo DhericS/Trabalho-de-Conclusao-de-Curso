@@ -13,6 +13,9 @@ public record RequestUserAdmin(
 
         @NotBlank(message = "A senha é obrigatória")
         String senha,
+
+        @NotBlank(message = "O numero de telefone é obrigatório")
+        String telefone,
         Long Id
 ) {
 }
