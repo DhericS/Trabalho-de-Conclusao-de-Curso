@@ -2,21 +2,35 @@ package com.example.NovoTesteCrud.domain.useradmin;
 
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Delegate;
 
+@Entity
 @Table(name = "user_admin")
-@Entity(name = "user_admin")
 @NoArgsConstructor
-public class UserAdmin extends Usuario {
+@Getter
+@Setter
+public class UserAdmin {
 
-    public UserAdmin(String name, String email, String senha, String telefone) {
-        super(name, email, senha, telefone);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    @Delegate
+    private Usuario usuario;
+
+    public UserAdmin(Long id, String name, String email, String senha, String telefone) {
+        this.usuario = new Usuario(name, email, senha, telefone);
+        this.id = id;
     }
 
     public void atualizarDados(RequestUserAdmin data) {
-        setName(data.name());
-        setEmail(data.email());
-        setSenha(data.senha());
-        setTelefone(data.telefone());
+        usuario.setNome(data.name());
+        usuario.setEmail(data.email());
+        usuario.setSenha(data.senha());
+        usuario.setTelefone(data.telefone());
     }
 }

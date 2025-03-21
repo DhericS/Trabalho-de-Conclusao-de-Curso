@@ -1,7 +1,7 @@
 package com.example.NovoTesteCrud.controller;
 
-import com.example.NovoTesteCrud.dto.AgendamentoDTO;
-import com.example.NovoTesteCrud.domain.agendamento.RequestAgendamento;
+import com.example.NovoTesteCrud.domain.agendamento.dto.AgendamentoResponseDTO;
+import com.example.NovoTesteCrud.domain.agendamento.dto.AgendamentoRequestDTO;
 import com.example.NovoTesteCrud.service.AgendamentoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +22,20 @@ public class AgendamentoController {
     private AgendamentoService agendamentoService;
 
     @GetMapping
-    public ResponseEntity<List<AgendamentoDTO>> getAllAgendamentos() {
-        List<AgendamentoDTO> agendamentos = agendamentoService.getAllAgendamentos()
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarTodosAgendamentos() {
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarTodosAgendamentos()
                 .stream()
-                .map(AgendamentoDTO::new)
+                .map(AgendamentoResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(agendamentos);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<AgendamentoDTO>> getAgendamentosByUser(@PathVariable Long userId) {
-        List<AgendamentoDTO> agendamentos = agendamentoService.getAgendamentosByUser(userId)
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendamentosPorUsuario(@PathVariable Long userId) {
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarAgendamentosPorUsuario(userId)
                 .stream()
-                .map(AgendamentoDTO::new)
+                .map(AgendamentoResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(agendamentos);
@@ -43,81 +43,91 @@ public class AgendamentoController {
 
     //GET http://localhost:8080/user/7/date?start=2024-03-01T08:00:00&end=2024-03-10T18:00:00
     @GetMapping("/user/{userId}/date")
-    public ResponseEntity<List<AgendamentoDTO>> getAgendamentosByUserAndDate(
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendamentosPorUsuarioeData(
             @PathVariable Long userId,
             @RequestParam LocalDateTime start,
             @RequestParam LocalDateTime end) {
-        List<AgendamentoDTO> agendamentos = agendamentoService.getAgendamentosByUserAndDate(userId, start, end)
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarAgendamentosPorUsuarioeData(userId, start, end)
                 .stream()
-                .map(AgendamentoDTO::new)
+                .map(AgendamentoResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(agendamentos);
     }
 
     @GetMapping("/personal/{personalId}")
-    public ResponseEntity<List<AgendamentoDTO>> getAgendamentosByPersonal(@PathVariable Long personalId) {
-        List<AgendamentoDTO> agendamentos = agendamentoService.getAgendamentosByPersonal(personalId)
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendamentosPorPersonal(@PathVariable Long personalId) {
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarAgendamentosPorPersonal(personalId)
                 .stream()
-                .map(AgendamentoDTO::new)
+                .map(AgendamentoResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(agendamentos);
     }
 
     @GetMapping("/personal/{personalId}/user/{userId}")
-    public ResponseEntity<List<AgendamentoDTO>> getAgendamentosByPersonalAndUser(
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendamentosPorPersonaleUsuario(
             @PathVariable Long personalId,
             @PathVariable Long userId) {
-        List<AgendamentoDTO> agendamentos = agendamentoService.getAgendamentosByPersonalAndUser(personalId, userId)
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarAgendamentosPorPersonaleUsuario(personalId, userId)
                 .stream()
-                .map(AgendamentoDTO::new)
+                .map(AgendamentoResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(agendamentos);
     }
 
     @GetMapping("/academia/{academiaId}/personal/{personalId}")
-    public ResponseEntity<List<AgendamentoDTO>> getAgendamentosByAcademiaAndPersonal(
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendamentosPorAcademiaePersonal(
             @PathVariable Long academiaId,
             @PathVariable Long personalId) {
-        List<AgendamentoDTO> agendamentos = agendamentoService.getAgendamentosByAcademiaAndPersonal(academiaId, personalId)
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarAgendamentosPorAcademiaePersonal(academiaId, personalId)
                 .stream()
-                .map(AgendamentoDTO::new)
+                .map(AgendamentoResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(agendamentos);
     }
 
     @GetMapping("/personal/{personalId}/user/{userId}/date")
-    public ResponseEntity<List<AgendamentoDTO>> getAgendamentosByPersonalUserAndDate(
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendamentosPorPersonaleUsuarioeData(
             @PathVariable Long personalId,
             @PathVariable Long userId,
             @RequestParam LocalDateTime start,
             @RequestParam LocalDateTime end) {
-        List<AgendamentoDTO> agendamentos = agendamentoService.getAgendamentosByPersonalUserAndDate(personalId, userId, start, end)
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarAgendamentosPorPersonaleUsuarioeData(personalId, userId, start, end)
                 .stream()
-                .map(AgendamentoDTO::new)
+                .map(AgendamentoResponseDTO::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(agendamentos);
+    }
+
+    @GetMapping("/personal/{personalId}/date")
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendamentosPorPersonaleData(@PathVariable Long personalId, @RequestParam LocalDateTime start, @RequestParam LocalDateTime end) {
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarAgendamentosPorPersonaleData(personalId, start, end)
+                .stream()
+                .map(AgendamentoResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(agendamentos);
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> registerAgendamento(@RequestBody @Valid RequestAgendamento data) {
-        AgendamentoDTO agendamentoDTO = new AgendamentoDTO(agendamentoService.registerAgendamento(data));
+    public ResponseEntity<Map<String, Object>> registrarAgentamento(@RequestBody @Valid AgendamentoRequestDTO data) {
+        AgendamentoResponseDTO agendamentoResponseDTO = new AgendamentoResponseDTO(agendamentoService.registrarAgentamento(data));
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Agendamento inserido com sucesso");
-        response.put("agendamento", agendamentoDTO);
+        response.put("agendamento", agendamentoResponseDTO);
 
         return ResponseEntity.ok(response);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateAgendamento(@RequestBody @Valid RequestAgendamento data, @PathVariable Long id) {
-        AgendamentoDTO updatedAgendamento = new AgendamentoDTO(agendamentoService.updateAgendamento(data, id));
+    public ResponseEntity<Map<String, Object>> atualizarAgentamento(@RequestBody @Valid AgendamentoRequestDTO data, @PathVariable Long id) {
+        AgendamentoResponseDTO updatedAgendamento = new AgendamentoResponseDTO(agendamentoService.atualizarAgentamento(data, id));
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Agendamento atualizado com sucesso");
@@ -128,8 +138,8 @@ public class AgendamentoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteAgendamento(@PathVariable Long id) {
-        agendamentoService.deleteAgendamento(id);
+    public ResponseEntity<Map<String, String>> deletarAgentamento(@PathVariable Long id) {
+        agendamentoService.deletarAgentamento(id);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Agendamento removido com sucesso");

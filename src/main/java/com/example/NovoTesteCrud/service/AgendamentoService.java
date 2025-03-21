@@ -4,7 +4,7 @@ import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
 import com.example.NovoTesteCrud.domain.agendamento.Agendamento;
 import com.example.NovoTesteCrud.domain.agendamento.AgendamentoRepository;
-import com.example.NovoTesteCrud.domain.agendamento.RequestAgendamento;
+import com.example.NovoTesteCrud.domain.agendamento.dto.AgendamentoRequestDTO;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.personal.PersonalRepository;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
@@ -33,36 +33,39 @@ public class AgendamentoService {
     @Autowired
     private UserAcadRepository userAcadRepository;
 
-    public List<Agendamento> getAllAgendamentos() {
+    public List<Agendamento> buscarTodosAgendamentos() {
         return repository.findAll();
     }
 
-    public List<Agendamento> getAgendamentosByUser(Long userId) {
+    public List<Agendamento> buscarAgendamentosPorUsuario(Long userId) {
         return repository.findByUserId(userId);
     }
 
-    public List<Agendamento> getAgendamentosByUserAndDate(Long userId, LocalDateTime start, LocalDateTime end) {
+    public List<Agendamento> buscarAgendamentosPorUsuarioeData(Long userId, LocalDateTime start, LocalDateTime end) {
         return repository.findByUserIdAndDataHoraBetween(userId, start, end);
     }
 
-    public List<Agendamento> getAgendamentosByPersonal(Long personalId) {
+    public List<Agendamento> buscarAgendamentosPorPersonal(Long personalId) {
+        return repository.findByPersonalId(personalId);
+    }
+
+    public List<Agendamento> buscarAgendamentosPorPersonaleUsuario(Long personalId, Long userId) {
+        return repository.findByPersonalIdAndUserId(personalId, userId);
+    }
+    public List<Agendamento> buscarAgendamentosPorPersonaleData(Long personalId, LocalDateTime start, LocalDateTime end) {
         return repository.findByPersonalIdAndDataHoraBetween(personalId, LocalDateTime.now(), LocalDateTime.now().plusDays(30));
     }
 
-    public List<Agendamento> getAgendamentosByPersonalAndUser(Long personalId, Long userId) {
-        return repository.findByPersonalIdAndUserId(personalId, userId);
-    }
-
-    public List<Agendamento> getAgendamentosByAcademiaAndPersonal(Long academiaId, Long personalId) {
+    public List<Agendamento> buscarAgendamentosPorAcademiaePersonal(Long academiaId, Long personalId) {
         return repository.findByAcademiaIdAndPersonalId(academiaId, personalId);
     }
 
-    public List<Agendamento> getAgendamentosByPersonalUserAndDate(Long personalId, Long userId, LocalDateTime start, LocalDateTime end) {
+    public List<Agendamento> buscarAgendamentosPorPersonaleUsuarioeData(Long personalId, Long userId, LocalDateTime start, LocalDateTime end) {
         return repository.findByPersonalIdAndUserIdAndDataHoraBetween(personalId, userId, start, end);
     }
 
     @Transactional
-    public Agendamento registerAgendamento(RequestAgendamento data) {
+    public Agendamento registrarAgentamento(AgendamentoRequestDTO data) {
         Academia academia = academiaRepository.findById(data.academiaId())
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
@@ -83,7 +86,7 @@ public class AgendamentoService {
 
 
     @Transactional
-    public Agendamento updateAgendamento(RequestAgendamento data, Long id) {
+    public Agendamento atualizarAgentamento(AgendamentoRequestDTO data, Long id) {
         Agendamento agendamento = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Agendamento não encontrado!"));
 
@@ -105,7 +108,7 @@ public class AgendamentoService {
     }
 
     @Transactional
-    public void deleteAgendamento(Long id) {
+    public void deletarAgentamento(Long id) {
         Agendamento agendamento = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Agendamento não encontrado!"));
         repository.delete(agendamento);

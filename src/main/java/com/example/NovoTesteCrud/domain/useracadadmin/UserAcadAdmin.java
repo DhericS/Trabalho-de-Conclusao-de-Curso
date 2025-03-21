@@ -1,20 +1,27 @@
 package com.example.NovoTesteCrud.domain.useracadadmin;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
-import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
-import com.example.NovoTesteCrud.domain.userbase.RequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Delegate;
 
-@Getter
-@Setter
-@Entity(name = "user_acad_admin")
+@Entity
 @Table(name = "user_acad_admin")
 @NoArgsConstructor
-public class UserAcadAdmin extends Usuario {
+@Getter
+@Setter
+public class UserAcadAdmin {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    @Delegate
+    private Usuario usuario;
 
     @Column(name = "cnpj", unique = true, length = 14)
     private String cnpj;
@@ -23,17 +30,19 @@ public class UserAcadAdmin extends Usuario {
     @JoinColumn(name = "academia_id", unique = true)
     private Academia academia;
 
-    public UserAcadAdmin(String name, String email, String senha, String telefone, String cnpj, Academia academia) {
-        super(name, email, senha, telefone);
+    public UserAcadAdmin(Long id, String name, String email, String senha, String telefone, String cnpj, Academia academia) {
+        this.usuario = new Usuario(name, email, senha, telefone);
+        this.id = id;
         this.cnpj = cnpj;
         this.academia = academia;
     }
 
-    @Override
-    public void atualizarDados(RequestUsuario data) {
-        super.atualizarDados(data);
-        if (data instanceof RequestUserAcadAdmin adminData) {
-            if (adminData.cnpj() != null) this.cnpj = adminData.cnpj();
-            if (adminData.academiaId() != null) this.academia = new Academia(adminData.academiaId());
-        }
+    public void atualizarDados(RequestUserAcadAdmin data) {
+        usuario.setNome(data.name());
+        usuario.setEmail(data.email());
+        usuario.setSenha(data.senha());
+        usuario.setTelefone(data.telefone());
+        this.cnpj = data.cnpj();
+        this.academia = new Academia(data.academiaId());
+    }
 }

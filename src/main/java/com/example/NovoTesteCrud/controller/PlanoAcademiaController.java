@@ -1,7 +1,7 @@
 package com.example.NovoTesteCrud.controller;
 
-import com.example.NovoTesteCrud.dto.PlanoAcademiaDTO;
-import com.example.NovoTesteCrud.domain.planoacad.RequestPlanoAcademia;
+import com.example.NovoTesteCrud.domain.planoacad.dto.PlanoAcademiaResponseDTO;
+import com.example.NovoTesteCrud.domain.planoacad.dto.PlanoAcademiaRequestDTO;
 import com.example.NovoTesteCrud.service.PlanoAcademiaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +21,28 @@ public class PlanoAcademiaController {
     private PlanoAcademiaService planoAcademiaService;
 
     @GetMapping
-    public ResponseEntity<List<PlanoAcademiaDTO>> getAllPlanos() {
-        List<PlanoAcademiaDTO> planos = planoAcademiaService.getAllPlanos()
+    public ResponseEntity<List<PlanoAcademiaResponseDTO>> buscarTodosPlanos() {
+        List<PlanoAcademiaResponseDTO> planos = planoAcademiaService.buscarTodosPlanos()
                 .stream()
-                .map(PlanoAcademiaDTO::new)
+                .map(PlanoAcademiaResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(planos);
     }
 
     @GetMapping("/academia/{academiaId}")
-    public ResponseEntity<List<PlanoAcademiaDTO>> getPlanosByAcademia(@PathVariable Long academiaId) {
-        List<PlanoAcademiaDTO> planos = planoAcademiaService.getPlanosByAcademia(academiaId)
+    public ResponseEntity<List<PlanoAcademiaResponseDTO>> buscarPlanosPorAcademia(@PathVariable Long academiaId) {
+        List<PlanoAcademiaResponseDTO> planos = planoAcademiaService.buscarPlanosPorAcademia(academiaId)
                 .stream()
-                .map(PlanoAcademiaDTO::new)
+                .map(PlanoAcademiaResponseDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(planos);
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> registerPlano(@RequestBody @Valid RequestPlanoAcademia data) {
-        PlanoAcademiaDTO planoDTO = planoAcademiaService.registerPlano(data);
+    public ResponseEntity<Map<String, Object>> registrarPlano(@RequestBody @Valid PlanoAcademiaRequestDTO data) {
+        PlanoAcademiaResponseDTO planoDTO = planoAcademiaService.registrarPlano(data);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Plano de academia cadastrado com sucesso!");
@@ -52,8 +52,8 @@ public class PlanoAcademiaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updatePlano(@PathVariable Long id, @RequestBody @Valid RequestPlanoAcademia data) {
-        PlanoAcademiaDTO updatedPlano = planoAcademiaService.updatePlano(id, data);
+    public ResponseEntity<Map<String, Object>> atualizarPlano(@PathVariable Long id, @RequestBody @Valid PlanoAcademiaRequestDTO data) {
+        PlanoAcademiaResponseDTO updatedPlano = planoAcademiaService.atualizarPlano(id, data);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Plano de academia atualizado com sucesso!");
@@ -64,8 +64,8 @@ public class PlanoAcademiaController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deletePlano(@PathVariable Long id) {
-        planoAcademiaService.deletePlano(id);
+    public ResponseEntity<Map<String, String>> deletarPlano(@PathVariable Long id) {
+        planoAcademiaService.deletarPlano(id);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Plano de academia deletado com sucesso!");
