@@ -2,7 +2,7 @@ package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.atvd.Atividade;
 import com.example.NovoTesteCrud.domain.atvd.AtividadeRepository;
-import com.example.NovoTesteCrud.domain.atvd.RequestAtividade;
+import com.example.NovoTesteCrud.domain.atvd.dto.AtividadeRequestDTO;
 import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,19 +22,19 @@ public class AtividadeService {
     @Autowired
     private AcademiaRepository academiaRepository;
 
-    public List<Atividade> getAllAtividades() {
+    public List<Atividade> buscarTodasAtividades() {
         return atividadeRepository.findAll();
     }
 
-    public List<Atividade> getAtividadesByAcademia(Long academiaId) {
+    public List<Atividade> buscarTodasAtividadesPorAcademia(Long academiaId) {
         Academia academia = academiaRepository.findById(academiaId)
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
-        return atividadeRepository.findByAcademia(academia);
+        return atividadeRepository.buscarPorAcademia(academia);
     }
 
     @Transactional
-    public Atividade registerAtividade(RequestAtividade data) {
+    public Atividade registrarAtividade(AtividadeRequestDTO data) {
         Academia academia = academiaRepository.findById(data.academiaId())
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
@@ -46,7 +46,7 @@ public class AtividadeService {
     }
 
     @Transactional
-    public Atividade updateAtividade(RequestAtividade data, Long id) {
+    public Atividade atualizarAtividade(AtividadeRequestDTO data, Long id) {
         Atividade atividade = atividadeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada!"));
 
@@ -57,7 +57,7 @@ public class AtividadeService {
 
 
     @Transactional
-    public void deleteAtividade(Long id) {
+    public void deletarAtividade(Long id) {
         Optional<Atividade> optionalAtividade = atividadeRepository.findById(id);
         if (optionalAtividade.isPresent()) {
             atividadeRepository.delete(optionalAtividade.get());

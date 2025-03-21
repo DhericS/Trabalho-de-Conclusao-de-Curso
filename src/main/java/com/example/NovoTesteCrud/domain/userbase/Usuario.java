@@ -1,43 +1,32 @@
 package com.example.NovoTesteCrud.domain.userbase;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Column;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@MappedSuperclass
-@AllArgsConstructor
+@Embeddable
+@Getter
+@Setter
 @NoArgsConstructor
-public abstract class Usuario {
+public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    protected String name;
+    private String nome;
 
     @Column(unique = true, nullable = false)
-    protected String email;
+    private String email;
 
-    @Column(name = "senha", nullable = false)
-    protected String senha;
+    @Column(nullable = false)
+    private String senha;
 
-    protected String telefone;
+    private String telefone;
 
     public Usuario(String name, String email, String senha, String telefone) {
-        this.name = name;
+        this.nome = name;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
     }
-
-    public void atualizarDados(Usuario data) {
-        if (data.name != null) this.name = data.name;
-        if (data.email != null) this.email = data.email;
-        if (data.senha != null) this.senha = data.senha;
-        if (data.telefone != null) this.telefone = data.telefone;
-    }
-
-
 }

@@ -1,7 +1,7 @@
 package com.example.NovoTesteCrud.controller;
 
-import com.example.NovoTesteCrud.dto.TreinoDTO;
-import com.example.NovoTesteCrud.domain.treino.RequestTreino;
+import com.example.NovoTesteCrud.domain.treino.dto.TreinoResponseDTO;
+import com.example.NovoTesteCrud.domain.treino.dto.TreinoRequestDTO;
 import com.example.NovoTesteCrud.service.TreinoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,24 +20,24 @@ public class TreinoController {
     private TreinoService treinoService;
 
     @GetMapping
-    public ResponseEntity<List<TreinoDTO>> getAllTreinos() {
-        return ResponseEntity.ok(treinoService.getAllTreinos());
+    public ResponseEntity<List<TreinoResponseDTO>> buscarTodosTreinos() {
+        return ResponseEntity.ok(treinoService.buscarTodosTreinos());
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> registerTreino(@RequestBody RequestTreino data) {
-        TreinoDTO treinoDTO = treinoService.registerTreino(data);
+    public ResponseEntity<Map<String, Object>> registrarTreinos(@RequestBody TreinoRequestDTO data) {
+        TreinoResponseDTO treinoResponseDTO = treinoService.registrarTreinos(data);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Treino cadastrado com sucesso!");
-        response.put("treino", treinoDTO);
+        response.put("treino", treinoResponseDTO);
 
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateTreino(@PathVariable Long id, @RequestBody @Valid RequestTreino data) {
-        TreinoDTO updatedTreino = treinoService.updateTreino(id, data);
+    public ResponseEntity<Map<String, Object>> atualizarTreinos(@PathVariable Long id, @RequestBody @Valid TreinoRequestDTO data) {
+        TreinoResponseDTO updatedTreino = treinoService.atualizarTreinos(id, data);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Treino atualizado com sucesso!");
@@ -47,8 +47,8 @@ public class TreinoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteTreino(@PathVariable Long id) {
-        treinoService.deleteTreino(id);
+    public ResponseEntity<Map<String, String>> deletarTreinos(@PathVariable Long id) {
+        treinoService.deletarTreinos(id);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Treino deletado com sucesso!");

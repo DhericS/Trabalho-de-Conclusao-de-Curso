@@ -3,12 +3,17 @@ package com.example.NovoTesteCrud.domain.acad;
 import com.example.NovoTesteCrud.domain.atvd.Atividade;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "academias")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Academia {
 
     @Id
@@ -21,4 +26,9 @@ public class Academia {
 
     @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> activities;
+
+
+    public Academia(Long id) {
+        this.id = id;
+    }
 }

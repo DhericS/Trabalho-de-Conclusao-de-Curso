@@ -2,7 +2,7 @@ package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
-import com.example.NovoTesteCrud.domain.acad.RequestAcademia;
+import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ public class AcademiaService {
     @Autowired
     private AcademiaRepository repository;
 
-    public List<Academia> getAllAcademias() {
+    public List<Academia> buscarTodasAcademias() {
         return repository.findAll();
     }
 
     @Transactional
-    public Academia registerAcademia(RequestAcademia data) {
+    public Academia registrarAcademia(AcademiaRequestDTO data) {
         Academia newAcademia = new Academia();
         newAcademia.setNome(data.nome());
         newAcademia.setEndereco(data.endereco());
@@ -31,7 +31,7 @@ public class AcademiaService {
     }
 
     @Transactional
-    public Academia updateAcademia(RequestAcademia data, Long id) {
+    public Academia atualizarAcademia(AcademiaRequestDTO data, Long id) {
         Optional<Academia> optionalAcademia = repository.findById(id);
         if (optionalAcademia.isPresent()) {
             Academia academia = optionalAcademia.get();
@@ -45,7 +45,7 @@ public class AcademiaService {
     }
 
     @Transactional
-    public void deleteAcademia(Long id) {
+    public void deletarAcademia(Long id) {
         Optional<Academia> optionalAcademia = repository.findById(id);
         if (optionalAcademia.isPresent()) {
             repository.delete(optionalAcademia.get());
