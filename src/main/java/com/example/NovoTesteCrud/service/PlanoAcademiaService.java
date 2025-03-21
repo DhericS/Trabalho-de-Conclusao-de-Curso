@@ -27,7 +27,7 @@ public class PlanoAcademiaService {
     }
 
     public List<PlanoAcademia> buscarPlanosPorAcademia(Long academiaId) {
-        return repository.buscarPorAcademiaId(academiaId);
+        return repository.findByAcademiaId(academiaId);
     }
 
     @Transactional

@@ -7,15 +7,18 @@ import java.util.List;
 
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
 
-    List<Agendamento> buscarPersonaleDataHora(Long personalId, LocalDateTime start, LocalDateTime end);
+    List<Agendamento> findByPersonalIdAndDataHoraBetween(Long personalId, LocalDateTime start, LocalDateTime end);
 
-    List<Agendamento> buscarUsuarioPorId(Long userId);
+    List<Agendamento> findByUserId(Long userId);
 
-    List<Agendamento> buscarUsuarioeDataHora(Long userId, LocalDateTime start, LocalDateTime end);
+    List<Agendamento> findByUserIdAndDataHoraBetween(Long userId, LocalDateTime start, LocalDateTime end);
 
-    List<Agendamento> buscarPersonaleUsuarioId(Long personalId, Long userId);
+    List<Agendamento> findByPersonalIdAndUserId(Long personalId, Long userId);
 
-    List<Agendamento> buscarAcademiaePersonalId(Long academiaId, Long personalId);
+    List<Agendamento> findByPersonalId(Long personalId);
 
-    List<Agendamento> buscarPersonaleUsuarioeDataHora(Long personalId, Long userId, LocalDateTime start, LocalDateTime end);
+    List<Agendamento> findByAcademiaIdAndPersonalId(Long academiaId, Long personalId);
+
+    List<Agendamento> findByPersonalIdAndUserIdAndDataHoraBetween(Long personalId, Long userId, LocalDateTime start, LocalDateTime end);
+
 }

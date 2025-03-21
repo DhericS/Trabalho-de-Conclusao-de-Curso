@@ -21,7 +21,7 @@ public class ExercicioService {
     }
 
     public List<ExercicioResponseDTO> buscarExerciciosPorGrupoMuscular(GrupoMuscular grupoMuscular) {
-        List<Exercicio> exercicios = exercicioRepository.buscarPorGrupoMuscular(grupoMuscular);
+        List<Exercicio> exercicios = exercicioRepository.findByGrupoMuscular(grupoMuscular);
         return exercicios.stream().map(ExercicioResponseDTO::new).collect(Collectors.toList());
     }
 }

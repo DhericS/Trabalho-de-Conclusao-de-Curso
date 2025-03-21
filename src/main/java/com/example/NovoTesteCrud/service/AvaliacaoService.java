@@ -36,7 +36,7 @@ public class AvaliacaoService {
     }
 
     public List<Avaliacao> buscarAvaliacaoPorAcademia(Long academiaId) {
-        List<Avaliacao> avaliacao = avaliacaoRepository.buscarPorAcademiaId(academiaId);
+        List<Avaliacao> avaliacao = avaliacaoRepository.findByAcademiaId(academiaId);
         if (avaliacao.isEmpty()) {
             throw new EntityNotFoundException("Nenhum feedback encontrado para esta academia.");
         }
@@ -44,7 +44,7 @@ public class AvaliacaoService {
     }
 
     public List<Avaliacao> buscarAvaliacaoPorPersonal(Long personalId) {
-        List<Avaliacao> avaliacao = avaliacaoRepository.buscarPorPersonalId(personalId);
+        List<Avaliacao> avaliacao = avaliacaoRepository.findByPersonalId(personalId);
         if (avaliacao.isEmpty()) {
             throw new EntityNotFoundException("Nenhum feedback encontrado para este personal.");
         }
@@ -57,7 +57,7 @@ public class AvaliacaoService {
     }
 
     public List<Avaliacao> buscarAvaliacaoPorUsuario(Long userId) {
-        return avaliacaoRepository.buscarPorUsuarioId(userId);
+        return avaliacaoRepository.findByUserId(userId);
     }
 
     @Transactional
