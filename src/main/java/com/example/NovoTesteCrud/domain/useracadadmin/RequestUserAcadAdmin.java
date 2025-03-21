@@ -1,6 +1,6 @@
 package com.example.NovoTesteCrud.domain.useracadadmin;
 
-import com.example.NovoTesteCrud.domain.userbase.IRequestUsuario;
+import com.example.NovoTesteCrud.domain.userbase.dto.IRequestUsuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -12,7 +12,8 @@ public record RequestUserAcadAdmin(
         @NotBlank(message = "A senha é obrigatória") String senha,
         Long academiaId,
         @NotBlank(message = "O telefone é obrigatório")
-        @Pattern(regexp = "\\d{10,11}", message = "O telefone deve ter entre 10 e 11 dígitos") String telefone
+        @Pattern(regexp = "\\d{10,11}", message = "O telefone deve ter entre 10 e 11 dígitos") String telefone,
+        Long id
 ) implements IRequestUsuario {
         @Override
         public String tipoUsuario() {

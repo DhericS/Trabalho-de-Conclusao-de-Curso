@@ -1,8 +1,8 @@
-package com.example.NovoTesteCrud.domain.atvd;
+package com.example.NovoTesteCrud.domain.atvd.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record RequestAtividade(
+public record AtividadeRequestDTO(
         @NotBlank(message = "O nome é obrigatorio") String name,
         Long academiaId) {
 }

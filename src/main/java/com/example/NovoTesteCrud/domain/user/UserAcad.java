@@ -1,27 +1,35 @@
 package com.example.NovoTesteCrud.domain.user;
 
-
-import com.example.NovoTesteCrud.domain.userbase.IRequestUsuario;
-import com.example.NovoTesteCrud.domain.userbase.RequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Delegate;
 
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_academia")
 @NoArgsConstructor
-public class UserAcad extends Usuario {
+@Data
+public class UserAcad {
 
-    public UserAcad(String name, String email, String senha, String telefone) {
-        super(name, email, senha, telefone);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    @Delegate
+    private Usuario usuario;
+
+    public UserAcad(Long id, String name, String email, String senha, String telefone) {
+        this.usuario = new Usuario(name, email, senha, telefone);
+        this.id = id;
     }
 
-    @Override
-    public void atualizarDados(IRequestUsuario data) {
-        setName(data.name());
-        setEmail(data.email());
-        setSenha(data.senha());
-        setTelefone(data.telefone());
+    public void atualizarDados(RequestUserAcad data) {
+        usuario.setName(data.name());
+        usuario.setEmail(data.email());
+        usuario.setSenha(data.senha());
+        usuario.setTelefone(data.telefone());
     }
 }

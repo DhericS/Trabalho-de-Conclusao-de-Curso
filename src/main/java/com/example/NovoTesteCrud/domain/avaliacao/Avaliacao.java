@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.feedback;
+package com.example.NovoTesteCrud.domain.avaliacao;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.domain.personal.Personal;
@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "feedbacks")
-public class Feedback {
+public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

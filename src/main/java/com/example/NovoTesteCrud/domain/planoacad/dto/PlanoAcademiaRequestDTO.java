@@ -1,9 +1,9 @@
-package com.example.NovoTesteCrud.domain.planoacad;
+package com.example.NovoTesteCrud.domain.planoacad.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record RequestPlanoAcademia(
+public record PlanoAcademiaRequestDTO(
         @NotBlank(message = "O nome do plano é obrigatório")
         String nome,
 

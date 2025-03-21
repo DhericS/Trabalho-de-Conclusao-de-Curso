@@ -2,9 +2,10 @@ package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.exercicios.Exercicio;
 import com.example.NovoTesteCrud.domain.treino.*;
+import com.example.NovoTesteCrud.domain.treino.dto.TreinoRequestDTO;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
 import com.example.NovoTesteCrud.domain.user.UserAcadRepository;
-import com.example.NovoTesteCrud.dto.TreinoDTO;
+import com.example.NovoTesteCrud.domain.treino.dto.TreinoResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,12 @@ public class TreinoService {
     @Autowired
     private UserAcadRepository userRepository;
 
+    public List<TreinoResponseDTO> buscarTodosTreinos() {
+        return treinoRepository.findAll().stream().map(TreinoResponseDTO::new).toList();
+    }
+
     @Transactional
-    public TreinoDTO registerTreino(RequestTreino data) {
+    public TreinoResponseDTO registrarTreinos(TreinoRequestDTO data) {
         UserAcad user = userRepository.findById(data.userId())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
 
@@ -44,15 +49,12 @@ public class TreinoService {
         treino.setExercicios(exercicios);
         treinoRepository.save(treino);
 
-        return new TreinoDTO(treino);
+        return new TreinoResponseDTO(treino);
     }
 
-    public List<TreinoDTO> getAllTreinos() {
-        return treinoRepository.findAll().stream().map(TreinoDTO::new).toList();
-    }
 
     @Transactional
-    public TreinoDTO updateTreino(Long id, RequestTreino data) {
+    public TreinoResponseDTO atualizarTreinos(Long id, TreinoRequestDTO data) {
         Treino treino = treinoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Treino não encontrado!"));
 
@@ -78,10 +80,11 @@ public class TreinoService {
         treino.getExercicios().addAll(novosExercicios);
 
         treinoRepository.save(treino);
-        return new TreinoDTO(treino);
+        return new TreinoResponseDTO(treino);
     }
+
     @Transactional
-    public void deleteTreino(Long id) {
+    public void deletarTreinos(Long id) {
         Treino treino = treinoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Treino não encontrado!"));
         treinoRepository.delete(treino);

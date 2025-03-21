@@ -1,46 +1,32 @@
 package com.example.NovoTesteCrud.domain.userbase;
 
-import com.example.NovoTesteCrud.domain.personal.Personal;
-import com.example.NovoTesteCrud.domain.personal.RequestPersonal;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Column;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@MappedSuperclass
-@AllArgsConstructor
+@Embeddable
+@Getter
+@Setter
 @NoArgsConstructor
-public abstract class Usuario {
+public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    protected String name;
+    private String nome;
 
     @Column(unique = true, nullable = false)
-    protected String email;
+    private String email;
 
-    @Column(name = "senha", nullable = false)
-    protected String senha;
+    @Column(nullable = false)
+    private String senha;
 
-    protected String telefone;
+    private String telefone;
 
     public Usuario(String name, String email, String senha, String telefone) {
-        this.name = name;
+        this.nome = name;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
     }
-
-    public void atualizarDados(RequestUsuario data) {
-        this.name = data.name();
-        this.email = data.email();
-        this.senha = data.senha();
-        this.telefone = data.telefone();
-    }
-
-
-    public abstract void atualizarDados(IRequestUsuario data);
 }

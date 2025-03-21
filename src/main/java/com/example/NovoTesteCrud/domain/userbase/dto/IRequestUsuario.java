@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.userbase;
+package com.example.NovoTesteCrud.domain.userbase.dto;
 
 import com.example.NovoTesteCrud.domain.personal.RequestPersonal;
 import com.example.NovoTesteCrud.domain.user.RequestUserAcad;
@@ -20,4 +20,5 @@ public interface IRequestUsuario {
     String senha();
     String telefone();
     String tipoUsuario();
+    Long id();
 }

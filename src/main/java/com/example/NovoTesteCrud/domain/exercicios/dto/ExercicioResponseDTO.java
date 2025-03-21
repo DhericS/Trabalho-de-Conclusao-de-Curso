@@ -1,16 +1,16 @@
-package com.example.NovoTesteCrud.dto;
+package com.example.NovoTesteCrud.domain.exercicios.dto;
 
 import com.example.NovoTesteCrud.domain.exercicios.Exercicio;
 import com.example.NovoTesteCrud.domain.exercicios.GrupoMuscular;
 
-public record ExercicioDTO(
+public record ExercicioResponseDTO(
         Long id,
         String nome,
         Integer series,
         Integer repeticoes,
         GrupoMuscular grupoMuscular
 ) {
-    public ExercicioDTO(Exercicio exercicio) {
+    public ExercicioResponseDTO(Exercicio exercicio) {
         this(
                 exercicio.getId(),
                 exercicio.getNome(),

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserAcadRepository extends JpaRepository<UserAcad, Long> {
-    Optional<UserAcad> findByEmail(String email);
+    Optional<UserAcad> buscarUsuario_Email(String email);
 }

@@ -1,8 +1,7 @@
 package com.example.NovoTesteCrud.controller;
 
-import com.example.NovoTesteCrud.domain.atvd.Atividade;
-import com.example.NovoTesteCrud.domain.atvd.RequestAtividade;
-import com.example.NovoTesteCrud.dto.AtividadeDTO;
+import com.example.NovoTesteCrud.domain.atvd.dto.AtividadeRequestDTO;
+import com.example.NovoTesteCrud.domain.atvd.dto.AtividadeResponseDTO;
 import com.example.NovoTesteCrud.service.AtividadeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,33 +20,33 @@ public class AtividadeController {
     private AtividadeService atividadeService;
 
     @GetMapping
-    public ResponseEntity<List<AtividadeDTO>> getAllAtividades() {
-        List<AtividadeDTO> atividades = atividadeService.getAllAtividades()
-                .stream().map(AtividadeDTO::new).toList();
+    public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividades() {
+        List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividades()
+                .stream().map(AtividadeResponseDTO::new).toList();
         return ResponseEntity.ok(atividades);
     }
 
     @GetMapping("/academia/{academiaId}")
-    public ResponseEntity<List<AtividadeDTO>> getAtividadesByAcademia(@PathVariable Long academiaId) {
-        List<AtividadeDTO> atividades = atividadeService.getAtividadesByAcademia(academiaId)
-                .stream().map(AtividadeDTO::new).toList();
+    public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividadesPorAcademia(@PathVariable Long academiaId) {
+        List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividadesPorAcademia(academiaId)
+                .stream().map(AtividadeResponseDTO::new).toList();
         return ResponseEntity.ok(atividades);
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> registerAtividade(@RequestBody @Valid RequestAtividade data) {
-        AtividadeDTO atividadeDTO = new AtividadeDTO(atividadeService.registerAtividade(data));
+    public ResponseEntity<Map<String, Object>> registrarAtividade(@RequestBody @Valid AtividadeRequestDTO data) {
+        AtividadeResponseDTO atividadeResponseDTO = new AtividadeResponseDTO(atividadeService.registrarAtividade(data));
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Atividade cadastrada com sucesso!");
-        response.put("atividade", atividadeDTO);
+        response.put("atividade", atividadeResponseDTO);
 
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateAtividade(@PathVariable Long id, @RequestBody @Valid RequestAtividade data) {
-        AtividadeDTO updatedAtividade = new AtividadeDTO(atividadeService.updateAtividade(data, id));
+    public ResponseEntity<Map<String, Object>> atualizarAtividade(@PathVariable Long id, @RequestBody @Valid AtividadeRequestDTO data) {
+        AtividadeResponseDTO updatedAtividade = new AtividadeResponseDTO(atividadeService.atualizarAtividade(data, id));
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Atividade atualizada com sucesso!");
@@ -58,8 +57,8 @@ public class AtividadeController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteAtividade(@PathVariable Long id) {
-        atividadeService.deleteAtividade(id);
+    public ResponseEntity<Map<String, String>> deletarAtividade(@PathVariable Long id) {
+        atividadeService.deletarAtividade(id);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Atividade removida com sucesso");
