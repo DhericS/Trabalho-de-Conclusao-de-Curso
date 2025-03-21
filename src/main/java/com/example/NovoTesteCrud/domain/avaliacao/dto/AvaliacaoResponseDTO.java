@@ -8,9 +8,9 @@ public record AvaliacaoResponseDTO(Long id, String descricao, Integer estrelas, 
                 avaliacao.getId(),
                 avaliacao.getDescricao(),
                 avaliacao.getEstrelas(),
-                avaliacao.getUser().getName(),
+                avaliacao.getUser().getNome(),
                 avaliacao.getAcademia() != null ? avaliacao.getAcademia().getNome() : null,
-                avaliacao.getPersonal() != null ? avaliacao.getPersonal().getName() : null
+                avaliacao.getPersonal() != null ? avaliacao.getPersonal().getNome() : null
         );
     }
 }

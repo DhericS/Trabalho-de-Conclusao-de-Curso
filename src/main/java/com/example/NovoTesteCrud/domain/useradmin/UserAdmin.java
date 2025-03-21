@@ -28,7 +28,7 @@ public class UserAdmin {
     }
 
     public void atualizarDados(RequestUserAdmin data) {
-        usuario.setName(data.name());
+        usuario.setNome(data.name());
         usuario.setEmail(data.email());
         usuario.setSenha(data.senha());
         usuario.setTelefone(data.telefone());

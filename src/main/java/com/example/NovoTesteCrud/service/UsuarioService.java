@@ -52,16 +52,16 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> buscarUsuarioPorEmail(String email) {
-        Optional<UserAcad> userAcad = userAcadRepository.buscarUsuario_Email(email);
+        Optional<UserAcad> userAcad = userAcadRepository.findByUsuario_Email(email);
         if (userAcad.isPresent()) return Optional.of(userAcad.get().getUsuario());
 
-        Optional<UserAdmin> userAdmin = userAdminRepository.buscarUsuario_Email(email);
+        Optional<UserAdmin> userAdmin = userAdminRepository.findByUsuario_Email(email);
         if (userAdmin.isPresent()) return Optional.of(userAdmin.get().getUsuario());
 
-        Optional<UserAcadAdmin> userAcadAdmin = userAcadAdminRepository.buscarUsuario_Email(email);
+        Optional<UserAcadAdmin> userAcadAdmin = userAcadAdminRepository.findByUsuario_Email(email);
         if (userAcadAdmin.isPresent()) return Optional.of(userAcadAdmin.get().getUsuario());
 
-        Optional<Personal> personal = personalRepository.buscarUsuario_Email(email);
+        Optional<Personal> personal = personalRepository.findByUsuario_Email(email);
         if (personal.isPresent()) return Optional.of(personal.get().getUsuario());
 
         return Optional.empty();

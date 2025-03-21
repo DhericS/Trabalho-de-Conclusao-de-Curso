@@ -30,7 +30,7 @@ public class AtividadeService {
         Academia academia = academiaRepository.findById(academiaId)
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
-        return atividadeRepository.buscarPorAcademia(academia);
+        return atividadeRepository.findByAcademia(academia);
     }
 
     @Transactional

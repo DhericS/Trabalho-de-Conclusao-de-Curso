@@ -103,6 +103,16 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentos);
     }
 
+    @GetMapping("/personal/{personalId}/date")
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendamentosPorPersonaleData(@PathVariable Long personalId, @RequestParam LocalDateTime start, @RequestParam LocalDateTime end) {
+        List<AgendamentoResponseDTO> agendamentos = agendamentoService.buscarAgendamentosPorPersonaleData(personalId, start, end)
+                .stream()
+                .map(AgendamentoResponseDTO::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(agendamentos);
+    }
+
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAgentamento(@RequestBody @Valid AgendamentoRequestDTO data) {
         AgendamentoResponseDTO agendamentoResponseDTO = new AgendamentoResponseDTO(agendamentoService.registrarAgentamento(data));

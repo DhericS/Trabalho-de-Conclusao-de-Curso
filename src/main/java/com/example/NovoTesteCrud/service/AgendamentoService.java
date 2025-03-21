@@ -38,27 +38,30 @@ public class AgendamentoService {
     }
 
     public List<Agendamento> buscarAgendamentosPorUsuario(Long userId) {
-        return repository.buscarUsuarioPorId(userId);
+        return repository.findByUserId(userId);
     }
 
     public List<Agendamento> buscarAgendamentosPorUsuarioeData(Long userId, LocalDateTime start, LocalDateTime end) {
-        return repository.buscarUsuarioeDataHora(userId, start, end);
+        return repository.findByUserIdAndDataHoraBetween(userId, start, end);
     }
 
     public List<Agendamento> buscarAgendamentosPorPersonal(Long personalId) {
-        return repository.buscarPersonaleDataHora(personalId, LocalDateTime.now(), LocalDateTime.now().plusDays(30));
+        return repository.findByPersonalId(personalId);
     }
 
     public List<Agendamento> buscarAgendamentosPorPersonaleUsuario(Long personalId, Long userId) {
-        return repository.buscarPersonaleUsuarioId(personalId, userId);
+        return repository.findByPersonalIdAndUserId(personalId, userId);
+    }
+    public List<Agendamento> buscarAgendamentosPorPersonaleData(Long personalId, LocalDateTime start, LocalDateTime end) {
+        return repository.findByPersonalIdAndDataHoraBetween(personalId, LocalDateTime.now(), LocalDateTime.now().plusDays(30));
     }
 
     public List<Agendamento> buscarAgendamentosPorAcademiaePersonal(Long academiaId, Long personalId) {
-        return repository.buscarAcademiaePersonalId(academiaId, personalId);
+        return repository.findByAcademiaIdAndPersonalId(academiaId, personalId);
     }
 
     public List<Agendamento> buscarAgendamentosPorPersonaleUsuarioeData(Long personalId, Long userId, LocalDateTime start, LocalDateTime end) {
-        return repository.buscarPersonaleUsuarioeDataHora(personalId, userId, start, end);
+        return repository.findByPersonalIdAndUserIdAndDataHoraBetween(personalId, userId, start, end);
     }
 
     @Transactional
