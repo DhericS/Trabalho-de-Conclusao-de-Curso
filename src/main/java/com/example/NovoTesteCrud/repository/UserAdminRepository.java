@@ -1,6 +1,6 @@
-package com.example.NovoTesteCrud.domain.useradmin;
+package com.example.NovoTesteCrud.repository;
 
-import com.example.NovoTesteCrud.domain.useracadadmin.UserAcadAdmin;
+import com.example.NovoTesteCrud.domain.useradmin.UserAdmin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

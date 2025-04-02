@@ -1,5 +1,7 @@
-package com.example.NovoTesteCrud.domain.exercicios;
+package com.example.NovoTesteCrud.repository;
 
+import com.example.NovoTesteCrud.domain.exercicios.Exercicio;
+import com.example.NovoTesteCrud.domain.exercicios.GrupoMuscular;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

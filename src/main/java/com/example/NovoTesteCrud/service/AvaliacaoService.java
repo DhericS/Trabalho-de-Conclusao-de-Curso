@@ -1,14 +1,14 @@
 package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
-import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
+import com.example.NovoTesteCrud.repository.AcademiaRepository;
 import com.example.NovoTesteCrud.domain.avaliacao.Avaliacao;
-import com.example.NovoTesteCrud.domain.avaliacao.AvaliacaoRepository;
+import com.example.NovoTesteCrud.repository.AvaliacaoRepository;
 import com.example.NovoTesteCrud.domain.avaliacao.dto.AvaliacaoRequestDTO;
 import com.example.NovoTesteCrud.domain.personal.Personal;
-import com.example.NovoTesteCrud.domain.personal.PersonalRepository;
+import com.example.NovoTesteCrud.repository.PersonalRepository;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
-import com.example.NovoTesteCrud.domain.user.UserAcadRepository;
+import com.example.NovoTesteCrud.repository.UserAcadRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

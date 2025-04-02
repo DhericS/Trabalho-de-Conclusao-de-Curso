@@ -1,7 +1,7 @@
 package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.exercicios.Exercicio;
-import com.example.NovoTesteCrud.domain.exercicios.ExercicioRepository;
+import com.example.NovoTesteCrud.repository.ExercicioRepository;
 import com.example.NovoTesteCrud.domain.exercicios.GrupoMuscular;
 import com.example.NovoTesteCrud.domain.exercicios.dto.ExercicioResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
