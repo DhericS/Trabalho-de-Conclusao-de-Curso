@@ -1,17 +1,17 @@
 package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.personal.Personal;
-import com.example.NovoTesteCrud.domain.personal.PersonalRepository;
+import com.example.NovoTesteCrud.repository.PersonalRepository;
 import com.example.NovoTesteCrud.domain.personal.RequestPersonal;
 import com.example.NovoTesteCrud.domain.user.RequestUserAcad;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
-import com.example.NovoTesteCrud.domain.user.UserAcadRepository;
+import com.example.NovoTesteCrud.repository.UserAcadRepository;
 import com.example.NovoTesteCrud.domain.useracadadmin.RequestUserAcadAdmin;
 import com.example.NovoTesteCrud.domain.useracadadmin.UserAcadAdmin;
-import com.example.NovoTesteCrud.domain.useracadadmin.UserAcadAdminRepository;
+import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
 import com.example.NovoTesteCrud.domain.useradmin.RequestUserAdmin;
 import com.example.NovoTesteCrud.domain.useradmin.UserAdmin;
-import com.example.NovoTesteCrud.domain.useradmin.UserAdminRepository;
+import com.example.NovoTesteCrud.repository.UserAdminRepository;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.acad.Academia;

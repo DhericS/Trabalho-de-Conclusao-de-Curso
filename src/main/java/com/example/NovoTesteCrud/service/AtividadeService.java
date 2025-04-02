@@ -1,10 +1,10 @@
 package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.atvd.Atividade;
-import com.example.NovoTesteCrud.domain.atvd.AtividadeRepository;
+import com.example.NovoTesteCrud.repository.AtividadeRepository;
 import com.example.NovoTesteCrud.domain.atvd.dto.AtividadeRequestDTO;
 import com.example.NovoTesteCrud.domain.acad.Academia;
-import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
+import com.example.NovoTesteCrud.repository.AcademiaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

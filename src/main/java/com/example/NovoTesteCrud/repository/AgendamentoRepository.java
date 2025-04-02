@@ -1,5 +1,6 @@
-package com.example.NovoTesteCrud.domain.agendamento;
+package com.example.NovoTesteCrud.repository;
 
+import com.example.NovoTesteCrud.domain.agendamento.Agendamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

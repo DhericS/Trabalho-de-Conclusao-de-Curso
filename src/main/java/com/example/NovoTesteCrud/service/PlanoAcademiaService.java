@@ -1,9 +1,9 @@
 package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
-import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
+import com.example.NovoTesteCrud.repository.AcademiaRepository;
 import com.example.NovoTesteCrud.domain.planoacad.PlanoAcademia;
-import com.example.NovoTesteCrud.domain.planoacad.PlanoAcademiaRepository;
+import com.example.NovoTesteCrud.repository.PlanoAcademiaRepository;
 import com.example.NovoTesteCrud.domain.planoacad.dto.PlanoAcademiaRequestDTO;
 import com.example.NovoTesteCrud.domain.planoacad.dto.PlanoAcademiaResponseDTO;
 import jakarta.persistence.EntityNotFoundException;

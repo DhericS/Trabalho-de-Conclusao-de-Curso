@@ -1,7 +1,7 @@
 package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
-import com.example.NovoTesteCrud.domain.acad.AcademiaRepository;
+import com.example.NovoTesteCrud.repository.AcademiaRepository;
 import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

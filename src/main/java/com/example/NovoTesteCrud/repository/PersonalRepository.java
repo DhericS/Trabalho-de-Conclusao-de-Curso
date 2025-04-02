@@ -1,9 +1,6 @@
-package com.example.NovoTesteCrud.domain.personal;
+package com.example.NovoTesteCrud.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
-
+import com.example.NovoTesteCrud.domain.personal.Personal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

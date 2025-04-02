@@ -1,5 +1,6 @@
-package com.example.NovoTesteCrud.domain.planoacad;
+package com.example.NovoTesteCrud.repository;
 
+import com.example.NovoTesteCrud.domain.planoacad.PlanoAcademia;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

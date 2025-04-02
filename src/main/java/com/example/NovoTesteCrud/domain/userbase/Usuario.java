@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Usuario {
 
-
+    @Column(name = "name")
     private String nome;
 
     @Column(unique = true, nullable = false)

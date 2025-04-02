@@ -21,25 +21,17 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/useracad")
-    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodosUserAcad() {
-        return ResponseEntity.ok(usuarioService.buscarTodosUserAcad().stream().map(UsuarioResponseDTO::new).toList());
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuariosPorTipo(@RequestParam("tipoUsuario") String tipoUsuario) {
+        return switch (tipoUsuario.toLowerCase()) {
+            case "useracad" -> ResponseEntity.ok(usuarioService.buscarTodosUserAcad().stream().map(UsuarioResponseDTO::new).toList());
+            case "useradmin" -> ResponseEntity.ok(usuarioService.buscarTodosUserAdmin().stream().map(UsuarioResponseDTO::new).toList());
+            case "useracadadmin" -> ResponseEntity.ok(usuarioService.buscarTodosUserAcadAdmin().stream().map(UsuarioResponseDTO::new).toList());
+            case "personal" -> ResponseEntity.ok(usuarioService.buscarTodosPersonal().stream().map(UsuarioResponseDTO::new).toList());
+            default -> ResponseEntity.badRequest().build();
+        };
     }
 
-    @GetMapping("/useradmin")
-    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodosUserAdmin() {
-        return ResponseEntity.ok(usuarioService.buscarTodosUserAdmin().stream().map(UsuarioResponseDTO::new).toList());
-    }
-
-    @GetMapping("/useracadadmin")
-    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodosUserAcadAdmin() {
-        return ResponseEntity.ok(usuarioService.buscarTodosUserAcadAdmin().stream().map(UsuarioResponseDTO::new).toList());
-    }
-
-    @GetMapping("/personal")
-    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodosPersonal() {
-        return ResponseEntity.ok(usuarioService.buscarTodosPersonal().stream().map(UsuarioResponseDTO::new).toList());
-    }
 
     @GetMapping("/buscar-por-email")
     public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorEmail(@RequestParam String email) {
