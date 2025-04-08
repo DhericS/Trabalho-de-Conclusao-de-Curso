@@ -7,6 +7,7 @@ import com.example.NovoTesteCrud.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACAD')")
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuariosPorTipo(@RequestParam("tipoUsuario") String tipoUsuario) {
         return switch (tipoUsuario.toLowerCase()) {
@@ -32,7 +34,7 @@ public class UsuarioController {
         };
     }
 
-
+    @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping("/buscar-por-email")
     public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorEmail(@RequestParam String email) {
         Optional<Usuario> usuario = usuarioService.buscarUsuarioPorEmail(email);

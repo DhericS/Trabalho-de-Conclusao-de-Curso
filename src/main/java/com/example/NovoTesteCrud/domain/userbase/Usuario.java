@@ -2,6 +2,8 @@ package com.example.NovoTesteCrud.domain.userbase;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,10 +25,15 @@ public class Usuario {
 
     private String telefone;
 
-    public Usuario(String name, String email, String senha, String telefone) {
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public Usuario(String name, String email, String senha, String telefone, Role role) {
         this.nome = name;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
+        this.role = role;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.NovoTesteCrud.domain.useracadadmin;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
+import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,8 +31,8 @@ public class UserAcadAdmin {
     @JoinColumn(name = "academia_id", unique = true)
     private Academia academia;
 
-    public UserAcadAdmin(Long id, String name, String email, String senha, String telefone, String cnpj, Academia academia) {
-        this.usuario = new Usuario(name, email, senha, telefone);
+    public UserAcadAdmin(Long id, String name, String email, String senha, String telefone, String cnpj, Academia academia, Role role) {
+        this.usuario = new Usuario(name, email, senha, telefone, role);
         this.id = id;
         this.cnpj = cnpj;
         this.academia = academia;
