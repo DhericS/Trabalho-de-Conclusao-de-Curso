@@ -37,34 +37,29 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
             email = jwtUtil.extractEmail(token);
-
-            System.out.println("Role do token: " + jwtUtil.extractRole(token));
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
             if (jwtUtil.isTokenValid(token)) {
-
                 try {
-
                     Role role = jwtUtil.extractRole(token);
+                    System.out.println("Role extraída com sucesso: " + role);
 
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Role inválida no token: " + jwtUtil.extractRole(token));
+                    System.out.println("Token com role inválida.");
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token com role inválida");
                     return;
                 }
-
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
         filterChain.doFilter(request, response);
     }
 }
-

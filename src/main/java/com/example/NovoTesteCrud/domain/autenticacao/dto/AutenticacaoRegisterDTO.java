@@ -26,7 +26,6 @@ public class AutenticacaoRegisterDTO {
     @NotBlank
     private String role;
 
-    // Campos opcionais
     private String cnpj;
     private String cref;
 

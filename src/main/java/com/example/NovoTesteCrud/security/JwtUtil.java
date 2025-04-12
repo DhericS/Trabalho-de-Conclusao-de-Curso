@@ -39,7 +39,10 @@ public class JwtUtil {
 
     public Role extractRole(String token) {
         String roleString = (String) parseToken(token).getBody().get("role");
-        return Role.valueOf(roleString.toUpperCase()); // ← transforma e valida
+        if (roleString == null || roleString.trim().isEmpty()) {
+            throw new IllegalArgumentException("Role ausente ou inválida no token.");
+        }
+        return Role.valueOf(roleString.trim().toUpperCase());
     }
 
 
