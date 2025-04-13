@@ -22,7 +22,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACAD')")
+    @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuariosPorTipo(@RequestParam("tipoUsuario") String tipoUsuario) {
         return switch (tipoUsuario.toLowerCase()) {
@@ -34,7 +34,7 @@ public class UsuarioController {
         };
     }
 
-    @PreAuthorize("hasRole('USERADMIN')")
+    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACAD')")
     @GetMapping("/buscar-por-email")
     public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorEmail(@RequestParam String email) {
         Optional<Usuario> usuario = usuarioService.buscarUsuarioPorEmail(email);

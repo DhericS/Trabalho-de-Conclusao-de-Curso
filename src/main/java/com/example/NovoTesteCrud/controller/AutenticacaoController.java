@@ -1,13 +1,11 @@
 package com.example.NovoTesteCrud.controller;
 
-import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoRegisterDTO;
+import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoRegister;
 import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoRequestDTO;
 import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoResponseDTO;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
-import com.example.NovoTesteCrud.domain.useracadadmin.UserAcadAdmin;
 import com.example.NovoTesteCrud.domain.useradmin.UserAdmin;
-import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import com.example.NovoTesteCrud.repository.PersonalRepository;
 import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
 import com.example.NovoTesteCrud.repository.UserAcadRepository;
@@ -75,7 +73,7 @@ public class AutenticacaoController {
 
 
     @PostMapping("/register")
-    public String register(@RequestBody @Valid AutenticacaoRegisterDTO dto) {
+    public String register(@RequestBody @Valid AutenticacaoRegister dto) {
 
         switch (dto.getTipoUsuario().toLowerCase()) {
             case "useracad" -> {

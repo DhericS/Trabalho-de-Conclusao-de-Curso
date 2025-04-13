@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class AutenticacaoRegisterDTO {
+public class AutenticacaoRegister {
 
     @NotBlank
     private String nome;
