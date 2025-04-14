@@ -3,18 +3,23 @@ package com.example.NovoTesteCrud.service;
 import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.repository.AcademiaRepository;
 import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
+import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 @Service
 public class AcademiaService {
 
     @Autowired
     private AcademiaRepository repository;
+    @Autowired
+    private UserAcadAdminRepository userAcadAdminRepository;
 
     public List<Academia> buscarTodasAcademias() {
         return repository.findAll();
@@ -52,5 +57,14 @@ public class AcademiaService {
         } else {
             throw new EntityNotFoundException("Academia não encontrada!");
         }
+    }
+
+    public boolean usuarioPodeGerenciar(Long academiaId) {
+        var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = authUser.getUsername();
+
+        return userAcadAdminRepository.findByUsuario_Email(email)
+                .map(user -> user.getAcademia() != null && user.getAcademia().getId().equals(academiaId))
+                .orElse(false);
     }
 }

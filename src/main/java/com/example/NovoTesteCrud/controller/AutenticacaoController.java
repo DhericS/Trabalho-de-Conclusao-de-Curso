@@ -5,6 +5,7 @@ import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoRequestDTO;
 import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoResponseDTO;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
+import com.example.NovoTesteCrud.domain.useracadadmin.UserAcadAdmin;
 import com.example.NovoTesteCrud.domain.useradmin.UserAdmin;
 import com.example.NovoTesteCrud.repository.PersonalRepository;
 import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
@@ -100,8 +101,19 @@ public class AutenticacaoController {
                 userAdminRepository.save(user);
             }
 
-
-
+            case "useracadadmin" -> {
+                var user = new UserAcadAdmin(
+                        null,
+                        dto.getNome(),
+                        dto.getEmail(),
+                        passwordEncoder.encode(dto.getSenha()),
+                        dto.getTelefone(),
+                        dto.getCnpj(),
+                        null,
+                        dto.getRoleAsEnum()
+                );
+                userAcadAdminRepository.save(user);
+            }
 
             case "personal" -> {
                 var user = new Personal(
@@ -110,17 +122,17 @@ public class AutenticacaoController {
                         dto.getEmail(),
                         passwordEncoder.encode(dto.getSenha()),
                         dto.getTelefone(),
-                        dto.getCref(),     // vem do DTO
-                        null               // academia será associada depois
+                        dto.getCref(),
+                        dto.getRoleAsEnum()
                 );
                 personalRepository.save(user);
             }
-
 
             default -> throw new IllegalArgumentException("Tipo de usuário inválido.");
         }
 
         return "Usuário registrado com sucesso!";
     }
+
 
 }
