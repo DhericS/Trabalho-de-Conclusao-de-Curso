@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.user;
 
+import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +22,14 @@ public class UserAcad {
     @Delegate
     private Usuario usuario;
 
-    public UserAcad(Long id, String name, String email, String senha, String telefone) {
-        this.usuario = new Usuario(name, email, senha, telefone);
+    public UserAcad(Long id, String name, String email, String senha, String telefone, Role role) {
+        this.usuario = new Usuario(name, email, senha, telefone, role);
         this.id = id;
+    }
+
+    public UserAcad(Long id, Usuario usuario, Role role) {
+        this.id = id;
+        this.usuario = usuario;
     }
 
     public void atualizarDados(RequestUserAcad data) {

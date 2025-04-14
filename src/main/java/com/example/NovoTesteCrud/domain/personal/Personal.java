@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.personal;
 
+import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,8 +26,8 @@ public class Personal {
     @Column(unique = true, nullable = false)
     private String cref;
 
-    public Personal(Long id, String name, String email, String senha, String telefone, String cref) {
-        this.usuario = new Usuario(name, email, senha, telefone);
+    public Personal(Long id, String name, String email, String senha, String telefone, String cref, Role role) {
+        this.usuario = new Usuario(name, email, senha, telefone, role);
         this.id = id;
         this.cref = cref;
     }

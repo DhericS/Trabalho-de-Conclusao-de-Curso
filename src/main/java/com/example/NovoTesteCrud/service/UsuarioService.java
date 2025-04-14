@@ -77,7 +77,8 @@ public class UsuarioService {
                             userAcadData.name(),
                             userAcadData.email(),
                             userAcadData.senha(),
-                            userAcadData.telefone()
+                            userAcadData.telefone(),
+                            userAcadData.role()
                     ));
                 }
             }
@@ -88,7 +89,8 @@ public class UsuarioService {
                             userAdminData.name(),
                             userAdminData.email(),
                             userAdminData.senha(),
-                            userAdminData.telefone()
+                            userAdminData.telefone(),
+                            userAdminData.role()
                     ));
                 }
             }
@@ -101,7 +103,8 @@ public class UsuarioService {
                             adminData.senha(),
                             adminData.telefone(),
                             adminData.cnpj(),
-                            new Academia(adminData.academiaId())
+                            new Academia(adminData.academiaId()),
+                            adminData.role()
                     ));
                 }
             }
@@ -113,7 +116,8 @@ public class UsuarioService {
                             personalData.email(),
                             personalData.senha(),
                             personalData.telefone(),
-                            personalData.cref()
+                            personalData.cref(),
+                            personalData.role()
                     ));
                 }
             }
