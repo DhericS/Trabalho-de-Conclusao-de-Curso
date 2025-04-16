@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/atividades")
 public class AtividadeController {
@@ -19,6 +21,7 @@ public class AtividadeController {
     @Autowired
     private AtividadeService atividadeService;
 
+    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @GetMapping
     public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividades() {
         List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividades()
@@ -26,6 +29,7 @@ public class AtividadeController {
         return ResponseEntity.ok(atividades);
     }
 
+    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividadesPorAcademia(@PathVariable Long academiaId) {
         List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividadesPorAcademia(academiaId)
@@ -33,6 +37,7 @@ public class AtividadeController {
         return ResponseEntity.ok(atividades);
     }
 
+    @PreAuthorize("@academiaService.usuarioPodeGerenciar(#data.academiaId) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAtividade(@RequestBody @Valid AtividadeRequestDTO data) {
         AtividadeResponseDTO atividadeResponseDTO = new AtividadeResponseDTO(atividadeService.registrarAtividade(data));
@@ -44,6 +49,7 @@ public class AtividadeController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("@atividadeService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarAtividade(@PathVariable Long id, @RequestBody @Valid AtividadeRequestDTO data) {
         AtividadeResponseDTO updatedAtividade = new AtividadeResponseDTO(atividadeService.atualizarAtividade(data, id));
@@ -55,7 +61,7 @@ public class AtividadeController {
         return ResponseEntity.ok(response);
     }
 
-
+    @PreAuthorize("@atividadeService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarAtividade(@PathVariable Long id) {
         atividadeService.deletarAtividade(id);
@@ -65,3 +71,4 @@ public class AtividadeController {
         return ResponseEntity.ok(response);
     }
 }
+
