@@ -23,7 +23,6 @@ public class AvaliacaoController {
     @Autowired
     private AvaliacaoService avaliacaoService;
 
-    // Somente ADMIN pode ver todas
     @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarTodasAvaliacoes() {
@@ -32,7 +31,6 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
-    // ADMIN ou USERACAD (desde que seja dono)
     @PreAuthorize("@avaliacaoService.usuarioPodeVisualizar(#id) or hasRole('USERADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<AvaliacaoResponseDTO> buscarAvaliacaoPorId(@PathVariable Long id) {
@@ -56,7 +54,6 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
-    // ADMIN ou USERACAD (se for o dono)
     @PreAuthorize("@avaliacaoService.usuarioPodeVisualizarUsuario(#userId) or hasRole('USERADMIN')")
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarAvaliacaoPorUsuario(@PathVariable Long userId) {
@@ -65,7 +62,7 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
-    // USERACAD pode criar (para si), ADMIN também
+
     @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAvaliacao(@RequestBody @Valid AvaliacaoRequestDTO data) {
