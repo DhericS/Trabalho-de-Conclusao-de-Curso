@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/auth/**",                       // Acesso sem autenticação para autenticação
                         "/",                               // Página inicial
-                        "/index.html",                     // Página inicial
+                        "/index",                          // Página inicial
                         "/login",                           // Página de login
                         "/cadastro",                       // Página de cadastro
                         "/reset-senha",                    // Página de reset de senha
@@ -43,21 +43,19 @@ public class SecurityConfig {
                         "/detalhes-personais",             // Página de detalhes dos personal trainers
                         "/treinos",                        // Página de treinos
                         "/detalhes-treinos",               // Página de detalhes dos treinos
-                        "/static/**",                      // Certifique-se de permitir acesso à pasta estática
-                        "/favicon.ico",                    // Ícone do site
-                        "/**/*.html"                       // Páginas Thymeleaf que geram arquivos HTML
+                        "/favicon.ico"                     // Ícone do site
                 ).permitAll()                         // Permitir acesso a todas as páginas estáticas e de login
 
                 .anyRequest().authenticated()           // Exige autenticação para todas as outras requisições
 
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Sessões sem estado para API
+
         // Adiciona o filtro JWT antes do filtro de autenticação padrão
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
