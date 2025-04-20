@@ -94,7 +94,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/detalhes-personais").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treinos").permitAll()
                         .requestMatchers(HttpMethod.GET, "/detalhes-treinos").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/swagger-resources/**").permitAll()
                         .anyRequest().authenticated()
 
                 ).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
