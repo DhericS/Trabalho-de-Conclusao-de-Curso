@@ -38,7 +38,7 @@ public class AvaliacaoController {
         return ResponseEntity.ok(feedback);
     }
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarAvaliacaoPorAcademia(@PathVariable Long academiaId) {
         List<AvaliacaoResponseDTO> avaliacoes = avaliacaoService.buscarAvaliacaoPorAcademia(academiaId)
@@ -46,7 +46,7 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping("/personal/{personalId}")
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarAvaliacaoPorPersonal(@PathVariable Long personalId) {
         List<AvaliacaoResponseDTO> avaliacoes = avaliacaoService.buscarAvaliacaoPorPersonal(personalId)

@@ -21,7 +21,7 @@ public class AtividadeController {
     @Autowired
     private AtividadeService atividadeService;
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @GetMapping
     public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividades() {
         List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividades()
@@ -29,7 +29,7 @@ public class AtividadeController {
         return ResponseEntity.ok(atividades);
     }
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividadesPorAcademia(@PathVariable Long academiaId) {
         List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividadesPorAcademia(academiaId)

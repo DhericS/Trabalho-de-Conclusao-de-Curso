@@ -6,6 +6,7 @@ import com.example.NovoTesteCrud.service.TreinoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class TreinoController {
         return ResponseEntity.ok(treinoService.buscarTodosTreinos());
     }
 
+    @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarTreinos(@RequestBody TreinoRequestDTO data) {
         TreinoResponseDTO treinoResponseDTO = treinoService.registrarTreinos(data);
@@ -35,6 +37,8 @@ public class TreinoController {
         return ResponseEntity.ok(response);
     }
 
+
+    @PreAuthorize("@treinoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarTreinos(@PathVariable Long id, @RequestBody @Valid TreinoRequestDTO data) {
         TreinoResponseDTO updatedTreino = treinoService.atualizarTreinos(id, data);
@@ -46,6 +50,7 @@ public class TreinoController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("@treinoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarTreinos(@PathVariable Long id) {
         treinoService.deletarTreinos(id);

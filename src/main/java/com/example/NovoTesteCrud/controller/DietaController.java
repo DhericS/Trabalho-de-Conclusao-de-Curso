@@ -19,7 +19,7 @@ public class DietaController {
     @Autowired
     private DietaService dietaService;
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping
     public ResponseEntity<List<DietaResponseDTO>> listar() {
         var lista = dietaService.listarTodasDieta().stream().map(DietaResponseDTO::new).toList();
