@@ -6,6 +6,7 @@ import com.example.NovoTesteCrud.service.PlanoAcademiaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class PlanoAcademiaController {
     @Autowired
     private PlanoAcademiaService planoAcademiaService;
 
+    @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping
     public ResponseEntity<List<PlanoAcademiaResponseDTO>> buscarTodosPlanos() {
         List<PlanoAcademiaResponseDTO> planos = planoAcademiaService.buscarTodosPlanos()
@@ -30,6 +32,7 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(planos);
     }
 
+    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<PlanoAcademiaResponseDTO>> buscarPlanosPorAcademia(@PathVariable Long academiaId) {
         List<PlanoAcademiaResponseDTO> planos = planoAcademiaService.buscarPlanosPorAcademia(academiaId)
@@ -40,6 +43,7 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(planos);
     }
 
+    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarPlano(@RequestBody @Valid PlanoAcademiaRequestDTO data) {
         PlanoAcademiaResponseDTO planoDTO = planoAcademiaService.registrarPlano(data);
@@ -51,6 +55,7 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarPlano(@PathVariable Long id, @RequestBody @Valid PlanoAcademiaRequestDTO data) {
         PlanoAcademiaResponseDTO updatedPlano = planoAcademiaService.atualizarPlano(id, data);
@@ -62,7 +67,7 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(response);
     }
 
-
+    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarPlano(@PathVariable Long id) {
         planoAcademiaService.deletarPlano(id);

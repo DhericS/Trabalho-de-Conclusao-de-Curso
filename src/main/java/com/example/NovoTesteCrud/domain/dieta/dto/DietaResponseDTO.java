@@ -17,7 +17,9 @@ public record DietaResponseDTO(
                 dieta.getDescricao(),
                 dieta.getCalorias(),
                 dieta.getObjetivo().name(),
-                dieta.getUserAcad().getUsuario().getNome()
+                dieta.getUserAcad() != null
+                        ? dieta.getUserAcad().getUsuario().getNome()
+                        : dieta.getPersonal().getUsuario().getNome()
         );
     }
 }
