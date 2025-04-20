@@ -32,7 +32,7 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(planos);
     }
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<PlanoAcademiaResponseDTO>> buscarPlanosPorAcademia(@PathVariable Long academiaId) {
         List<PlanoAcademiaResponseDTO> planos = planoAcademiaService.buscarPlanosPorAcademia(academiaId)

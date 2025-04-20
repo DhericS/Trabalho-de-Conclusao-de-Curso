@@ -24,7 +24,7 @@ public class UsuarioController {
 
     @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuariosPorTipo(@RequestParam("tipoUsuario") String tipoUsuario) {
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuariosPorTipo(@RequestParam("tipoUsuario") String tipoUsuario, @RequestHeader("Authorization") String token) {
         return switch (tipoUsuario.toLowerCase()) {
             case "useracad" -> ResponseEntity.ok(usuarioService.buscarTodosUserAcad().stream().map(UsuarioResponseDTO::new).toList());
             case "useradmin" -> ResponseEntity.ok(usuarioService.buscarTodosUserAdmin().stream().map(UsuarioResponseDTO::new).toList());

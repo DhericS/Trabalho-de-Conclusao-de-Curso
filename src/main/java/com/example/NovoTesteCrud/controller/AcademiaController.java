@@ -20,7 +20,7 @@ public class AcademiaController {
     @Autowired
     private AcademiaService academiaService;
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping
     public ResponseEntity<List<AcademiaResponseDTO>> buscarTodasAcademias() {
         List<AcademiaResponseDTO> academias = academiaService.buscarTodasAcademias().stream()
