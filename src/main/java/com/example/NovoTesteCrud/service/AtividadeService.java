@@ -5,8 +5,11 @@ import com.example.NovoTesteCrud.repository.AtividadeRepository;
 import com.example.NovoTesteCrud.domain.atvd.dto.AtividadeRequestDTO;
 import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.repository.AcademiaRepository;
+import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,9 @@ public class AtividadeService {
 
     @Autowired
     private AcademiaRepository academiaRepository;
+
+    @Autowired
+    private UserAcadAdminRepository userAcadAdminRepository;
 
     public List<Atividade> buscarTodasAtividades() {
         return atividadeRepository.findAll();
@@ -65,4 +71,16 @@ public class AtividadeService {
             throw new EntityNotFoundException("Atividade não encontrada!");
         }
     }
+
+    public boolean usuarioPodeEditar(Long atividadeId) {
+        var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = authUser.getUsername();
+
+        return atividadeRepository.findById(atividadeId)
+                .map(atividade -> userAcadAdminRepository.findByUsuario_Email(email)
+                        .map(user -> user.getAcademia() != null && user.getAcademia().getId().equals(atividade.getAcademia().getId()))
+                        .orElse(false))
+                .orElse(false);
+    }
+
 }

@@ -1,41 +1,92 @@
-<nav class="menu">
+<header>
   <div class="logo">
-    <a href="/src/main/resources/templates/paginas/index.html" id="home-link">
+    <a th:href="@{/}" id="home-link">
       <img
-        src="/src/main/resources/statics/assets/imagens/logo2.png"
+        src="/assets/imagens/logo2.png"
         alt="Logo Guides Fit"
         style="height: 100px; width: auto"
       />
     </a>
   </div>
-  <div class="nav-links">
-    <a
-      href="/src/main/resources/templates//paginas/academias.html"
-      id="academias-link"
-      >Academias</a
-    >
-    <a
-      href="/src/main/resources/templates//paginas/treinos.html"
-      id="treinos-link"
-      >Treinos</a
-    >
-    <a
-      href="/src/main/resources/templates//paginas/personais.html"
-      id="personais-link"
-      >Personais</a
-    >
-    <a
-      href="/src/main/resources/templates//paginas/index.html#secao-preta-sobre"
-      id="sobre-link"
-      >Sobre</a
-    >
-    <a href="/src/main/resources/templates/paginas/login.html" id="login-link"
-      ><button class="btn">Login</button></a
-    >
-    <a
-      href="/src/main/resources/templates/paginas/cadastro.html"
-      id="cadastro-link"
-      ><button class="btn">Registrar-se</button></a
-    >
+
+  <div class="nav">
+    <nav>
+      <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/academias}">Academias</a></li>
+        <li><a th:href="@{/treinos}">Treinos</a></li>
+        <li><a th:href="@{/personais}">Personais</a></li>
+        <li class="link-login">
+        </li>
+        <li class="link-logout">
+        </li>
+      </ul>
+    </nav>
   </div>
-</nav>
+
+  <div class="nav-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-small-views hidden">
+    <nav>
+      <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/academias}">Academias</a></li>
+        <li><a th:href="@{/treinos}">Treinos</a></li>
+        <li><a th:href="@{/personais}">Personais</a></li>
+        <li class="link-login">
+        </li>
+        <li class="link-logout">
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script defer type="module">
+  const navIcon = document.querySelector('.nav-icon');
+  const navSmallView = document.querySelector('.nav-small-views');
+  const liLinkLogin = document.querySelector('.link-login');
+  const liLinkLogout = document.querySelector('.link-logout');
+
+  navIcon.addEventListener('click', (e) => {
+    if (window.innerWidth <= 677) {
+      navSmallView.classList.toggle('flex-column');
+      navSmallView.classList.toggle('hidden');
+    }
+  })
+
+  const token = localStorage.getItem('token');
+  if (!token) {
+    liLinkLogin.innerHTML = `
+        <a href="/login" id="login-link">
+          <button class="btn">Login</button>
+        </a>
+    `
+    liLinkLogout.innerHTML = `
+        <a href="/cadastro" id="cadastro-link">
+            <button class="btn">Registrar-se</button>
+          </a>
+    `
+  } else {
+    liLinkLogin.innerHTML = `
+        <a href="/perfil-academias" id="login-link">
+          <button class="btn">Meu Perfil</button>
+        </a>
+    `
+    liLinkLogout.innerHTML = `
+        <button class="btn" id="logout-btn">Logout</button>
+    `
+  }
+
+  document.getElementById('logout-btn').addEventListener('click', logout);
+
+  function logout() {
+    console.log('aaaa')
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  }
+</script>

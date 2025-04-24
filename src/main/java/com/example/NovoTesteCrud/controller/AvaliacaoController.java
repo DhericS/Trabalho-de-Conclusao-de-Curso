@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/avaliacoes")
 public class AvaliacaoController {
@@ -21,6 +23,7 @@ public class AvaliacaoController {
     @Autowired
     private AvaliacaoService avaliacaoService;
 
+    @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarTodasAvaliacoes() {
         List<AvaliacaoResponseDTO> avaliacoes = avaliacaoService.buscarTodasAvaliacoes()
@@ -28,12 +31,14 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
+    @PreAuthorize("@avaliacaoService.usuarioPodeVisualizar(#id) or hasRole('USERADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<AvaliacaoResponseDTO> buscarAvaliacaoPorId(@PathVariable Long id) {
         AvaliacaoResponseDTO feedback = new AvaliacaoResponseDTO(avaliacaoService.buscarAvaliacaoPorId(id));
         return ResponseEntity.ok(feedback);
     }
 
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarAvaliacaoPorAcademia(@PathVariable Long academiaId) {
         List<AvaliacaoResponseDTO> avaliacoes = avaliacaoService.buscarAvaliacaoPorAcademia(academiaId)
@@ -41,6 +46,7 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping("/personal/{personalId}")
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarAvaliacaoPorPersonal(@PathVariable Long personalId) {
         List<AvaliacaoResponseDTO> avaliacoes = avaliacaoService.buscarAvaliacaoPorPersonal(personalId)
@@ -48,6 +54,7 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
+    @PreAuthorize("@avaliacaoService.usuarioPodeVisualizarUsuario(#userId) or hasRole('USERADMIN')")
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarAvaliacaoPorUsuario(@PathVariable Long userId) {
         List<AvaliacaoResponseDTO> avaliacoes = avaliacaoService.buscarAvaliacaoPorUsuario(userId)
@@ -55,30 +62,34 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
+
+    @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAvaliacao(@RequestBody @Valid AvaliacaoRequestDTO data) {
         AvaliacaoResponseDTO avaliacaoResponseDTO = new AvaliacaoResponseDTO(avaliacaoService.registrarAvaliacao(data));
 
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "Avaliacao cadastrado com sucesso!");
+        response.put("message", "Avaliacao cadastrada com sucesso!");
         response.put("feedback", avaliacaoResponseDTO);
 
         return ResponseEntity.ok(response);
     }
 
 
+    @PreAuthorize("@avaliacaoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarAvaliacao(@PathVariable Long id, @RequestBody @Valid AvaliacaoRequestDTO data) {
         AvaliacaoResponseDTO updatedFeedback = new AvaliacaoResponseDTO(avaliacaoService.atualizarAvaliacao(id, data));
 
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "Avaliacao atualizado com sucesso!");
+        response.put("message", "Avaliacao atualizada com sucesso!");
         response.put("feedback", updatedFeedback);
 
         return ResponseEntity.ok(response);
     }
 
-
+    // Apenas ADMIN ou o USERACAD dono
+    @PreAuthorize("@avaliacaoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
     @DeleteMapping("/{id}/user/{userId}")
     public ResponseEntity<Map<String, String>> deletarAvaliacao(@PathVariable Long id, @PathVariable Long userId) {
         avaliacaoService.deletarAvaliacao(id, userId);
@@ -86,6 +97,5 @@ public class AvaliacaoController {
         response.put("message", "Avaliacao deletado com sucesso!");
         return ResponseEntity.ok(response);
     }
-
-
 }
+

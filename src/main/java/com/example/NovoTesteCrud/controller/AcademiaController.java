@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/academias")
+@RequestMapping("/academia")
 public class AcademiaController {
 
     @Autowired
     private AcademiaService academiaService;
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping
     public ResponseEntity<List<AcademiaResponseDTO>> buscarTodasAcademias() {
         List<AcademiaResponseDTO> academias = academiaService.buscarTodasAcademias().stream()

@@ -1,10 +1,8 @@
 package com.example.NovoTesteCrud.domain.dieta;
 
+import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
-import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -19,23 +17,22 @@ public class Dieta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String titulo;
 
-    @NotBlank
     private String descricao;
 
-    @NotNull
     private Integer calorias;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
     private Objetivo objetivo;
 
     @ManyToOne
     @JoinColumn(name = "user_acad_id")
     private UserAcad userAcad;
-    @NotNull
+
+    @ManyToOne
+    @JoinColumn(name = "personal_id")
+    private Personal personal;
 
     public enum Objetivo {
         BULKING, CUTTING
