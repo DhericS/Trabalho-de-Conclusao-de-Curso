@@ -78,8 +78,6 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-        System.out.println("Token: " + token);
-
         filterChain.doFilter(request, response);
     }
 }

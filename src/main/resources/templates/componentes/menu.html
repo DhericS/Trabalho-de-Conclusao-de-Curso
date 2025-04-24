@@ -1,51 +1,92 @@
-<nav class="menu" th:fragment="menu">
+<header>
   <div class="logo">
-    <a th:href="@{/index}" id="home-link">
+    <a th:href="@{/}" id="home-link">
       <img
-        th:src="@{/src/main/resources/statics/assets/imagens/logo2.png}"
+        src="/assets/imagens/logo2.png"
         alt="Logo Guides Fit"
         style="height: 100px; width: auto"
       />
     </a>
   </div>
-  <div class="nav-links">
-    <a th:href="@{/academias}" id="academias-link">Academias</a>
-    <a th:href="@{/treinos}" id="treinos-link">Treinos</a>
-    <a th:href="@{/personais}" id="personais-link">Personais</a>
-    <a th:href="@{/index#secao-preta-sobre}" id="sobre-link">Sobre</a>
-    <a th:href="@{/login}" id="login-link"
-      ><button class="btn">Login</button></a
-    >
-    <a th:href="@{/cadastro}" id="cadastro-link"
-      ><button class="btn">Registrar-se</button></a
-    >
+
+  <div class="nav">
+    <nav>
+      <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/academias}">Academias</a></li>
+        <li><a th:href="@{/treinos}">Treinos</a></li>
+        <li><a th:href="@{/personais}">Personais</a></li>
+        <li class="link-login">
+        </li>
+        <li class="link-logout">
+        </li>
+      </ul>
+    </nav>
   </div>
 
-  <script>
-    const urlAtual = window.location.pathname.split("/").pop();
-    const links = document.querySelectorAll(".nav-links a");
+  <div class="nav-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-    links.forEach((link) => {
-      const destino = link.getAttribute("href")?.split("/").pop();
-      const id = link.getAttribute("id");
+  <div class="nav-small-views hidden">
+    <nav>
+      <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/academias}">Academias</a></li>
+        <li><a th:href="@{/treinos}">Treinos</a></li>
+        <li><a th:href="@{/personais}">Personais</a></li>
+        <li class="link-login">
+        </li>
+        <li class="link-logout">
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-      if (
-        urlAtual === "index" ||
-        urlAtual === "login" ||
-        urlAtual === "academias" ||
-        urlAtual === "cadastro" ||
-        urlAtual === ""
-      ) {
-        if (
-          (urlAtual !== "login" && id === "login-link") ||
-          (urlAtual !== "cadastro" && id === "cadastro-link") ||
-          id === "academias-link"
-        ) {
-          // mantém visível
-        } else {
-          link.style.display = "none";
-        }
-      }
-    });
-  </script>
-</nav>
+<script defer type="module">
+  const navIcon = document.querySelector('.nav-icon');
+  const navSmallView = document.querySelector('.nav-small-views');
+  const liLinkLogin = document.querySelector('.link-login');
+  const liLinkLogout = document.querySelector('.link-logout');
+
+  navIcon.addEventListener('click', (e) => {
+    if (window.innerWidth <= 677) {
+      navSmallView.classList.toggle('flex-column');
+      navSmallView.classList.toggle('hidden');
+    }
+  })
+
+  const token = localStorage.getItem('token');
+  if (!token) {
+    liLinkLogin.innerHTML = `
+        <a href="/login" id="login-link">
+          <button class="btn">Login</button>
+        </a>
+    `
+    liLinkLogout.innerHTML = `
+        <a href="/cadastro" id="cadastro-link">
+            <button class="btn">Registrar-se</button>
+          </a>
+    `
+  } else {
+    liLinkLogin.innerHTML = `
+        <a href="/perfil-academias" id="login-link">
+          <button class="btn">Meu Perfil</button>
+        </a>
+    `
+    liLinkLogout.innerHTML = `
+        <button class="btn" id="logout-btn">Logout</button>
+    `
+  }
+
+  document.getElementById('logout-btn').addEventListener('click', logout);
+
+  function logout() {
+    console.log('aaaa')
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  }
+</script>

@@ -40,8 +40,8 @@ roleSelect.addEventListener("change", () => {
 
   const commonFields = `
     <div class="mb-3">
-      <label for="fullName" class="form-label fw-semibold">Nome Completo</label>
-      <input type="text" id="fullName" name="fullName" class="form-control" required minlength="3" maxlength="80" />
+      <label for="nome" class="form-label fw-semibold">Nome Completo</label>
+      <input type="text" id="nome" name="nome" class="form-control" required minlength="3" maxlength="80" />
     </div>
 
     <div class="mb-3">
@@ -50,13 +50,13 @@ roleSelect.addEventListener("change", () => {
     </div>
 
     <div class="mb-3">
-      <label for="phone" class="form-label fw-semibold">Celular (Opcional)</label>
-      <input type="tel" id="phone" name="phone" class="form-control" />
+      <label for="telefone" class="form-label fw-semibold">Celular (Opcional)</label>
+      <input type="tel" id="telefone" name="telefone" class="form-control" />
     </div>
 
     <div class="mb-3">
-      <label for="password" class="form-label fw-semibold">Senha (mínimo 6 dígitos)</label>
-      <input type="password" id="password" name="password" class="form-control" minlength="6" required />
+      <label for="senha" class="form-label fw-semibold">Senha (mínimo 6 dígitos)</label>
+      <input type="password" id="senha" name="senha" class="form-control" minlength="6" required />
     </div>
   `;
 
@@ -71,7 +71,7 @@ function applyInputMasks(role) {
     return;
   }
 
-  const phoneInput = document.getElementById("phone");
+  const phoneInput = document.getElementById("telefone");
   if (phoneInput) {
     Inputmask({
       mask: ["(99) 9999-9999", "(99) 99999-9999"],
@@ -87,3 +87,28 @@ function applyInputMasks(role) {
     Inputmask("99999-9/AA").mask(document.getElementById("cref"));
   }
 }
+
+const form = document.getElementById("register-form");
+const pError = document.getElementById('error-paragraph');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(form);
+  const json = {}
+  formData.forEach((vl, key) => json[key] = vl);
+
+  json['role'] = roleSelect.value;
+  json['tipoUsuario'] = roleSelect.value;
+  console.log(json);
+
+  const res = await fetch('auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(json),
+  })
+
+  if (res.status === 200) window.location.href = '/login'
+
+  pError.textContent = 'Erro tente novamente!'
+})
