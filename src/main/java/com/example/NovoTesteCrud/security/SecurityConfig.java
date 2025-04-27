@@ -82,7 +82,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/exercicios").permitAll()
                         .requestMatchers(HttpMethod.GET, "/planos/academia/{academiaId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treino").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/login").permitAll()/**/
                         .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cadastro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/reset-senha").permitAll()

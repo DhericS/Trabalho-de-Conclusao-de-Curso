@@ -44,7 +44,6 @@ public class AutenticacaoController {
     @Autowired private UserAcadAdminRepository userAcadAdminRepository;
     @Autowired private PersonalRepository personalRepository;
     @Autowired private EmailService emailService;
-    @Autowired private ResetarSenhaRepository resetarSenhaRepository;
     @Autowired private ResetarSenhaRedisService resetarSenhaRedisService;
 
 
@@ -175,7 +174,6 @@ public class AutenticacaoController {
     public String forgotPassword(@RequestBody EsquecerSenhaRequest request) throws MessagingException {
         boolean userFound = false;
 
-        // Verifica em cada repositório
         if (userAcadRepository.findByUsuario_Email(request.getEmail()).isPresent() ||
                 userAdminRepository.findByUsuario_Email(request.getEmail()).isPresent() ||
                 userAcadAdminRepository.findByUsuario_Email(request.getEmail()).isPresent() ||
@@ -188,7 +186,7 @@ public class AutenticacaoController {
         }
 
         String token = java.util.UUID.randomUUID().toString();
-        resetarSenhaRedisService.salvarToken(token, request.getEmail(), 60); // salva no Redis por 60 minutos
+        resetarSenhaRedisService.salvarToken(token, request.getEmail(), 60);
 
         String resetLink = "http://localhost:8080/reset-password?token=" + token;
 
@@ -213,7 +211,6 @@ public class AutenticacaoController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         boolean userUpdated = false;
 
-        // Atualiza no repositório correto
         var userAcadOpt = userAcadRepository.findByUsuario_Email(email);
         if (userAcadOpt.isPresent()) {
             var user = userAcadOpt.get();
