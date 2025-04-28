@@ -1,12 +1,22 @@
 package com.example.NovoTesteCrud.controller;
 
+import com.example.NovoTesteCrud.service.AcademiaService;
+import com.example.NovoTesteCrud.service.TreinoService;
+import com.example.NovoTesteCrud.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class PaginasController {
 
-    @GetMapping("/index")
+    @Autowired private AcademiaService academiaService;
+    @Autowired private TreinoService treinoService;
+    @Autowired private UsuarioService usuarioService;
+
+    @GetMapping("/")
     public String index() {
         return "paginas/index";
     }
@@ -42,8 +52,11 @@ public class PaginasController {
     }
 
     @GetMapping("/perfil-academias")
-    public String perfilAcademias() {
-        return "paginas/perfil_academias";
+    public ModelAndView perfilAcademias() {
+        ModelAndView modelAndView = new ModelAndView("paginas/perfil_academias");
+        modelAndView.addObject("gyms", this.academiaService.buscarTodasAcademias());
+
+        return modelAndView;
     }
 
     @GetMapping("/perfil-personais")
@@ -52,8 +65,12 @@ public class PaginasController {
     }
 
     @GetMapping("/academias")
-    public String academias() {
-        return "paginas/academias";
+    public ModelAndView academias() {
+        ModelAndView model = new ModelAndView("paginas/academias");
+
+        model.addObject("gyms", this.academiaService.buscarTodasAcademias());
+
+        return model;
     }
 
     @GetMapping("/cadastrar-academia")
@@ -67,8 +84,11 @@ public class PaginasController {
     }
 
     @GetMapping("/personais")
-    public String personais() {
-        return "paginas/personais";
+    public ModelAndView personais() {
+        ModelAndView model = new ModelAndView("paginas/personais");
+        model.addObject("personais", usuarioService.buscarTodosPersonal());
+
+        return model;
     }
 
     @GetMapping("/detalhes-personais")
@@ -77,12 +97,20 @@ public class PaginasController {
     }
 
     @GetMapping("/treinos")
-    public String treinos() {
-        return "paginas/treinos";
+    public ModelAndView treinos() {
+        ModelAndView model = new ModelAndView("paginas/treinos");
+        model.addObject("trainings", this.treinoService.buscarTodosTreinos());
+
+        return model;
     }
 
     @GetMapping("/detalhes-treinos")
     public String detalhesTreinos() {
         return "paginas/detalhes_treinos";
+    }
+
+    @GetMapping("/cadastrar-treino")
+    public String cadastrarTreino() {
+        return "paginas/cadastrar_treino";
     }
 }

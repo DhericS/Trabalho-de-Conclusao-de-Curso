@@ -8,49 +8,45 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Title+Hero&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/src/main/resources/statics/css/menu.css" />
-    <link rel="stylesheet" href="/src/main/resources/statics/css/rodape.css" />
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/menu.css" />
+
     <title>GuidesFit</title>
+
   </head>
   <body>
-    <div id="nav-placeholder"></div>
+    <div th:replace="componentes/menu"></div>
 
-    <section class="secao secao-branca">
-      <div class="container">
-        <div class="conteudo coluna">
-          <div class="texto">
-            <h2>Guides Fit - Seu Guia Completo para uma Vida Fitness!</h2>
-            <p>
-              Encontre as melhores academias, avalie estrutura e limpeza,
-              descubra horários de pico, acesse treinos para iniciantes e
-              conecte-se com profissionais capacitados. Tudo o que você precisa
-              para manter sua rotina saudável em um só lugar! 💪🔥
-            </p>
-          </div>
-          <div class="imagem">
-            <img
-              src="/src/main/resources/statics/assets/imagens/fundo-de-cidade-demolido-de-darth-vader-4k-lrk5z7pw2kgpincr.webp"
-              alt="Imagem academia"
-              class="img-academia"
-            />
-          </div>
-        </div>
+    <section class="section-white default-padding flex-row">
+      <img
+        src="/assets/imagens/logo2.png"
+        alt="Logo Guides Fit"
+        class="img-logo"
+      />
+      <div>
+        <h2>Guides Fit - Seu Guia Completo para uma Vida Fitness!</h2>
+        <p>
+          Encontre as melhores academias, avalie estrutura e limpeza,
+          descubra horários de pico, acesse treinos para iniciantes e
+          conecte-se com profissionais capacitados. Tudo o que você precisa
+          para manter sua rotina saudável em um só lugar! 💪🔥
+        </p>
       </div>
+        <img
+          src="https://images.pexels.com/photos/2261477/pexels-photo-2261477.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          alt="Imagem academia"
+          class="img-academia"
+        />
     </section>
-    <section class="secao secao-preta">
-      <div class="container">
-        <div class="conteudo-central">
+    <section class="section-black default-padding"
+      style="display: flex; flex-direction: column; gap: 10px; text-align: center; height: 50vh"
+    >
           <h2>Onde gostaria de treinar?</h2>
-          <div class="busca-academias">
+
+          <div class="search-gym">
             <a
-              href="/src/main/resources/templates/paginas/academias.html"
-              class="link-busca"
+              href="/academias"
             >
-              <img
-                src="/src/main/resources/statics/assets/imagens/fundo-de-cidade-demolido-de-darth-vader-4k-lrk5z7pw2kgpincr.webp"
-                alt="Buscar academias"
-                class="img-busca"
-              />
               <div class="campo-busca">
                 <span>Buscar academias</span>
                 <svg
@@ -66,56 +62,51 @@
               </div>
             </a>
           </div>
-        </div>
-      </div>
+
     </section>
-    <section class="secao secao-branca-acesse-treinos">
-      <div class="container">
-        <div class="conteudo">
-          <div class="texto">
-            <h2>
-              <strong>
-                Acesse Treinos <br />
-                & <br />
-                Especialistas
-              </strong>
-            </h2>
-            <p>
-              <strong>Transforme</strong> a tarefa de uma
-              <strong>vida saudável mais fácil!</strong>
-            </p>
+    <section class="section-white default-padding flex-row">
+      <div class="community">
+        <h3>
+          Accesse Treinos
+          <span>
+          &
+          </span>
+          Especialistas
+        </h3>
+        <p>
+          <strong>Transforme</strong>
+          a tarefa de uma <strong>vida saudável mais fácil</strong>
+        </p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <img
+            src="https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Treinos da Comunidade"
+            class="card-img"
+          />
+          <div class="card-body">
+            <h3>Treinos da Comunidade</h3>
+            <a
+              href="/treinos"
+              class="btn-card"
+              >Clique aqui</a
+            >
           </div>
-          <div class="cards">
-            <div class="card">
-              <img
-                src="/src/main/resources/statics/assets/imagens/fundo-de-cidade-demolido-de-darth-vader-4k-lrk5z7pw2kgpincr.webp"
-                alt="Treinos da Comunidade"
-                class="card-img"
-              />
-              <div class="card-body">
-                <h3>Treinos da Comunidade</h3>
-                <a
-                  href="/src/main/resources/templates/paginas/treinos.html"
-                  class="btn-card"
-                  >Clique aqui</a
-                >
-              </div>
-            </div>
-            <div class="card">
-              <img
-                src="/src/main/resources/statics/assets/imagens/fundo-de-cidade-demolido-de-darth-vader-4k-lrk5z7pw2kgpincr.webp"
-                alt="Buscar por Especialistas"
-                class="card-img"
-              />
-              <div class="card-body">
-                <h3>Busque por Especialistas</h3>
-                <a
-                  href="/src/main/resources/templates/paginas/personais.html"
-                  class="btn-card"
-                  >Clique aqui</a
-                >
-              </div>
-            </div>
+        </div>
+        <div class="card">
+          <img
+            src="https://images.pexels.com/photos/13896072/pexels-photo-13896072.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Buscar por Especialistas"
+            class="card-img"
+          />
+          <div class="card-body">
+            <h3>Busque por Especialistas</h3>
+            <a
+              href="/personais"
+              class="btn-card"
+              >Clique aqui</a
+            >
           </div>
         </div>
       </div>
@@ -138,7 +129,7 @@
           <div class="cards">
             <div class="card">
               <img
-                src="/src/main/resources/statics/assets/imagens/fundo-de-cidade-demolido-de-darth-vader-4k-lrk5z7pw2kgpincr.webp"
+                src="https://images.pexels.com/photos/13197535/pexels-photo-13197535.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt="Nome da Academia"
                 class="card-img"
               />
@@ -146,7 +137,7 @@
                 <h3>Nome da Academia</h3>
                 <p>Rua Exemplo, 222 - Bairro - Cidade/UF</p>
                 <a
-                  href="/src/main/resources/templates/paginas/cadastro.html"
+                  href="/cadastro"
                   class="btn-card"
                   >Registre-se</a
                 >
@@ -169,9 +160,9 @@
           <div class="card-personal">
             <div class="foto">
               <img
-                src="/src/main/resources/statics/assets/imagens/fundo-de-cidade-demolido-de-darth-vader-4k-lrk5z7pw2kgpincr.webp"
-                alt="Davi da Silva"
-                class="img-personal"
+                  src="https://images.pexels.com/photos/1552108/pexels-photo-1552108.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                  alt="Buscar por Especialistas"
+                  class="card-img"
               />
             </div>
             <div class="info">
@@ -185,7 +176,7 @@
                 ultricies purus.
               </p>
               <a
-                href="/src/main/resources/templates/paginas/cadastro.html"
+                href="/cadastro"
                 class="btn-card"
                 >Registrar-se</a
               >
@@ -194,42 +185,35 @@
         </div>
       </div>
     </section>
-    <section id="secao-preta-sobre" class="secao-preta-sobre">
-      <div class="container">
-        <div class="conteudo">
-          <div class="texto">
-            <h2>Sobre</h2>
-            <p>
-              A Guides Fit é a sua plataforma completa para encontrar a academia
-              ideal e alcançar seus objetivos fitness de forma inteligente! 🚀🏋️‍♂️
-            </p>
-          </div>
-          <div class="info">
-            <p><strong>Com a nossa solução, você pode:</strong></p>
-            <ul>
-              <li>Descobrir as melhores academias perto de você.</li>
-              <li>Avaliar estrutura e limpeza antes de se matricular.</li>
-              <li>Consultar horários de pico e evitar lotação.</li>
-              <li>
-                Acessar treinos personalizados para iniciantes e avançados.
-              </li>
-              <li>
-                Conectar-se com personal trainers e especialistas do setor.
-              </li>
-            </ul>
-            <p>
-              <strong>Nosso objetivo</strong> é tornar sua experiência mais
-              prática, ajudando você a manter uma rotina saudável com acesso
-              rápido a informações essenciais. Seja qual for sua meta — perder
-              peso, ganhar massa muscular ou melhorar sua qualidade de vida — a
-              Guides Fit está aqui para te guiar no caminho certo!
-            </p>
-          </div>
-        </div>
+
+    <section class="about" id="about">
+      <div class="titles flex-column" style="gap: 8px">
+        <h2 style="text-align: center">Sobre</h2>
+        <p>A Guides Fit é a sua plataforma completa para encontrar a academia ideal e alcançar seus objetivos fitness de forma inteligente! 🚀🏋️‍♂️</p>
       </div>
+      <div class="info">
+          <p><strong>Com a nossa solução, você pode:</strong></p>
+          <ul>
+            <li>Descobrir as melhores academias perto de você.</li>
+            <li>Avaliar estrutura e limpeza antes de se matricular.</li>
+            <li>Consultar horários de pico e evitar lotação.</li>
+            <li>
+              Acessar treinos personalizados para iniciantes e avançados.
+            </li>
+            <li>
+              Conectar-se com personal trainers e especialistas do setor.
+            </li>
+          </ul>
+          <p>
+            <strong>Nosso objetivo</strong> é tornar sua experiência mais
+            prática, ajudando você a manter uma rotina saudável com acesso
+            rápido a informações essenciais. Seja qual for sua meta — perder
+            peso, ganhar massa muscular ou melhorar sua qualidade de vida — a
+            Guides Fit está aqui para te guiar no caminho certo!
+          </p>
+        </div>
     </section>
 
-    <div id="footer-placeholder"></div>
-    <script src="/src/main/resources/statics/js/principal.js"></script>
+    <div th:replace="componentes/rodape"></div>
   </body>
 </html>

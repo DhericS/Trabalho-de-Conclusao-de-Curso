@@ -1,46 +1,47 @@
-a, p, h3 {
-  font-family: 'Inter', sans-serif;
+.search-personal {
+  padding: 3em 3em 0 3em;
 }
 
-h2 {
-  font-family: 'Title Hero', sans-serif;
-  font-size: 28px;
-  margin-top: 20px;
-}
-
-/* Campo de busca */
-.pesquisar {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  width: 700px;
-  max-width: 90%;
-  margin: 20px 0;
-  border-radius: 20px;
-  padding: 10px 16px;
-  color: #4b4b4b;
-  position: relative;
-}
-
-.pesquisar input {
-  padding: 8px;
-  border: none;
-  background-color: transparent;
+.search-personal input {
+  margin-top: 2em;
   width: 100%;
-  outline: none;
-  font-size: 16px;
+  padding: 1em;
+  border: 1px solid lightgray;
+  border-radius: 0.8em;
 }
 
-.fechar-pesquisa {
-  position: absolute;
-  right: 16px;
-  cursor: pointer;
-  font-size: 18px;
-  color: #888;
-  transition: 0.2s;
+.search-personal input:focus {
+  border: 1px solid gray;
 }
 
-.fechar-pesquisa:hover {
-  color: #000;
+main > section {
+  width: 100%;
+}
+
+main .gym-cards {
+  width: 60%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  column-gap: 10px;
+  row-gap: 25px;
+}
+
+main .gym-cards .gym-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+main .gym-cards .gym-card img {
+  width: 100%;
+  background-size: cover;
+  border-radius: 10px;
+}
+
+main .gym-cards .gym-card .gym-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 12px;
 }
