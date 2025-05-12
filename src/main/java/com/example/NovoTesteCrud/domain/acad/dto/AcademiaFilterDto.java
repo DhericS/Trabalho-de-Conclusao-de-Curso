@@ -1,14 +1,13 @@
 package com.example.NovoTesteCrud.domain.acad.dto;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
-import com.example.NovoTesteCrud.domain.acad.dto.enums.Estrutura;
-import com.example.NovoTesteCrud.domain.acad.dto.enums.Servicos;
-import com.example.NovoTesteCrud.domain.acad.dto.enums.TipoAcad;
+import com.example.NovoTesteCrud.domain.acad.enums.Estrutura;
+import com.example.NovoTesteCrud.domain.acad.enums.Servicos;
+import com.example.NovoTesteCrud.domain.acad.enums.TipoAcad;
 import com.example.NovoTesteCrud.infra.FilterSpecification;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
-import java.util.Objects;
 
 public class AcademiaFilterDto implements FilterSpecification<Academia> {
 

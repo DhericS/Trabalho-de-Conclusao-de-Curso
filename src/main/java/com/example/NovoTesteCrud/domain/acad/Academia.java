@@ -1,12 +1,11 @@
 package com.example.NovoTesteCrud.domain.acad;
 
 import com.example.NovoTesteCrud.domain.atvd.Atividade;
-import com.example.NovoTesteCrud.domain.acad.dto.enums.TipoAcad;
-import com.example.NovoTesteCrud.domain.acad.dto.enums.Estrutura;
-import com.example.NovoTesteCrud.domain.acad.dto.enums.Servicos;
+import com.example.NovoTesteCrud.domain.acad.enums.TipoAcad;
+import com.example.NovoTesteCrud.domain.acad.enums.Estrutura;
+import com.example.NovoTesteCrud.domain.acad.enums.Servicos;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,10 +31,12 @@ public class Academia {
     private TipoAcad tipoAcad;
 
 
+    @ElementCollection(targetClass = Estrutura.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "academia_estruturas", joinColumns = @JoinColumn(name = "academia_id"))
     @Column(name = "estrutura")
     private Set<Estrutura> estruturas;
+
 
     @ElementCollection(targetClass = Servicos.class)
     @Enumerated(EnumType.STRING)

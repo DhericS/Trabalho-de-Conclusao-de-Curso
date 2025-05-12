@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.acad.dto.enums;
+package com.example.NovoTesteCrud.domain.acad.enums;
 
 public enum Servicos {
     AVALIACAO_INICIAL("Avaliação física inicial"),
