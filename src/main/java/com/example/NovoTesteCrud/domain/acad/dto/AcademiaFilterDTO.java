@@ -9,13 +9,13 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
-public class AcademiaFilterDto implements FilterSpecification<Academia> {
+public class AcademiaFilterDTO implements FilterSpecification<Academia> {
 
     private final List<TipoAcad> tipos;
     private final List<Estrutura> estruturas;
     private final List<Servicos> servicos;
 
-    public AcademiaFilterDto(List<TipoAcad> tipos, List<Estrutura> estruturas, List<Servicos> servicos) {
+    public AcademiaFilterDTO(List<TipoAcad> tipos, List<Estrutura> estruturas, List<Servicos> servicos) {
         this.tipos = tipos;
         this.estruturas = estruturas;
         this.servicos = servicos;

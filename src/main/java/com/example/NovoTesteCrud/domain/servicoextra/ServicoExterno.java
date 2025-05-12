@@ -1,5 +1,6 @@
-package com.example.NovoTesteCrud.domain.acad;
+package com.example.NovoTesteCrud.domain.servicoextra;
 
+import com.example.NovoTesteCrud.domain.acad.Academia;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +26,9 @@ public class ServicoExterno {
 
     private String link;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "academia_id", nullable = false)
     private Academia academia;
+
 }

@@ -2,7 +2,7 @@ package com.example.NovoTesteCrud.controller;
 
 import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
 import com.example.NovoTesteCrud.domain.acad.dto.AcademiaResponseDTO;
-import com.example.NovoTesteCrud.domain.acad.dto.AcademiaFilterDto;
+import com.example.NovoTesteCrud.domain.acad.dto.AcademiaFilterDTO;
 import com.example.NovoTesteCrud.domain.acad.enums.TipoAcad;
 import com.example.NovoTesteCrud.domain.acad.enums.Estrutura;
 import com.example.NovoTesteCrud.domain.acad.enums.Servicos;
@@ -38,7 +38,7 @@ public class AcademiaController {
             @RequestParam(required = false) List<Estrutura> estruturas,
             @RequestParam(required = false) List<Servicos> servicos
     ) {
-        var filtro = new AcademiaFilterDto(tipos, estruturas, servicos);
+        var filtro = new AcademiaFilterDTO(tipos, estruturas, servicos);
         var lista = academiaService.buscarTodasAcademiasFiltradas(filtro)
                 .stream().map(AcademiaResponseDTO::new).toList();
 

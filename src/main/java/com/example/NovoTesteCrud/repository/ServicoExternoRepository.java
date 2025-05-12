@@ -1,7 +1,7 @@
 package com.example.NovoTesteCrud.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.NovoTesteCrud.domain.acad.ServicoExterno;
+import com.example.NovoTesteCrud.domain.servicoextra.ServicoExterno;
 import java.util.List;
 
 
