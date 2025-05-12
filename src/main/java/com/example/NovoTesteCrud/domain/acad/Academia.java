@@ -31,7 +31,7 @@ public class Academia {
     @Enumerated(EnumType.STRING)
     private TipoAcad tipoAcad;
 
-    @ElementCollection(targetClass = Estrutura.class)
+
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "academia_estruturas", joinColumns = @JoinColumn(name = "academia_id"))
     @Column(name = "estrutura")
