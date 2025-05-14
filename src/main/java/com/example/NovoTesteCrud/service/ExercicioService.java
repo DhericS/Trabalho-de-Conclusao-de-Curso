@@ -6,6 +6,7 @@ import com.example.NovoTesteCrud.domain.treino.Treino;
 import com.example.NovoTesteCrud.repository.ExercicioRepository;
 import com.example.NovoTesteCrud.domain.exercicios.GrupoMuscular;
 import com.example.NovoTesteCrud.domain.exercicios.dto.ExercicioResponseDTO;
+import com.example.NovoTesteCrud.repository.TreinoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class ExercicioService {
 
     @Autowired
     private ExercicioRepository exercicioRepository;
+    @Autowired
+    private TreinoRepository treinoRepository;
 
     public List<ExercicioResponseDTO> buscarTodosExercicios() {
         return exercicioRepository.findAll().stream().map(ExercicioResponseDTO::new).toList();
@@ -50,9 +53,16 @@ public class ExercicioService {
     }
 
     public void deletarExercicioPorId(Long id) {
-        if (!exercicioRepository.existsById(id)) {
-            throw new EntityNotFoundException("Exercício não encontrado com ID: " + id);
+        Exercicio exercicio = exercicioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Exercício não encontrado com ID: " + id));
+
+
+        Treino treino = exercicio.getTreino();
+        if (treino != null) {
+            treino.getExercicios().remove(exercicio);
+            treinoRepository.save(treino);
         }
+
         exercicioRepository.deleteById(id);
     }
 }

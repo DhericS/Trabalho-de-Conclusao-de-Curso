@@ -18,6 +18,12 @@ public class ServicoExternoController {
 
     private final ServicoExternoService service;
 
+
+    @GetMapping
+    public List<ServicoExternoResponseDTO> listar() {
+        return service.listarServicosExternos();
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     public ResponseEntity<?> criar(@RequestBody @Valid ServicoExternoRequestDTO dto) {
@@ -36,11 +42,6 @@ public class ServicoExternoController {
                 "message", "Serviço externo atualizado com sucesso!",
                 "servico", new ServicoExternoResponseDTO(entity)
         ));
-    }
-
-    @GetMapping
-    public List<ServicoExternoResponseDTO> listar() {
-        return service.listarServicosExternos();
     }
 
     @DeleteMapping("/{id}")
