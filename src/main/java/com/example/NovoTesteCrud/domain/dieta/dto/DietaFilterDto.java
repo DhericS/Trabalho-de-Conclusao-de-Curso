@@ -1,7 +1,7 @@
 package com.example.NovoTesteCrud.domain.dieta.dto;
 
 import com.example.NovoTesteCrud.domain.dieta.Dieta;
-import com.example.NovoTesteCrud.domain.dieta.dto.enums.TipoDieta;
+import com.example.NovoTesteCrud.domain.dieta.enums.TipoDieta;
 import com.example.NovoTesteCrud.infra.FilterSpecification;
 import org.springframework.data.jpa.domain.Specification;
 

@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.treino.dto.enums;
+package com.example.NovoTesteCrud.domain.treino.enums;
 
 public enum Tipos {
     MUSCULACAO("Musculação"),

@@ -3,9 +3,9 @@ package com.example.NovoTesteCrud.controller;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoResponseDTO;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoRequestDTO;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoFilterDto;
-import com.example.NovoTesteCrud.domain.treino.dto.enums.Tipos;
-import com.example.NovoTesteCrud.domain.treino.dto.enums.Hipertrofia_Performace;
-import com.example.NovoTesteCrud.domain.treino.dto.enums.Cardio;
+import com.example.NovoTesteCrud.domain.treino.enums.Tipos;
+import com.example.NovoTesteCrud.domain.treino.enums.Hipertrofia_Performace;
+import com.example.NovoTesteCrud.domain.treino.enums.Cardio;
 
 import com.example.NovoTesteCrud.service.TreinoService;
 import jakarta.validation.Valid;
@@ -54,7 +54,7 @@ public class TreinoController {
     }
 
 
-    @PreAuthorize("@treinoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
+    //@PreAuthorize("@treinoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarTreinos(@PathVariable Long id, @RequestBody @Valid TreinoRequestDTO data) {
         TreinoResponseDTO updatedTreino = treinoService.atualizarTreinos(id, data);
@@ -66,7 +66,7 @@ public class TreinoController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("@treinoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
+    //@PreAuthorize("@treinoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarTreinos(@PathVariable Long id) {
         treinoService.deletarTreinos(id);

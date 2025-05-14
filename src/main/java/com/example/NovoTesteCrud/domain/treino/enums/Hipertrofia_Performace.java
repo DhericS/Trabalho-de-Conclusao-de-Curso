@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.treino.dto.enums;
+package com.example.NovoTesteCrud.domain.treino.enums;
 
 public enum Hipertrofia_Performace {
     PESO_LIVRE("Área de peso livre"),

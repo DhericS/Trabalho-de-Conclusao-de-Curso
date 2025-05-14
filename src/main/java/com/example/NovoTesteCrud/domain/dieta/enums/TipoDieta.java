@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.dieta.dto.enums;
+package com.example.NovoTesteCrud.domain.dieta.enums;
 
 public enum TipoDieta {
     BULKING("Ganho de massa"),

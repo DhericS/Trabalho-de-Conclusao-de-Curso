@@ -23,6 +23,13 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PreAuthorize("hasRole('USERADMIN')")
+    @GetMapping("/todos")
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodosUsuarios() {
+        return ResponseEntity.ok(usuarioService.buscarTodosUsuarios());
+    }
+
+
+    @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuariosPorTipo(@RequestParam("tipoUsuario") String tipoUsuario, @RequestHeader("Authorization") String token) {
         return switch (tipoUsuario.toLowerCase()) {

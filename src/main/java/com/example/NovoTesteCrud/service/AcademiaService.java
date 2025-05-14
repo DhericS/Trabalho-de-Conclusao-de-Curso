@@ -39,6 +39,7 @@ public class AcademiaService {
         newAcademia.setNome(data.nome());
         newAcademia.setEndereco(data.endereco());
         newAcademia.setTelefone(data.telefone());
+        newAcademia.setTipoAcad(data.tipoAcad());
 
         return repository.save(newAcademia);
     }
