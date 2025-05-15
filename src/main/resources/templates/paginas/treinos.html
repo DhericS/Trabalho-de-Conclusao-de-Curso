@@ -18,7 +18,7 @@
     <title>GuidesFit</title>
   </head>
   <body>
-      <div th:replace="componentes/menu"></div>
+      <div th:replace="~{componentes/menu}"></div>
 
       <main>
         <aside>
@@ -121,7 +121,7 @@
         </section>
       </main>
 
-    <div th:replace="~{/componentes/rodape}"></div>
+    <div th:replace="~{componentes/rodape}"></div>
 
   <script>
     document.querySelector('#reset').addEventListener('click', (e) => {

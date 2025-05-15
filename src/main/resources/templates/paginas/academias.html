@@ -18,7 +18,7 @@
   <title>GuidesFit</title>
 </head>
 <body>
-<div th:replace="componentes/menu"></div>
+<div th:replace="~{componentes/menu}"></div>
 
 <div class="search-personal">
   <h1>Onde Gostaria de Treinar?</h1>
@@ -131,7 +131,7 @@
 
 </main>
 
-<div th:replace="~{/componentes/rodape}"></div>
+<div th:replace="~{componentes/rodape}"></div>
 
 <script>
   document.querySelector('#reset').addEventListener('click', (e) => {
