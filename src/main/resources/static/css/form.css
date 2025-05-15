@@ -6,12 +6,13 @@ main {
     gap: 50px;
 }
 
-main form {
+main .form {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     column-gap: 35px;
     row-gap: 25px;
+    margin-bottom: 1rem;
 }
 
 main form .input {
@@ -32,3 +33,8 @@ main form .input input:focus, textarea:focus {
     border: 1px solid darkgray;
 }
 
+@media (max-width: 677px) {
+    main {
+        margin-top: 7rem;
+    }
+}

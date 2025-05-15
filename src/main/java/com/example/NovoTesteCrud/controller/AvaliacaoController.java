@@ -31,7 +31,7 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
-    @PreAuthorize("@avaliacaoService.usuarioPodeVisualizar(#id) or hasRole('USERADMIN')")
+    //@PreAuthorize("@avaliacaoService.usuarioPodeVisualizar(#id) or hasRole('USERADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<AvaliacaoResponseDTO> buscarAvaliacaoPorId(@PathVariable Long id) {
         AvaliacaoResponseDTO feedback = new AvaliacaoResponseDTO(avaliacaoService.buscarAvaliacaoPorId(id));
@@ -54,7 +54,7 @@ public class AvaliacaoController {
         return ResponseEntity.ok(avaliacoes);
     }
 
-    @PreAuthorize("@avaliacaoService.usuarioPodeVisualizarUsuario(#userId) or hasRole('USERADMIN')")
+   // @PreAuthorize("@avaliacaoService.usuarioPodeVisualizarUsuario(#userId) or hasRole('USERADMIN')")
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<AvaliacaoResponseDTO>> buscarAvaliacaoPorUsuario(@PathVariable Long userId) {
         List<AvaliacaoResponseDTO> avaliacoes = avaliacaoService.buscarAvaliacaoPorUsuario(userId)
@@ -63,7 +63,7 @@ public class AvaliacaoController {
     }
 
 
-    @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
+   // @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAvaliacao(@RequestBody @Valid AvaliacaoRequestDTO data) {
         AvaliacaoResponseDTO avaliacaoResponseDTO = new AvaliacaoResponseDTO(avaliacaoService.registrarAvaliacao(data));
@@ -76,7 +76,7 @@ public class AvaliacaoController {
     }
 
 
-    @PreAuthorize("@avaliacaoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
+   // @PreAuthorize("@avaliacaoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarAvaliacao(@PathVariable Long id, @RequestBody @Valid AvaliacaoRequestDTO data) {
         AvaliacaoResponseDTO updatedFeedback = new AvaliacaoResponseDTO(avaliacaoService.atualizarAvaliacao(id, data));
@@ -89,7 +89,7 @@ public class AvaliacaoController {
     }
 
     // Apenas ADMIN ou o USERACAD dono
-    @PreAuthorize("@avaliacaoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
+    //@PreAuthorize("@avaliacaoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
     @DeleteMapping("/{id}/user/{userId}")
     public ResponseEntity<Map<String, String>> deletarAvaliacao(@PathVariable Long id, @PathVariable Long userId) {
         avaliacaoService.deletarAvaliacao(id, userId);

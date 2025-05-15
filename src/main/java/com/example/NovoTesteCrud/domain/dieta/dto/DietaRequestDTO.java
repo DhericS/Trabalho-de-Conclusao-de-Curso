@@ -1,6 +1,7 @@
 package com.example.NovoTesteCrud.domain.dieta.dto;
 
 import com.example.NovoTesteCrud.domain.dieta.Dieta.Objetivo;
+import com.example.NovoTesteCrud.domain.dieta.enums.TipoDieta;
 import jakarta.validation.constraints.*;
 
 public record DietaRequestDTO(
@@ -19,6 +20,9 @@ public record DietaRequestDTO(
 
         @NotNull(message = "O objetivo é obrigatório")
         Objetivo objetivo,
+
+        @NotNull(message = "O tipo de dieta é obrigatório")
+        TipoDieta tipoDieta,
 
         // Pelo menos um dos dois deve ser informado
         Long userAcadId,

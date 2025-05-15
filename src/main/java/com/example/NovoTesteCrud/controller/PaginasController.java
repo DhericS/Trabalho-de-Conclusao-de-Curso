@@ -1,15 +1,20 @@
 package com.example.NovoTesteCrud.controller;
 
+import com.example.NovoTesteCrud.domain.user.UserAcad;
+import com.example.NovoTesteCrud.domain.userbase.Role;
+import com.example.NovoTesteCrud.domain.userbase.Usuario;
+import com.example.NovoTesteCrud.security.JwtUtil;
 import com.example.NovoTesteCrud.service.AcademiaService;
 import com.example.NovoTesteCrud.service.TreinoService;
 import com.example.NovoTesteCrud.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
 
 @Controller
 public class PaginasController {
@@ -17,6 +22,7 @@ public class PaginasController {
     @Autowired private AcademiaService academiaService;
     @Autowired private TreinoService treinoService;
     @Autowired private UsuarioService usuarioService;
+    @Autowired private JwtUtil jwtUtil;
 
     @GetMapping("/")
     public String index() {
@@ -48,22 +54,32 @@ public class PaginasController {
         return "paginas/senha";
     }
 
-    @GetMapping("/perfil-usuario")
-    public String perfilUsuario() {
-        return "paginas/perfil_usuario";
-    }
+    @GetMapping("/perfil")
+    public ModelAndView perfil(
+            @CookieValue(defaultValue = "", value = "token") String token
+    ) {
+        if (token == null || token.isBlank()) {
+            return new ModelAndView("redirect:/login");
+        }
 
-    @GetMapping("/perfil-academias")
-    public ModelAndView perfilAcademias() {
-        ModelAndView modelAndView = new ModelAndView("paginas/perfil_academias");
-        modelAndView.addObject("gyms", this.academiaService.buscarTodasAcademias());
+        try {
+            Role role = jwtUtil.extractRole(token);
 
-        return modelAndView;
-    }
+            String email = jwtUtil.extractEmail(token);
+            var user = this.usuarioService.buscarUsuarioPorEmail(email).orElseThrow(Exception::new);
 
-    @GetMapping("/perfil-personais")
-    public String perfilPersonais() {
-        return "paginas/perfil_personais";
+            return switch (role) {
+                case USERADMIN -> new ModelAndView("paginas/perfil_usuario").addObject("user", user);
+                case USERACAD -> new ModelAndView("paginas/perfil_useracad").addObject("user", user);
+                case USERACADADMIN -> new ModelAndView("paginas/perfil_academias")
+                        .addObject("gyms", this.academiaService.buscarTodasAcademias())
+                        .addObject("user", user);
+                case PERSONAL -> new ModelAndView("paginas/perfil_personais").addObject("user", user);
+                default -> new ModelAndView("paginas/index");
+            };
+        } catch (Exception e) {
+            return new ModelAndView("redirect:/login");
+        }
     }
 
     @GetMapping("/academias")
@@ -80,9 +96,15 @@ public class PaginasController {
         return "paginas/cadastrar_academia";
     }
 
-    @GetMapping("/detalhes-academias")
-    public String detalhesAcademias() {
-        return "paginas/detalhes_academias";
+    @GetMapping("/academias/{id}")
+    public ModelAndView detalhesAcademias(
+            @PathVariable Long id
+    ) {
+        ModelAndView model = new ModelAndView("paginas/detalhes_academias");
+
+        model.addObject("gym", this.academiaService.buscarAcademiaPorId(id));
+
+        return model;
     }
 
     @GetMapping("/personais")
@@ -93,9 +115,14 @@ public class PaginasController {
         return model;
     }
 
-    @GetMapping("/detalhes-personais")
-    public String detalhesPersonais() {
-        return "paginas/detalhes_personais";
+    @GetMapping("/personais/{id}")
+    public ModelAndView detalhesPersonais(
+            @PathVariable Long id
+    ) {
+        ModelAndView model = new ModelAndView("paginas/detalhes_personais");
+        model.addObject("personal", this.usuarioService.buscarPersonalPorId(id));
+
+        return model;
     }
 
     @GetMapping("/treinos")
@@ -116,9 +143,52 @@ public class PaginasController {
         return "paginas/cadastrar_treino";
     }
 
-    @GetMapping("/reset-password")
-    public String resetPassword(@RequestParam String token) {
-        return "paginas/reset-password";
-    }
+    @GetMapping("/atualizar-usuario")
+    public ModelAndView atualizarUser(
+            @CookieValue(defaultValue = "", value = "token") String token
+    ) {
+        if (token == null || token.isBlank()) {
+            return new ModelAndView("redirect:/login");
+        }
 
+        try {
+            Role role = jwtUtil.extractRole(token);
+            ModelAndView model = new ModelAndView("paginas/atualizar_usuario");
+            String email = jwtUtil.extractEmail(token);
+            switch (role) {
+                case PERSONAL -> model.addObject("personal",
+                        this.usuarioService.buscarTodosPersonal()
+                                .stream()
+                                .filter(p -> p.getEmail().equals(email))
+                                .findFirst()
+                                .orElse(null)
+                );
+                case USERADMIN -> model.addObject("userAdmin",
+                        this.usuarioService.buscarTodosUserAdmin()
+                                .stream()
+                                .filter(p -> p.getEmail().equals(email))
+                                .findFirst()
+                                .orElse(null)
+                );
+                case USERACAD -> model.addObject("userAcad",
+                        this.usuarioService.buscarTodosUserAcad()
+                                .stream()
+                                .filter(p -> p.getEmail().equals(email))
+                                .findFirst()
+                                .orElse(null)
+                );
+                case USERACADADMIN -> model.addObject("userAcadAdmin",
+                        this.usuarioService.buscarTodosUserAcadAdmin()
+                                .stream()
+                                .filter(p -> p.getEmail().equals(email))
+                                .findFirst()
+                                .orElse(null)
+                );
+            }
+
+            return model;
+        } catch (Exception e) {
+            return new ModelAndView("redirect:/login");
+        }
+    }
 }

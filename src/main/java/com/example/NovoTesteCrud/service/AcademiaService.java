@@ -1,11 +1,13 @@
 package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
+import com.example.NovoTesteCrud.domain.acad.dto.AcademiaFilterDTO;
 import com.example.NovoTesteCrud.repository.AcademiaRepository;
 import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
 import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -25,12 +27,23 @@ public class AcademiaService {
         return repository.findAll();
     }
 
+    public List<Academia> buscarTodasAcademiasFiltradas(AcademiaFilterDTO filter) {
+        Specification<Academia> spec = filter.toSpecification();
+
+        return repository.findAll(spec);
+    }
+
+    public Optional<Academia> buscarAcademiaPorId(Long id) {
+        return this.repository.findById(id);
+    }
+
     @Transactional
     public Academia registrarAcademia(AcademiaRequestDTO data) {
         Academia newAcademia = new Academia();
         newAcademia.setNome(data.nome());
         newAcademia.setEndereco(data.endereco());
         newAcademia.setTelefone(data.telefone());
+        newAcademia.setTipoAcad(data.tipoAcad());
 
         return repository.save(newAcademia);
     }

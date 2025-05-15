@@ -1,3 +1,4 @@
+<html xmlns:th="http://www.thymeleaf.org">
 <header>
   <div class="logo">
     <a th:href="@{/}" id="home-link">
@@ -11,15 +12,8 @@
 
   <div class="nav">
     <nav>
-      <ul>
-        <li><a th:href="@{/}">Home</a></li>
-        <li><a th:href="@{/academias}">Academias</a></li>
-        <li><a th:href="@{/treinos}">Treinos</a></li>
-        <li><a th:href="@{/personais}">Personais</a></li>
-        <li class="link-login">
-        </li>
-        <li class="link-logout">
-        </li>
+      <ul class="menu-links">
+
       </ul>
     </nav>
   </div>
@@ -32,15 +26,7 @@
 
   <div class="nav-small-views hidden">
     <nav>
-      <ul>
-        <li><a th:href="@{/}">Home</a></li>
-        <li><a th:href="@{/academias}">Academias</a></li>
-        <li><a th:href="@{/treinos}">Treinos</a></li>
-        <li><a th:href="@{/personais}">Personais</a></li>
-        <li class="link-login">
-        </li>
-        <li class="link-logout">
-        </li>
+      <ul class="menu-links">
       </ul>
     </nav>
   </div>
@@ -51,6 +37,7 @@
   const navSmallView = document.querySelector('.nav-small-views');
   const liLinkLogin = document.querySelector('.link-login');
   const liLinkLogout = document.querySelector('.link-logout');
+  const menuLinks = document.querySelector('.menu-links');
 
   navIcon.addEventListener('click', (e) => {
     if (window.innerWidth <= 677) {
@@ -60,33 +47,52 @@
   })
 
   const token = localStorage.getItem('token');
+  // if (!token) {
+  //   liLinkLogin.innerHTML = `
+  //       <a href="/login" id="login-link"><button class="btn">Login</button></a>
+  //   `
+  //   liLinkLogout.innerHTML = `
+  //       <a href="/cadastro" id="cadastro-link"><button class="btn">Registrar-se</button></a>
+  //   `
+  // } else {
+  //   liLinkLogin.innerHTML = `
+  //         <button class="btn" id="perfil-btn">Meu Perfil</button>
+  //   `
+  //   liLinkLogout.innerHTML = `
+  //       <button class="btn" id="logout-btn">Logout</button>
+  //   `
+  // }
+
   if (!token) {
-    liLinkLogin.innerHTML = `
-        <a href="/login" id="login-link">
-          <button class="btn">Login</button>
-        </a>
-    `
-    liLinkLogout.innerHTML = `
-        <a href="/cadastro" id="cadastro-link">
-            <button class="btn">Registrar-se</button>
-          </a>
-    `
+    menuLinks.innerHTML = `
+      <li><a href="/">Home</a></li>
+      <li><a href="/academias">Academias</a></li>
+      <li><a href="/login" id="login-link"><button class="btn">Login</button></a></li>
+      <li><a href="/cadastro" id="cadastro-link"><button class="btn">Registrar-se</button></a></li>
+    `;
   } else {
-    liLinkLogin.innerHTML = `
-        <a href="/perfil-academias" id="login-link">
-          <button class="btn">Meu Perfil</button>
-        </a>
-    `
-    liLinkLogout.innerHTML = `
-        <button class="btn" id="logout-btn">Logout</button>
-    `
+    menuLinks.innerHTML = `
+      <li><a href="/">Home</a></li>
+      <li><a href="/academias">Academias</a></li>
+      <li><a href="/treinos">Treinos</a></li>
+      <li><a href="/personais">Personais</a></li>
+      <li><button class="btn" id="perfil-btn">Meu Perfil</button></li>
+      <li class="link-logout"><button class="btn" id="logout-btn">Logout</button></li>
+    `;
   }
 
   document.getElementById('logout-btn').addEventListener('click', logout);
+  document.getElementById('perfil-btn').addEventListener('click', goToProfile);
 
   function logout() {
-    console.log('aaaa')
     localStorage.removeItem('token');
+    document.cookie = `token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
     window.location.href = '/login';
+  }
+
+  function goToProfile() {
+    document.cookie = `token=${token}; path=/;}`;
+
+    window.location.href = '/perfil';
   }
 </script>

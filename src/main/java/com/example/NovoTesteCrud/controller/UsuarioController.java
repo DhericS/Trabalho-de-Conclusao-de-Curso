@@ -1,8 +1,10 @@
 package com.example.NovoTesteCrud.controller;
 
+import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.UsuarioResponseDTO;
+import com.example.NovoTesteCrud.repository.PersonalRepository;
 import com.example.NovoTesteCrud.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,14 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+
+    @PreAuthorize("hasRole('USERADMIN')")
+    @GetMapping("/todos")
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodosUsuarios() {
+        return ResponseEntity.ok(usuarioService.buscarTodosUsuarios());
+    }
+
 
     @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping
