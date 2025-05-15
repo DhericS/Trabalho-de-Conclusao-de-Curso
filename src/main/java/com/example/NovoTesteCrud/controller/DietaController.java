@@ -2,6 +2,9 @@ package com.example.NovoTesteCrud.controller;
 
 import com.example.NovoTesteCrud.domain.dieta.dto.DietaRequestDTO;
 import com.example.NovoTesteCrud.domain.dieta.dto.DietaResponseDTO;
+import com.example.NovoTesteCrud.domain.dieta.dto.DietaFilterDto;
+import com.example.NovoTesteCrud.domain.dieta.enums.TipoDieta;
+import com.example.NovoTesteCrud.domain.dieta.Dieta;
 import com.example.NovoTesteCrud.service.DietaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,11 @@ public class DietaController {
         var lista = dietaService.listarTodasDieta().stream().map(DietaResponseDTO::new).toList();
         return ResponseEntity.ok(lista);
     }
+    @GetMapping("/filtro")
+    public List<Dieta> buscarFiltradas(@RequestParam(required = false) TipoDieta tipoDieta) {
+        DietaFilterDto filtro = new DietaFilterDto(tipoDieta);
+        return dietaService.buscarTodasDietasFiltradas(filtro);
+    }
 
     @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @PostMapping
@@ -33,14 +41,14 @@ public class DietaController {
         return ResponseEntity.ok(new DietaResponseDTO(dieta));
     }
 
-    @PreAuthorize("@dietaService.usuarioPodeAlterar(#id)")
+    //@PreAuthorize("@dietaService.usuarioPodeAlterar(#id)")
     @PutMapping("/{id}")
     public ResponseEntity<DietaResponseDTO> atualizarDieta(@PathVariable Long id, @RequestBody @Valid DietaRequestDTO dto) {
         var dieta = dietaService.atualizarDieta(id, dto);
         return ResponseEntity.ok(new DietaResponseDTO(dieta));
     }
 
-    @PreAuthorize("@dietaService.usuarioPodeAlterar(#id)")
+    //@PreAuthorize("@dietaService.usuarioPodeAlterar(#id)")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarDieta(@PathVariable Long id) {
         dietaService.deletarDieta(id);

@@ -1,6 +1,7 @@
 package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.personal.Personal;
+import com.example.NovoTesteCrud.domain.userbase.dto.UsuarioResponseDTO;
 import com.example.NovoTesteCrud.repository.PersonalRepository;
 import com.example.NovoTesteCrud.domain.personal.RequestPersonal;
 import com.example.NovoTesteCrud.domain.user.RequestUserAcad;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +52,22 @@ public class UsuarioService {
     public List<Personal> buscarTodosPersonal() {
         return personalRepository.findAll();
     }
+
+    public Optional<Personal> buscarPersonalPorId(Long id) {
+        return personalRepository.findById(id);
+    }
+
+    public List<UsuarioResponseDTO> buscarTodosUsuarios() {
+        List<UsuarioResponseDTO> todos = new ArrayList<>();
+
+        todos.addAll(userAcadRepository.findAll().stream().map(UsuarioResponseDTO::new).toList());
+        todos.addAll(userAdminRepository.findAll().stream().map(UsuarioResponseDTO::new).toList());
+        todos.addAll(userAcadAdminRepository.findAll().stream().map(UsuarioResponseDTO::new).toList());
+        todos.addAll(personalRepository.findAll().stream().map(UsuarioResponseDTO::new).toList());
+
+        return todos;
+    }
+
 
     public Optional<Usuario> buscarUsuarioPorEmail(String email) {
         Optional<UserAcad> userAcad = userAcadRepository.findByUsuario_Email(email);
