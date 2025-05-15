@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/menu.css" />
+    <link rel="stylesheet" href="/css/rodape.css" />
+    <link rel="stylesheet" href="/css/form.css" />
+
+    <title>GuidesFit</title>
+</head>
+    <body>
+        <div th:replace="componentes/menu"></div>
+        <main>
+            <h3>
+                Atualizar
+            </h3>
+
+                <form id="form">
+                    <div th:if="${personal}" class="form">
+                        <div class="input">
+                            <label>Nome: </label>
+                            <input type="text" name="name" required th:value="${personal.nome}"/>
+                        </div>
+                        <div class="input">
+                            <label>Email: </label>
+                            <input type="email" name="email" required th:value="${personal.email}"/>
+                        </div>
+                        <div class="input">
+                            <label>Telefone: </label>
+                            <input type="text" name="telefone" th:value="${personal.telefone}" />
+                        </div>
+                        <div class="input">
+                            <label>CNPJ: </label>
+                            <input type="text" name="cnpj" th:value="${personal.cnpj}"/>
+                        </div>
+
+                        <input type="text" name="id" th:value="${personal.id}" style="display: none; opacity: 0; visibility: hidden">
+                        <input type="text" name="tipoUsuario" th:value="${personal.role.toString().toLowerCase()}" style="display: none; opacity: 0; visibility: hidden">
+                    </div>
+                    <div th:if="${userAcadAdmin}" class="form">
+                        <div class="input">
+                            <label>Nome: </label>
+                            <input type="text" name="name" required th:value="${userAcadAdmin.nome}"/>
+                        </div>
+                        <div class="input">
+                            <label>Email: </label>
+                            <input type="email" name="email" required th:value="${userAcadAdmin.email}"/>
+                        </div>
+                        <div class="input">
+                            <label>Telefone: </label>
+                            <input type="text" name="telefone" th:value="${userAcadAdmin.telefone}" />
+                        </div>
+                        <div class="input">
+                            <label>CNPJ: </label>
+                            <input type="text" name="cnpj" th:value="${userAcadAdmin.cnpj}"/>
+                        </div>
+
+                        <input type="text" name="id" th:value="${userAcadAdmin.id}" style="display: none; opacity: 0; visibility: hidden">
+                        <input type="text" name="tipoUsuario" th:value="${userAcadAdmin.role.toString().toLowerCase()}" style="display: none; opacity: 0; visibility: hidden">
+                    </div>
+                    <div th:if="${userAdmin}" class="form">
+                        <div class="input">
+                            <label>Nome: </label>
+                            <input type="text" name="name" required th:value="${userAdmin.nome}"/>
+                        </div>
+                        <div class="input">
+                            <label>Email: </label>
+                            <input type="email" name="email" required th:value="${userAdmin.email}"/>
+                        </div>
+                        <div class="input">
+                            <label>Telefone: </label>
+                            <input type="text" name="telefone" th:value="${userAdmin.telefone}" />
+                        </div>
+
+                        <input type="text" name="id" th:value="${userAdmin.id}" style="display: none; opacity: 0; visibility: hidden">
+                        <input type="text" name="tipoUsuario" th:value="${userAdmin.role.toString().toLowerCase()}" style="display: none; opacity: 0; visibility: hidden">
+                    </div>
+
+                    <button type="submit" class="btn">Atualizar</button>
+                    <div>
+                        <p class="error"></p>
+                    </div>
+                </form>
+        </main>
+
+        <script>
+            const form = document.querySelector('#form');
+            const pError = document.querySelector('.error');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const json = {};
+                formData.forEach((vl, key) => json[key] = vl);
+                console.log(json);
+
+                const token = localStorage.getItem('token');
+                const res = await fetch(`/usuarios/${json.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(json)
+                })
+
+                if (res.status !== 200) {
+                    pError.textContent = 'Erro ao atualizar'
+                    return;
+                }
+
+                window.location.href = '/perfil-academias';
+            })
+        </script>
+    </body>
+</html>

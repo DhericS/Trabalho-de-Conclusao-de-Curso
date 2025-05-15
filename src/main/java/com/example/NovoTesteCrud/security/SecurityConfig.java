@@ -67,6 +67,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .requestMatchers("/static/**", "/css/**", "/js/**", "/assets/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
@@ -89,7 +90,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/treino").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treino/filtro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/login").permitAll()/**/
-                        .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cadastro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/reset-senha").permitAll()
                         .requestMatchers(HttpMethod.GET, "/troca-senha").permitAll()

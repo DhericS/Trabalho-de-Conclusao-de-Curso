@@ -33,6 +33,10 @@ public class AcademiaService {
         return repository.findAll(spec);
     }
 
+    public Optional<Academia> buscarAcademiaPorId(Long id) {
+        return this.repository.findById(id);
+    }
+
     @Transactional
     public Academia registrarAcademia(AcademiaRequestDTO data) {
         Academia newAcademia = new Academia();

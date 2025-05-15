@@ -10,7 +10,7 @@ roleSelect.addEventListener("change", () => {
   let specificField = "";
 
   switch (role) {
-    case "estabelecimento":
+    case "useracadadmin":
       specificField = `
         <div class="mb-3">
           <label for="cnpj" class="form-label fw-semibold">CNPJ</label>
@@ -28,7 +28,7 @@ roleSelect.addEventListener("change", () => {
       `;
       break;
 
-    case "aluno":
+    case "useradmin":
       specificField = `
         <div class="mb-3">
           <label for="cpf" class="form-label fw-semibold">CPF</label>
@@ -50,8 +50,8 @@ roleSelect.addEventListener("change", () => {
     </div>
 
     <div class="mb-3">
-      <label for="telefone" class="form-label fw-semibold">Celular (Opcional)</label>
-      <input type="tel" id="telefone" name="telefone" class="form-control" />
+      <label for="telefone" class="form-label fw-semibold">Celular </label>
+      <input type="tel" id="telefone" name="telefone" class="form-control" required />
     </div>
 
     <div class="mb-3">
@@ -79,7 +79,7 @@ function applyInputMasks(role) {
     }).mask(phoneInput);
   }
 
-  if (role === "estabelecimento") {
+  if (role === "useracadadmin") {
     Inputmask("99.999.999/9999-99").mask(document.getElementById("cnpj"));
   } else if (role === "aluno") {
     Inputmask("999.999.999-99").mask(document.getElementById("cpf"));
@@ -100,6 +100,7 @@ form.addEventListener('submit', async (e) => {
 
   json['role'] = roleSelect.value;
   json['tipoUsuario'] = roleSelect.value;
+
   console.log(json);
 
   const res = await fetch('auth/register', {

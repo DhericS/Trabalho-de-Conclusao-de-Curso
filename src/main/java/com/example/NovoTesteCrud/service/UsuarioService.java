@@ -53,6 +53,10 @@ public class UsuarioService {
         return personalRepository.findAll();
     }
 
+    public Optional<Personal> buscarPersonalPorId(Long id) {
+        return personalRepository.findById(id);
+    }
+
     public List<UsuarioResponseDTO> buscarTodosUsuarios() {
         List<UsuarioResponseDTO> todos = new ArrayList<>();
 

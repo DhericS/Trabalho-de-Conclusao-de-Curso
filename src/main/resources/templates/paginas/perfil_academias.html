@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
@@ -14,67 +15,40 @@
   <body>
     <div th:replace="componentes/menu"></div>
     <main>
-      <h2>Bem Vindo, Davi</h2>
+      <h2>Bem Vindo, <strong th:text="${user.nome}"></strong></h2>
 
       <section class="user-info">
         <div class="info">
           <p>
             <strong>Nome: </strong>
-            Davi
+            <span th:text="${user.nome}"></span>
           </p>
         </div>
         <div class="info">
           <p>
             <strong>Email: </strong>
-            Davi
-          </p>
-        </div>
-        <div class="info">
-          <p>
-            <strong>Sexo: </strong>
-            Davi
-          </p>
-        </div>
-        <div class="info">
-          <p>
-            <strong>Tipo de Acesso: </strong>
-            Davi
+            <span th:text="${user.email}"></span>
           </p>
         </div>
         <div class="info">
           <p>
             <strong>Telefone: </strong>
-            Davi
+            <span th:text="${user.telefone}"></span>
           </p>
         </div>
         <div class="info">
           <p>
-            <strong>Nascimento: </strong>
-            Davi
+            <strong>Tipo de Acesso: </strong>
+            <span th:text="${user.role}"></span>
           </p>
-        </div>
-        <div class="info">
-          <p>
-            <strong>CNPJ: </strong>
-            Davi
-          </p>
-        </div>
-        <div class="info">
-          <p>
-            <strong>Endereço: </strong>
-            Davi
-          </p>
-        </div>
-        <div class="info">
-          <p>
-            <strong>Estado Civil: </strong>
-            Davi
-          </p>
-        </div>
-        <div>
-          <a href="#">Alterar Senha</a>
         </div>
       </section>
+      <div>
+        <a href="#">Alterar Senha</a>
+      </div>
+      <div>
+        <a href="/atualizar-usuario">Alterar Informações</a>
+      </div>
 
       <section class="academia-info">
         <div class="titles">
@@ -94,15 +68,17 @@
 
           <div class="gym-card" th:each="gym : ${gyms}">
             <img
-                src="/assets/imagens/fundo-de-cidade-demolido-de-darth-vader-4k-lrk5z7pw2kgpincr.webp"
-                alt="Imagem academia"
+                    src="https://st2.depositphotos.com/2586633/46477/v/450/depositphotos_464771766-stock-illustration-no-photo-or-blank-image.jpg"
+                    alt="Imagem academia"
             />
             <div class="gym-info">
               <h4 th:text="${gym.nome}">Nome Academia</h4>
               <p th:text="${gym.endereco}">informações</p>
               <p th:text="${gym.activities}">informações</p>
 
-              <button class="btn">Ver detalhes</button>
+              <a th:href="@{/academias/{id}(id=${gym.id})}">
+                <button class="btn-link">Ver detalhes</button>
+              </a>
               <button id="btnDelete" class="btn" style="background: red" th:value="${gym.id}">Deletar</button>
             </div>
           </div>
