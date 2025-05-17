@@ -114,7 +114,25 @@
                     return;
                 }
 
-                window.location.href = '/perfil-academias';
+                if (token) {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    const role = payload.role;
+
+                    if (role === 'USERADMIN') {
+                        window.location.href = '/perfil';
+                    } else if (role === 'USERACADADMIN') {
+                        window.location.href = '/perfil-academias';
+                    } else if (role === 'USERACAD') {
+                        window.location.href = '/perfil-useracad';
+                    } else if (role === 'PERSONAL') {
+                        window.location.href = '/perfil-personais';
+                    } else {
+                        window.location.href = '/login';
+                    }
+                } else {
+                    // Se não tiver token, manda para login
+                    window.location.href = '/login';
+                }
             })
         </script>
     </body>
