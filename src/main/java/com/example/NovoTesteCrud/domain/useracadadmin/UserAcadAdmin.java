@@ -41,7 +41,6 @@ public class UserAcadAdmin {
     public void atualizarDados(RequestUserAcadAdmin data) {
         usuario.setNome(data.name());
         usuario.setEmail(data.email());
-        usuario.setSenha(data.senha());
         usuario.setTelefone(data.telefone());
         this.cnpj = data.cnpj();
         this.academia = new Academia(data.academiaId());

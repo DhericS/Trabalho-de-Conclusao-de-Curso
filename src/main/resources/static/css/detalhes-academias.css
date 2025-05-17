@@ -99,3 +99,319 @@ main {
         width: 100%;
     }
 }
+
+/* Estilização do container geral */
+#planos-section {
+  margin-top: 3em;
+  padding: 1em 0;
+}
+
+#planos-section h2 {
+  font-size: 2em;
+  margin-bottom: 1em;
+  text-align: center;
+  color: #333;
+}
+
+.planos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5em;
+  justify-content: center;
+}
+
+/* Card do plano */
+.plano-card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 2em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  transition: transform 0.3s ease;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.plano-card:hover {
+  transform: translateY(-5px);
+  border-color: #ffba00;
+}
+
+.plano-card h4 {
+  font-size: 1.6em;
+  color: #000;
+  margin-bottom: 0.5em;
+}
+
+.plano-card p {
+  margin-bottom: 0.5em;
+  color: #555;
+}
+
+.plano-card strong {
+  color: #000;
+  font-size: 1.2em;
+}
+
+/* Botões */
+.plano-card button {
+  margin-top: 0.5em;
+  padding: 0.7em;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.plano-card button:first-of-type {
+  background-color: #ffba00;
+  color: #000;
+}
+
+.plano-card button:last-of-type {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.plano-card button:hover {
+  opacity: 0.85;
+}
+
+/* Botão de novo plano */
+#planos-section > button {
+  display: block;
+  margin: 2em auto 0;
+  background-color: #ffba00;
+  color: #000;
+  font-weight: bold;
+  padding: 0.8em 2em;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#planos-section > button:hover {
+  background-color: #e6a800;
+}
+
+/* Formulário */
+#formulario-plano {
+  max-width: 400px;
+  margin: 2em auto;
+  background-color: #f7f7f7;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#formulario-plano label {
+  display: block;
+  margin-top: 1em;
+  font-weight: bold;
+  color: #333;
+}
+
+#formulario-plano input {
+  width: 100%;
+  padding: 0.6em;
+  margin-top: 0.3em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#formulario-plano button {
+  margin-top: 1em;
+  padding: 0.7em;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#formulario-plano button[type="submit"] {
+  background-color: #27ae60;
+  color: #fff;
+}
+
+#formulario-plano button[type="button"] {
+  background-color: #bdc3c7;
+  color: #000;
+}
+
+.main-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  padding: 2em;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+/* Blocos internos dentro da coluna direita */
+.bloco-conteudo {
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fafafa;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Títulos */
+.bloco-conteudo h2 {
+  font-size: 1.4em;
+  margin-bottom: 1em;
+  color: #333;
+}
+
+/* Horários */
+.bloco-conteudo p {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+}
+
+.bloco-conteudo h5 {
+  margin-top: 1em;
+  color: #555;
+}
+
+/* Lista de atividades */
+.lista-atividades {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1em;
+}
+
+.lista-atividades li {
+  padding: 0.5em 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Botão Nova Atividade */
+#atividades-section > button {
+  background-color: #ffba00;
+  color: #000;
+  font-weight: bold;
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#atividades-section > button:hover {
+  background-color: #e6a800;
+}
+
+#btn-nova-atividade {
+  background-color: #ffba00;
+  color: #000;
+  font-weight: bold;
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#btn-nova-atividade:hover {
+  background-color: #e6a800;
+}
+
+#formulario-atividade {
+  max-width: 400px;
+  margin: 2em auto;
+  background-color: #f7f7f7;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#formulario-atividade label {
+  display: block;
+  margin-top: 1em;
+  font-weight: bold;
+  color: #333;
+}
+
+#formulario-atividade input {
+  width: 100%;
+  padding: 0.6em;
+  margin-top: 0.3em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#formulario-atividade button {
+  margin-top: 1em;
+  padding: 0.7em;
+  width: 48%;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#formulario-atividade button[type="submit"] {
+  background-color: #27ae60;
+  color: #fff;
+}
+
+#formulario-atividade button[type="button"] {
+  background-color: #bdc3c7;
+  color: #000;
+}
+
+.btn-editar {
+  background-color: #ffba00;
+  color: #000;
+  font-weight: bold;
+  padding: 0.4em 0.8em;
+  margin-right: 0.5em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-excluir {
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  padding: 0.4em 0.8em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-editar:hover {
+  background-color: #e6a800;
+}
+
+.btn-excluir:hover {
+  background-color: #c0392b;
+}
+
+
+/* Responsivo */
+@media (max-width: 967px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .main-left,
+  .main-right {
+    width: 100%;
+  }
+}

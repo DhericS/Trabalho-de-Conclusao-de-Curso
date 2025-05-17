@@ -10,7 +10,7 @@ public record RequestUserAcadAdmin(
         @NotBlank(message = "O nome é obrigatório") String name,
         @Email(message = "E-mail inválido") @NotBlank(message = "O e-mail é obrigatório") String email,
         @NotBlank(message = "O CNPJ é obrigatório") String cnpj,
-        @NotBlank(message = "A senha é obrigatória") String senha,
+        String senha,
         Long academiaId,
         @NotBlank(message = "O telefone é obrigatório")
         @Pattern(regexp = "\\d{10,11}", message = "O telefone deve ter entre 10 e 11 dígitos") String telefone,

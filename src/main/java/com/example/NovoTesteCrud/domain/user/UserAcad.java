@@ -35,7 +35,6 @@ public class UserAcad {
     public void atualizarDados(RequestUserAcad data) {
         usuario.setNome(data.name());
         usuario.setEmail(data.email());
-        usuario.setSenha(data.senha());
         usuario.setTelefone(data.telefone());
     }
 }

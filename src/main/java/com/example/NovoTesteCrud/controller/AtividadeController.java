@@ -37,7 +37,7 @@ public class AtividadeController {
         return ResponseEntity.ok(atividades);
     }
 
-    @PreAuthorize("@academiaService.usuarioPodeGerenciar(#data.academiaId) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    //@PreAuthorize("@academiaService.usuarioPodeGerenciar(#data.academiaId) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAtividade(@RequestBody @Valid AtividadeRequestDTO data) {
         AtividadeResponseDTO atividadeResponseDTO = new AtividadeResponseDTO(atividadeService.registrarAtividade(data));

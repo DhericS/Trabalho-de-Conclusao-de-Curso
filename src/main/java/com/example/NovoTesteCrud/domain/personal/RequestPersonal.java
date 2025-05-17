@@ -9,7 +9,7 @@ public record RequestPersonal(
         Long id,
         @NotBlank(message = "O nome é obrigatório") String name,
         @NotBlank(message = "O e-mail é obrigatório") @Email(message = "E-mail inválido") String email,
-        @NotBlank(message = "A senha é obrigatória") String senha,
+        String senha,
         @NotBlank(message = "O telefone é obrigatório") String telefone,
         @NotBlank(message = "O CREF é obrigatório") String cref,
         Role role

@@ -59,34 +59,244 @@
           </div>
         </section>
 
-        <section class="main-right">
-          <div class="container">
+        <!-- Coluna Direita -->
+        <div class="main-right">
+          <!-- Horário -->
+          <section class="bloco-conteudo">
             <h2>Horário de Funcionamento</h2>
-
             <div>
-              <p>
-                Segunda á sexta
-                <span>06:00 ás 23:00</span>
-              </p><p>
-                Sábado
-                <span>07:00 ás 20:00</span>
-              </p><p>
-                Domingo/Feriado
-                <span>07:00 ás 14:00</span>
-              </p>
+              <p>Segunda á sexta <span>06:00 ás 23:00</span></p>
+              <p>Sábado <span>07:00 ás 20:00</span></p>
+              <p>Domingo/Feriado <span>07:00 ás 14:00</span></p>
             </div>
-
             <h5>Ver Horários de Pico</h5>
+          </section>
 
+          <!-- Atividades -->
+          <section class="bloco-conteudo">
+            <h2>Atividades da Academia</h2>
+            <ul id="atividades-list" class="lista-atividades"></ul>
+            <button id="btn-nova-atividade" onclick="abrirFormularioAtividade()">+ Nova Atividade</button>
+          </section>
+
+          <div id="formulario-atividade" style="display:none; margin-top:2em">
+            <h3 id="form-titulo-atividade">Nova Atividade</h3>
+            <form id="atividade-form" onsubmit="salvarAtividade(event)">
+              <input type="hidden" id="atividade-id" />
+              <input type="hidden" id="academia-id-atividade" th:value="${gym.get().id}" />
+
+              <label>Nome:</label>
+              <input type="text" id="atividade-nome" required /><br/>
+
+              <button type="submit">Salvar</button>
+              <button type="button" onclick="cancelarAtividade()">Cancelar</button>
+            </form>
           </div>
-        </section>
-
+        </div>
 
       </section>
+      <section id="planos-section" style="margin-top: 3em">
+        <h2>Planos Disponíveis</h2>
+        <div id="planos-container" class="planos-grid"></div>
+        <button onclick="abrirFormulario()">+ Novo Plano</button>
+      </section>
+
+
+      <div id="formulario-plano" style="display:none; margin-top:2em">
+        <h3 id="form-titulo">Novo Plano</h3>
+        <form id="plano-form" onsubmit="salvarPlano(event)">
+          <input type="hidden" id="plano-id" />
+          <input type="hidden" id="academia-id" th:value="${gym.get().id}" />
+
+          <label>Nome:</label>
+          <input type="text" id="plano-nome" required><br/>
+
+          <label>Descrição:</label>
+          <input type="text" id="plano-descricao" required><br/>
+
+          <label>Preço:</label>
+          <input type="number" step="0.01" id="plano-preco" required><br/>
+
+          <button type="submit">Salvar</button>
+          <button type="button" onclick="cancelar()">Cancelar</button>
+        </form>
+      </div>
+
 
     </main>
 
+
     <script>
+      const academiaId = document.getElementById("academia-id").value;
+      const academiaIdAtividade = document.getElementById("academia-id-atividade").value;
+      const token = localStorage.getItem("token");
+
+      document.addEventListener("DOMContentLoaded", carregarPlanos);
+
+      function carregarPlanos() {
+        fetch(`/planos/academia/${academiaId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(planos => {
+          const container = document.getElementById("planos-container");
+          container.innerHTML = "";
+
+          planos.forEach(plano => {
+            const div = document.createElement("div");
+            div.className = "plano-card";
+            div.innerHTML = `
+              <h4>${plano.nome}</h4>
+              <p>${plano.descricao}</p>
+              <p><strong>R$ ${plano.preco.toFixed(2)}</strong></p>
+              <button onclick="editarPlano(${plano.id}, '${plano.nome}', '${plano.descricao}', ${plano.preco})">Editar</button>
+              <button onclick="deletarPlano(${plano.id})">Excluir</button>
+            `;
+            container.appendChild(div);
+          });
+        });
+      }
+
+      function abrirFormulario() {
+        document.getElementById("formulario-plano").style.display = "block";
+        document.getElementById("form-titulo").innerText = "Novo Plano";
+        document.getElementById("plano-id").value = "";
+        document.getElementById("plano-form").reset();
+      }
+
+      function editarPlano(id, nome, descricao, preco) {
+        abrirFormulario();
+        document.getElementById("form-titulo").innerText = "Editar Plano";
+        document.getElementById("plano-id").value = id;
+        document.getElementById("plano-nome").value = nome;
+        document.getElementById("plano-descricao").value = descricao;
+        document.getElementById("plano-preco").value = preco;
+      }
+
+      function cancelar() {
+        document.getElementById("formulario-plano").style.display = "none";
+      }
+
+      function salvarPlano(e) {
+        e.preventDefault();
+        const id = document.getElementById("plano-id").value;
+        const nome = document.getElementById("plano-nome").value;
+        const descricao = document.getElementById("plano-descricao").value;
+        const preco = parseFloat(document.getElementById("plano-preco").value);
+        const academiaId = document.getElementById("academia-id").value;
+
+        const body = { nome, descricao, preco, academiaId };
+
+        const method = id ? "PUT" : "POST";
+        const url = id ? `/planos/${id}` : `/planos`;
+
+        fetch(url, {
+          method: method,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(body)
+        })
+        .then(res => res.json())
+        .then(() => {
+          cancelar();
+          carregarPlanos();
+        });
+      }
+
+      function deletarPlano(id) {
+        if (!confirm("Deseja excluir este plano?")) return;
+
+        fetch(`/planos/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(() => carregarPlanos());
+      }
+
+     // ATIVIDADES
+    function carregarAtividades() {
+      fetch(`/atividades/academia/${academiaIdAtividade}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(res => res.json())
+        .then(atividades => {
+          const lista = document.getElementById("atividades-list");
+          lista.innerHTML = "";
+
+          if (atividades.length === 0) {
+            lista.innerHTML = "<p>Esta academia ainda não cadastrou atividades.</p>";
+            return;
+          }
+
+          atividades.forEach(atividade => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+              ${atividade.nome}
+              <button class="btn-editar" onclick="editarAtividade(${atividade.id}, '${atividade.nome}')">Editar</button>
+              <button class="btn-excluir" onclick="deletarAtividade(${atividade.id})">Excluir</button>
+            `;
+
+            lista.appendChild(li);
+          });
+        });
+    }
+
+    function abrirFormularioAtividade() {
+      document.getElementById("formulario-atividade").style.display = "block";
+      document.getElementById("form-titulo-atividade").innerText = "Nova Atividade";
+      document.getElementById("atividade-id").value = "";
+      document.getElementById("atividade-form").reset();
+    }
+
+    function editarAtividade(id, nome) {
+      abrirFormularioAtividade();
+      document.getElementById("form-titulo-atividade").innerText = "Editar Atividade";
+      document.getElementById("atividade-id").value = id;
+      document.getElementById("atividade-nome").value = nome;
+    }
+
+    function cancelarAtividade() {
+      document.getElementById("formulario-atividade").style.display = "none";
+    }
+
+    function salvarAtividade(e) {
+      e.preventDefault();
+      const id = document.getElementById("atividade-id").value;
+      const nome = document.getElementById("atividade-nome").value;
+
+      const body = { nome, academiaId: academiaIdAtividade };
+      const method = id ? "PUT" : "POST";
+      const url = id ? `/atividades/${id}` : `/atividades`;
+
+      fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(body)
+      })
+        .then(res => res.json())
+        .then(() => {
+          cancelarAtividade();
+          carregarAtividades();
+        });
+    }
+
+    function deletarAtividade(id) {
+      if (!confirm("Deseja excluir esta atividade?")) return;
+      fetch(`/atividades/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      }).then(() => carregarAtividades());
+    }
     </script>
+
   </body>
 </html>

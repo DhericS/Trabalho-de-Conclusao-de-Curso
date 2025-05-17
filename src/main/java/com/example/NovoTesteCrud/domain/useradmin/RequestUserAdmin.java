@@ -13,7 +13,7 @@ public record RequestUserAdmin(
         @Email(message = "E-mail inválido")
         String email,
 
-        @NotBlank(message = "A senha é obrigatória")
+
         String senha,
 
         @NotBlank(message = "O numero de telefone é obrigatório")

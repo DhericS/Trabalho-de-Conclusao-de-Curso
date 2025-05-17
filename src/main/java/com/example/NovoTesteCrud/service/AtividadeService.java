@@ -45,7 +45,7 @@ public class AtividadeService {
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
         Atividade newAtividade = new Atividade();
-        newAtividade.setNome(data.name());
+        newAtividade.setNome(data.nome());
         newAtividade.setAcademia(academia);
 
         return atividadeRepository.save(newAtividade);
@@ -56,7 +56,7 @@ public class AtividadeService {
         Atividade atividade = atividadeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada!"));
 
-        atividade.setNome(data.name());
+        atividade.setNome(data.nome());
 
         return atividadeRepository.save(atividade);
     }
