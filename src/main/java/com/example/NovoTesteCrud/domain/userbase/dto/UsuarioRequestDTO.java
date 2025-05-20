@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record UsuarioRequestDTO(
         Long id,
-        @NotBlank(message = "O nome é obrigatório") String name,
+        @NotBlank(message = "O nome é obrigatório") String nome,
         @NotBlank(message = "O e-mail é obrigatório") @Email(message = "E-mail inválido") String email,
         String senha,
         @NotBlank(message = "O telefone é obrigatório") String telefone

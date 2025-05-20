@@ -7,6 +7,7 @@ import com.example.NovoTesteCrud.domain.treino.enums.Tipos;
 import com.example.NovoTesteCrud.domain.treino.enums.Hipertrofia_Performace;
 import com.example.NovoTesteCrud.domain.treino.enums.Cardio;
 
+import com.example.NovoTesteCrud.security.JwtUtil;
 import com.example.NovoTesteCrud.service.TreinoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class TreinoController {
     @Autowired
     private TreinoService treinoService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @GetMapping
     public ResponseEntity<List<TreinoResponseDTO>> buscarTodosTreinos() {
         return ResponseEntity.ok(treinoService.buscarTodosTreinos());
@@ -44,6 +48,7 @@ public class TreinoController {
     @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarTreinos(@RequestBody TreinoRequestDTO data) {
+
         TreinoResponseDTO treinoResponseDTO = treinoService.registrarTreinos(data);
 
         Map<String, Object> response = new HashMap<>();

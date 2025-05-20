@@ -29,8 +29,8 @@ public class Usuario {
     @Column(nullable = false)
     private Role role;
 
-    public Usuario(String name, String email, String senha, String telefone, Role role) {
-        this.nome = name;
+    public Usuario(String nome, String email, String senha, String telefone, Role role) {
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;

@@ -32,6 +32,14 @@ public class AcademiaController {
                 .toList();
         return ResponseEntity.ok(academias);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AcademiaResponseDTO> buscarPorId(@PathVariable Long id) {
+        var academia = academiaService.buscarPorId(id);
+        return ResponseEntity.ok(new AcademiaResponseDTO(academia));
+    }
+
+
     @GetMapping("/filtro")
     public ResponseEntity<List<AcademiaResponseDTO>> buscarComFiltro(
             @RequestParam(required = false) List<TipoAcad> tipos,
@@ -56,7 +64,6 @@ public class AcademiaController {
     }
 
     @PreAuthorize("@academiaService.usuarioPodeGerenciar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
-
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarAcademia(@PathVariable Long id, @RequestBody @Valid AcademiaRequestDTO data) {
         AcademiaResponseDTO updatedAcademia = new AcademiaResponseDTO(academiaService.atualizarAcademia(data, id));
@@ -67,7 +74,6 @@ public class AcademiaController {
     }
 
     @PreAuthorize("@academiaService.usuarioPodeGerenciar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarAcademia(@PathVariable Long id) {
         academiaService.deletarAcademia(id);

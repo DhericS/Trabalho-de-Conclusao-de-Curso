@@ -22,8 +22,8 @@ public class UserAcad {
     @Delegate
     private Usuario usuario;
 
-    public UserAcad(Long id, String name, String email, String senha, String telefone, Role role) {
-        this.usuario = new Usuario(name, email, senha, telefone, role);
+    public UserAcad(Long id, String nome, String email, String senha, String telefone, Role role) {
+        this.usuario = new Usuario(nome, email, senha, telefone, role);
         this.id = id;
     }
 
@@ -33,8 +33,9 @@ public class UserAcad {
     }
 
     public void atualizarDados(RequestUserAcad data) {
-        usuario.setNome(data.name());
+        usuario.setNome(data.nome());
         usuario.setEmail(data.email());
+        usuario.setSenha(data.senha());
         usuario.setTelefone(data.telefone());
     }
 }

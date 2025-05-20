@@ -32,6 +32,13 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(planos);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PlanoAcademiaResponseDTO> buscarPorId(@PathVariable Long id) {
+        return planoAcademiaService.buscarPorId(id)
+                .map(plano -> ResponseEntity.ok(new PlanoAcademiaResponseDTO(plano)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 //    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<PlanoAcademiaResponseDTO>> buscarPlanosPorAcademia(@PathVariable Long academiaId) {

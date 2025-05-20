@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public record RequestUserAcadAdmin(
-        @NotBlank(message = "O nome é obrigatório") String name,
+        @NotBlank(message = "O nome é obrigatório") String nome,
         @Email(message = "E-mail inválido") @NotBlank(message = "O e-mail é obrigatório") String email,
         @NotBlank(message = "O CNPJ é obrigatório") String cnpj,
         String senha,

@@ -94,9 +94,9 @@
 
         <section>
           <h3>Cadastre treinos para a Comunidade</h3>
-          <a href="/cadastrar-treino">
-            <button class="btn">Cadastrar Treino</button>
-          </a>
+          <button type="button" id="btn-register">
+            cadastrar treino
+          </button>
 
           <p th:if="${trainings.isEmpty()}" style="margin-top: 3em">
             Nenhum Treino Encontrado
@@ -106,9 +106,8 @@
             <div class="training" th:each="training : ${trainings}">
               <div>
                 <h4 th:text="${training.nome}">Musculação</h4>
-                <a href="#">
-                  <button class="btn">Saber Mais</button>
-                </a>
+                <button class="btn btnEditar" th:value="${training.id}" >Editar</button>
+                <button class="btnDelete btn" style="background: red" th:value="${training.id}">Deletar</button>
               </div>
               <p>Cadastro Por: </p>
               <p>
@@ -128,6 +127,50 @@
       e.preventDefault();
 
       window.location = '/treinos';
+    })
+
+    const btnDelete = document.querySelectorAll('.btnDelete');
+    const btnEditar = document.querySelectorAll('.btnEditar');
+    const btnRegister = document.querySelector('#btn-register');
+    const token = localStorage.getItem('token');
+
+    btnEditar.forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const id = e.target.value;
+        document.cookie = `token=${token}`;
+
+        window.location.href = `treinos/${id}`;
+      })
+    });
+
+    btnRegister.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('FOI')
+      document.cookie = `token=${token}`;
+
+      window.location.href = "cadastrar-treino";
+    })
+
+    btnDelete.forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const id = e.target.value;
+        const res = await fetch(`/treino/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        const data = res.json();
+
+        if (res.status !== 200) {
+          window.alert('Error');
+
+          return;
+        }
+
+        window.location.reload();
+      })
     })
   </script>
   </body>

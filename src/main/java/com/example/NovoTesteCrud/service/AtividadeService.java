@@ -39,6 +39,11 @@ public class AtividadeService {
         return atividadeRepository.findByAcademia(academia);
     }
 
+    public Atividade buscarPorId(Long id) {
+        return atividadeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada com ID: " + id));
+    }
+
     @Transactional
     public Atividade registrarAtividade(AtividadeRequestDTO data) {
         Academia academia = academiaRepository.findById(data.academiaId())
@@ -46,6 +51,8 @@ public class AtividadeService {
 
         Atividade newAtividade = new Atividade();
         newAtividade.setNome(data.nome());
+        newAtividade.setHorario(data.horario());
+        newAtividade.setDiaSemana(data.diaSemana());
         newAtividade.setAcademia(academia);
 
         return atividadeRepository.save(newAtividade);

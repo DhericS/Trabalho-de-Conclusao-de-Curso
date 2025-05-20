@@ -14,6 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -65,6 +70,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> {})
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/").permitAll()
@@ -75,9 +81,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/reset-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/reset-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/usuarios").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/atualizar-usuario").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/academias/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/academias/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/servicos-externos", "/servicos-externos/academia/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia/filtro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/atividades").permitAll()
@@ -90,27 +95,36 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/planos/academia/{academiaId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treino").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treino/filtro").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/treinos/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/login").permitAll()/**/
                         .requestMatchers(HttpMethod.GET, "/cadastro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/reset-senha").permitAll()
                         .requestMatchers(HttpMethod.GET, "/troca-senha").permitAll()
                         .requestMatchers(HttpMethod.GET, "/senha").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/perfil").permitAll()
                         .requestMatchers(HttpMethod.GET, "/perfil-usuario").permitAll()
                         .requestMatchers(HttpMethod.GET, "/perfil-academias").permitAll()
                         .requestMatchers(HttpMethod.GET, "/perfil-personais").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/perfil").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academias").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cadastrar-academia").permitAll()
                         .requestMatchers(HttpMethod.GET, "/detalhes-academias").permitAll()
                         .requestMatchers(HttpMethod.GET, "/personais").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/personais/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/detalhes-personais").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treinos").permitAll()
                         .requestMatchers(HttpMethod.GET, "/detalhes-treinos").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cadastrar-treino").permitAll()
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/swagger-resources/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/swagger-resources/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/pagina-dietas").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cadastrar_dietas").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/dieta/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/dietas/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/dietas/{id}/editar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/dietas/{id}/deletar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/dietas").permitAll()
                         .anyRequest().authenticated()
 
                 ).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -125,5 +139,19 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
     }
 }

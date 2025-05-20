@@ -92,7 +92,7 @@ public class UsuarioService {
                 if (data instanceof RequestUserAcad userAcadData) {
                     userAcadRepository.save(new UserAcad(
                             userAcadData.id(),
-                            userAcadData.name(),
+                            userAcadData.nome(),
                             userAcadData.email(),
                             userAcadData.senha(),
                             userAcadData.telefone(),
@@ -104,7 +104,7 @@ public class UsuarioService {
                 if (data instanceof RequestUserAdmin userAdminData) {
                     userAdminRepository.save(new UserAdmin(
                             userAdminData.id(),
-                            userAdminData.name(),
+                            userAdminData.nome(),
                             userAdminData.email(),
                             userAdminData.senha(),
                             userAdminData.telefone(),
@@ -116,7 +116,7 @@ public class UsuarioService {
                 if (data instanceof RequestUserAcadAdmin adminData) {
                     userAcadAdminRepository.save(new UserAcadAdmin(
                             adminData.id(),
-                            adminData.name(),
+                            adminData.nome(),
                             adminData.email(),
                             adminData.senha(),
                             adminData.telefone(),
@@ -130,7 +130,7 @@ public class UsuarioService {
                 if (data instanceof RequestPersonal personalData) {
                     personalRepository.save(new Personal(
                             personalData.id(),
-                            personalData.name(),
+                            personalData.nome(),
                             personalData.email(),
                             personalData.senha(),
                             personalData.telefone(),
@@ -181,6 +181,48 @@ public class UsuarioService {
             default -> throw new IllegalArgumentException("Tipo de usuário inválido: " + data.tipoUsuario());
         }
     }
+
+    @Transactional
+    public void atualizarUsuarioPorEmail(IRequestUsuario data) {
+        String email = data.email();
+
+        switch (data.tipoUsuario().toLowerCase()) {
+            case "useracad" -> {
+                var user = userAcadRepository.findByUsuario_Email(email)
+                        .orElseThrow(() -> new EntityNotFoundException("UserAcad não encontrado"));
+                if (data instanceof RequestUserAcad req) {
+                    user.atualizarDados(req);
+                    userAcadRepository.save(user);
+                }
+            }
+            case "useradmin" -> {
+                var user = userAdminRepository.findByUsuario_Email(email)
+                        .orElseThrow(() -> new EntityNotFoundException("UserAdmin não encontrado"));
+                if (data instanceof RequestUserAdmin req) {
+                    user.atualizarDados(req);
+                    userAdminRepository.save(user);
+                }
+            }
+            case "useracadadmin" -> {
+                var user = userAcadAdminRepository.findByUsuario_Email(email)
+                        .orElseThrow(() -> new EntityNotFoundException("UserAcadAdmin não encontrado"));
+                if (data instanceof RequestUserAcadAdmin req) {
+                    user.atualizarDados(req);
+                    userAcadAdminRepository.save(user);
+                }
+            }
+            case "personal" -> {
+                var user = personalRepository.findByUsuario_Email(email)
+                        .orElseThrow(() -> new EntityNotFoundException("Personal não encontrado"));
+                if (data instanceof RequestPersonal req) {
+                    user.atualizarDados(req);
+                    personalRepository.save(user);
+                }
+            }
+            default -> throw new IllegalArgumentException("Tipo de usuário inválido: " + data.tipoUsuario());
+        }
+    }
+
 
     @Transactional
     public void deletarUsuario(Long id, String tipoUsuario) {

@@ -16,6 +16,11 @@ public class Atividade {
 
     private String nome;
 
+    private String horario;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DiaSemana diaSemana;
 
     @ManyToOne
     @JoinColumn(name = "academia_id", nullable = false)

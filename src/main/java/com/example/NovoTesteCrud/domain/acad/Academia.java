@@ -5,6 +5,7 @@ import com.example.NovoTesteCrud.domain.acad.enums.TipoAcad;
 import com.example.NovoTesteCrud.domain.acad.enums.Estrutura;
 import com.example.NovoTesteCrud.domain.acad.enums.Servicos;
 
+import com.example.NovoTesteCrud.domain.planoacad.PlanoAcademia;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,6 +47,9 @@ public class Academia {
 
     @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> activities;
+
+    @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanoAcademia> planos;
 
 
     public Academia(Long id) {

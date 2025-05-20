@@ -101,8 +101,6 @@ form.addEventListener('submit', async (e) => {
   json['role'] = roleSelect.value;
   json['tipoUsuario'] = roleSelect.value;
 
-  console.log(json);
-
   const res = await fetch('auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

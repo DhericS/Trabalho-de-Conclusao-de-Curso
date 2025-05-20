@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record RequestUserAdmin(
         @NotBlank(message = "O nome é obrigatório")
-        String name,
+        String nome,
 
         @NotBlank(message = "O e-mail é obrigatório")
         @Email(message = "E-mail inválido")

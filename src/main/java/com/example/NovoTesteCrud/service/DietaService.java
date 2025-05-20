@@ -88,4 +88,9 @@ public class DietaService {
                 })
                 .orElse(false);
     }
+
+    public Dieta buscarDietaPorId(Long id) {
+        return dietaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada com id: " + id));
+    }
 }

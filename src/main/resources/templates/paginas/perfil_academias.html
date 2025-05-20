@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,79 +11,81 @@
 
     <title>GuidesFit</title>
   </head>
-  <body>
-    <div th:replace="~{componentes/menu}"></div>
-    <main>
-      <h2>Bem Vindo, <strong th:text="${user.nome}"></strong></h2>
+    <body>
 
-      <section class="user-info">
-        <div class="info">
-          <p>
-            <strong>Nome: </strong>
-            <span th:text="${user.nome}"></span>
-          </p>
-        </div>
-        <div class="info">
-          <p>
-            <strong>Email: </strong>
-            <span th:text="${user.email}"></span>
-          </p>
-        </div>
-        <div class="info">
-          <p>
-            <strong>Telefone: </strong>
-            <span th:text="${user.telefone}"></span>
-          </p>
-        </div>
-        <div class="info">
-          <p>
-            <strong>Tipo de Acesso: </strong>
-            <span th:text="${user.role}"></span>
-          </p>
-        </div>
-      </section>
-      <div>
-        <a href="#">Alterar Senha</a>
-      </div>
-      <div>
-        <a href="/atualizar-usuario">Alterar Informações</a>
-      </div>
+      <div th:replace="~{componentes/menu}"></div>
 
-      <section class="academia-info">
-        <div class="titles">
-          <h3>
-            Gerenciar Academias
-          </h3>
-          <a href="/cadastrar-academia">
-            <button class="btn">
-              Cadastrar Academia
-            </button>
-          </a>
-        </div>
-        <div th:if="${gyms.isEmpty()}">
-          <p>Sem Academias Cadastradas!</p>
-        </div>
-        <div class="gym-cards" >
+      <main>
+        <h2>Bem Vindo, <strong th:text="${user.nome}"></strong></h2>
 
-          <div class="gym-card" th:each="gym : ${gyms}">
-            <img
-                    src="https://st2.depositphotos.com/2586633/46477/v/450/depositphotos_464771766-stock-illustration-no-photo-or-blank-image.jpg"
-                    alt="Imagem academia"
-            />
-            <div class="gym-info">
-              <h4 th:text="${gym.nome}">Nome Academia</h4>
-              <p th:text="${gym.endereco}">informações</p>
-              <p th:text="${gym.activities}">informações</p>
+        <section class="user-info">
+          <div class="info">
+            <p>
+              <strong>Nome: </strong>
+              <span th:text="${user.nome}"></span>
+            </p>
+          </div>
+          <div class="info">
+            <p>
+              <strong>Email: </strong>
+              <span th:text="${user.email}"></span>
+            </p>
+          </div>
+          <div class="info">
+            <p>
+              <strong>Telefone: </strong>
+              <span th:text="${user.telefone}"></span>
+            </p>
+          </div>
+          <div class="info">
+            <p>
+              <strong>Tipo de Acesso: </strong>
+              <span th:text="${user.role}"></span>
+            </p>
+          </div>
+        </section>
+        <div>
+          <a href="#">Alterar Senha</a>
+        </div>
+        <div>
+          <a href="/atualizar-usuario">Alterar Informações</a>
+        </div>
 
-              <a th:href="@{/academias/{id}(id=${gym.id})}">
-                <button class="btn-link">Ver detalhes</button>
-              </a>
-              <button id="btnDelete" class="btn" style="background: red" th:value="${gym.id}">Deletar</button>
+        <section class="academia-info">
+          <div class="titles">
+            <h3>
+              Gerenciar Academias
+            </h3>
+            <a href="/cadastrar-academia">
+              <button class="btn">
+                Cadastrar Academia
+              </button>
+            </a>
+          </div>
+          <div th:if="${gyms.isEmpty()}">
+            <p>Sem Academias Cadastradas!</p>
+          </div>
+          <div class="gym-cards">
+
+            <div class="gym-card" th:each="gym : ${gyms}">
+              <img
+                      src="https://st2.depositphotos.com/2586633/46477/v/450/depositphotos_464771766-stock-illustration-no-photo-or-blank-image.jpg"
+                      alt="Imagem academia"
+              />
+              <div class="gym-info">
+                <h4 th:text="${gym.nome}">Nome Academia</h4>
+                <p th:text="${gym.endereco}">informações</p>
+
+                <a th:href="@{/academias/{id}(id=${gym.id})}">
+                  <button class="btn-link">Ver detalhes</button>
+                </a>
+
+                <button id="btnDelete" class="btn" style="background: red" th:value="${gym.id}">Deletar</button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
 
     <script>
       const btnDelete = document.getElementById('btnDelete');

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = RequestPersonal.class, name = "personal")
 })
 public interface IRequestUsuario {
-    String name();
+    String nome();
     String email();
     String senha();
     String telefone();

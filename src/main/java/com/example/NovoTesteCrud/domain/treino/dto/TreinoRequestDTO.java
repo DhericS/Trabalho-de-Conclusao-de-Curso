@@ -8,7 +8,8 @@ import java.util.List;
 public record TreinoRequestDTO(
         @NotBlank(message = "O nome do treino é obrigatório") String nome,
         @NotBlank(message = "A descrição do treino é obrigatória") String descricao,
-        @NotNull(message = "O usuário é obrigatório") Long userId,
+        Long userId,
+        Long personalId,
         List<ExercicioRequestDTO> exercicios
 ) {
 }

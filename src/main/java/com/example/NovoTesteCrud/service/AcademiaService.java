@@ -33,9 +33,11 @@ public class AcademiaService {
         return repository.findAll(spec);
     }
 
-    public Optional<Academia> buscarAcademiaPorId(Long id) {
-        return this.repository.findById(id);
+    public Academia buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada com ID: " + id));
     }
+
 
     @Transactional
     public Academia registrarAcademia(AcademiaRequestDTO data) {

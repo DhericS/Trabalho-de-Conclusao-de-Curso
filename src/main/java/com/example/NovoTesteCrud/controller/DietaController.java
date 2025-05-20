@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/dietas")
+@RequestMapping("/dieta")
 public class DietaController {
 
     @Autowired

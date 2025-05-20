@@ -5,11 +5,13 @@ import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.UsuarioResponseDTO;
 import com.example.NovoTesteCrud.repository.PersonalRepository;
+import com.example.NovoTesteCrud.security.JwtUtil;
 import com.example.NovoTesteCrud.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,6 +26,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
     @Autowired
+    private JwtUtil jwtUtil;
 
     @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping("/todos")
@@ -52,6 +55,20 @@ public class UsuarioController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<UsuarioResponseDTO> buscarUsuarioLogado(
+            @RequestHeader("Authorization") String token) {
+
+        String email = jwtUtil.extractEmail(token.replace("Bearer ", ""));
+
+        return usuarioService.buscarTodosUsuarios().stream()
+                .filter(dto -> dto.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+    }
+
 
     @PostMapping
     public ResponseEntity<Map<String, String>> registrarUsuario(@RequestBody @Valid IRequestUsuario data) {
@@ -72,6 +89,16 @@ public class UsuarioController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<Map<String, String>> atualizarUsuarioPorEmail(@RequestBody @Valid IRequestUsuario data) {
+        usuarioService.atualizarUsuarioPorEmail(data);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Usuário atualizado com sucesso!");
+        return ResponseEntity.ok(response);
+    }
+
 
     // Exemplo: DELETE http://localhost:8080/usuarios/1?userType=useracad
     @DeleteMapping("/{id}")
