@@ -91,6 +91,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/avaliacoes/personal/{personalId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/dietas").permitAll()
                         .requestMatchers(HttpMethod.GET, "/dietas/filtro").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/dieta/filtro").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/dieta/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/exercicios").permitAll()
                         .requestMatchers(HttpMethod.GET, "/planos/academia/{academiaId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treino").permitAll()

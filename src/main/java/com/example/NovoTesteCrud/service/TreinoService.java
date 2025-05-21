@@ -34,12 +34,20 @@ public class TreinoService {
         return treinoRepository.findAll().stream().map(TreinoResponseDTO::new).toList();
     }
 
-    public List<TreinoResponseDTO> buscarTreinosFiltrados(TreinoFilterDto filtro) {
+    public List<TreinoResponseDTO> buscarTreinosFiltradosComBusca(String search, TreinoFilterDto filtro) {
         Specification<Treino> spec = filtro.toSpecification();
+
+        if (search != null && !search.isEmpty()) {
+            Specification<Treino> searchSpec = (root, query, cb) ->
+                    cb.like(cb.lower(root.get("nome")), "%" + search.toLowerCase() + "%");
+            spec = spec == null ? searchSpec : spec.and(searchSpec);
+        }
+
         return treinoRepository.findAll(spec).stream()
                 .map(TreinoResponseDTO::new)
                 .toList();
     }
+
 
     public Treino buscarPorId(Long id) {
         return treinoRepository.findById(id).orElse(null);

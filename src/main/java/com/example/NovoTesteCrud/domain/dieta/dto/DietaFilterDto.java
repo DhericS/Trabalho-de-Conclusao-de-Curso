@@ -5,20 +5,22 @@ import com.example.NovoTesteCrud.domain.dieta.enums.TipoDieta;
 import com.example.NovoTesteCrud.infra.FilterSpecification;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 public class DietaFilterDto implements FilterSpecification<Dieta> {
 
-    private final TipoDieta tipoDieta;
+    private final List<TipoDieta> tiposDieta;
 
-    public DietaFilterDto(TipoDieta tipoDieta) {
-        this.tipoDieta = tipoDieta;
+    public DietaFilterDto(List<TipoDieta> tiposDieta) {
+        this.tiposDieta = tiposDieta;
     }
 
     @Override
     public Specification<Dieta> toSpecification() {
         Specification<Dieta> spec = Specification.where(null);
 
-        if (tipoDieta != null) {
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("tipoDieta"), tipoDieta));
+        if (tiposDieta != null && !tiposDieta.isEmpty()) {
+            spec = spec.and((root, query, cb) -> root.get("tipoDieta").in(tiposDieta));
         }
 
         return spec;

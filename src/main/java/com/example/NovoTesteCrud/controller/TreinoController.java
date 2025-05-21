@@ -37,13 +37,15 @@ public class TreinoController {
     }
     @GetMapping("/filtro")
     public List<TreinoResponseDTO> buscarFiltrados(
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) List<Cardio> cardios,
             @RequestParam(required = false) List<Hipertrofia_Performace> hipertrofias,
             @RequestParam(required = false) List<Tipos> tiposTreino
     ) {
         TreinoFilterDto filtro = new TreinoFilterDto(cardios, hipertrofias, tiposTreino);
-        return treinoService.buscarTreinosFiltrados(filtro);
+        return treinoService.buscarTreinosFiltradosComBusca(search, filtro);
     }
+
 
     @GetMapping("{id}")
     public ResponseEntity<Treino> buscarTreino(@PathVariable Long id) {

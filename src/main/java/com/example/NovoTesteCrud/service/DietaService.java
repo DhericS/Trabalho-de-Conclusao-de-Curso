@@ -2,6 +2,7 @@ package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.dieta.Dieta;
 import com.example.NovoTesteCrud.domain.dieta.dto.DietaRequestDTO;
+import com.example.NovoTesteCrud.domain.dieta.dto.DietaResponseDTO;
 import org.springframework.data.jpa.domain.Specification;
 import com.example.NovoTesteCrud.domain.dieta.dto.DietaFilterDto;
 import com.example.NovoTesteCrud.domain.personal.Personal;
@@ -32,11 +33,19 @@ public class DietaService {
         return dietaRepository.findAll();
     }
 
-    public List<Dieta> buscarTodasDietasFiltradas(DietaFilterDto filtro) {
+    public List<DietaResponseDTO> buscarDietasFiltradasComBusca(String search, DietaFilterDto filtro) {
         Specification<Dieta> spec = filtro.toSpecification();
-        return dietaRepository.findAll(spec);
-    }
 
+        if (search != null && !search.isEmpty()) {
+            Specification<Dieta> searchSpec = (root, query, cb) ->
+                    cb.like(cb.lower(root.get("titulo")), "%" + search.toLowerCase() + "%");
+            spec = spec == null ? searchSpec : spec.and(searchSpec);
+        }
+
+        return dietaRepository.findAll(spec).stream()
+                .map(DietaResponseDTO::new)
+                .toList();
+    }
 
     public Dieta criarDieta(DietaRequestDTO dto) {
         Dieta dieta = new Dieta();
