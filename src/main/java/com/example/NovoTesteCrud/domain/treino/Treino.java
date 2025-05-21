@@ -24,9 +24,6 @@ public class Treino {
     private String nome;
     private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserAcad user;
 
     @ManyToOne
     @JoinColumn(name = "personal_id")

@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.controller;
 
+import com.example.NovoTesteCrud.domain.treino.Treino;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoResponseDTO;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoRequestDTO;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoFilterDto;
@@ -42,6 +43,12 @@ public class TreinoController {
     ) {
         TreinoFilterDto filtro = new TreinoFilterDto(cardios, hipertrofias, tiposTreino);
         return treinoService.buscarTreinosFiltrados(filtro);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Treino> buscarTreino(@PathVariable Long id) {
+        return ResponseEntity.ok()
+                .body(treinoService.buscarPorId(id));
     }
 
 

@@ -34,6 +34,13 @@ public class DietaController {
         return dietaService.buscarTodasDietasFiltradas(filtro);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Dieta> buscar(@PathVariable Long id) {
+        return ResponseEntity
+                .ok()
+                .body(dietaService.buscarDietaPorId(id));
+    }
+
     @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @PostMapping
     public ResponseEntity<DietaResponseDTO> criarDieta(@RequestBody @Valid DietaRequestDTO dto) {

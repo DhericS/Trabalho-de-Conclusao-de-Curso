@@ -41,9 +41,14 @@ public class TreinoService {
                 .toList();
     }
 
+    public Treino buscarPorId(Long id) {
+        return treinoRepository.findById(id).orElse(null);
+    }
+
+
     @Transactional
     public TreinoResponseDTO registrarTreinos(TreinoRequestDTO data) {
-        if (data.userId() == null && data.personalId() == null) {
+        if (data.personalId() == null) {
             throw new IllegalArgumentException("É necessário informar um aluno ou personal como autor do treino.");
         }
 
@@ -51,17 +56,9 @@ public class TreinoService {
         treino.setNome(data.nome());
         treino.setDescricao(data.descricao());
 
-        if (data.userId() != null) {
-            UserAcad user = userRepository.findById(data.userId())
-                    .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
-            treino.setUser(user);
-        }
-
-        if (data.personalId() != null) {
-            Personal personal = personalRepository.findById(data.personalId())
-                    .orElseThrow(() -> new EntityNotFoundException("Personal não encontrado!"));
-            treino.setPersonal(personal);
-        }
+        Personal personal = personalRepository.findById(data.personalId())
+                .orElseThrow(() -> new EntityNotFoundException("Personal não encontrado!"));
+        treino.setPersonal(personal);
 
         List<Exercicio> exercicios = data.exercicios().stream().map(req -> {
             Exercicio exercicio = new Exercicio();
@@ -87,13 +84,6 @@ public class TreinoService {
         treino.setNome(data.nome());
         treino.setDescricao(data.descricao());
 
-        if (data.userId() != null) {
-            UserAcad user = userRepository.findById(data.userId())
-                    .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
-            treino.setUser(user);
-        } else {
-            treino.setUser(null);
-        }
 
         if (data.personalId() != null) {
             Personal personal = personalRepository.findById(data.personalId())
