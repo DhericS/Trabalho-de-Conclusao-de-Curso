@@ -1,8 +1,6 @@
 package com.example.NovoTesteCrud.controller;
 
-import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
-import com.example.NovoTesteCrud.domain.acad.dto.AcademiaResponseDTO;
-import com.example.NovoTesteCrud.domain.acad.dto.AcademiaFilterDTO;
+import com.example.NovoTesteCrud.domain.acad.dto.*;
 import com.example.NovoTesteCrud.domain.acad.enums.TipoAcad;
 import com.example.NovoTesteCrud.domain.acad.enums.Estrutura;
 import com.example.NovoTesteCrud.domain.acad.enums.Servicos;
@@ -23,6 +21,7 @@ public class AcademiaController {
 
     @Autowired
     private AcademiaService academiaService;
+
 
 //    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping
@@ -80,5 +79,15 @@ public class AcademiaController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Academia deletada com sucesso!");
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("externas")
+    public List<AcademiaExternaDTO> buscarAcademias(@RequestParam String endereco) {
+        return academiaService.buscarAcademiasProximas(endereco);
+    }
+
+    @GetMapping("externas-detalhes")
+    public AcademiaDetalhesDTO buscarDetalhes(@RequestParam String placeId) {
+        return academiaService.detalhesComoDTO(placeId);
     }
 }
