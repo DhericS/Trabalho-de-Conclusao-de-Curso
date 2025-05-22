@@ -9,5 +9,4 @@ import java.util.List;
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
     List<Avaliacao> findByTipoEntidadeAndEntidadeId(TipoEntidade tipoEntidade, Long entidadeId);
 
-    boolean existsByUsuarioIdAndTipoEntidadeAndEntidadeId(Long usuarioId, TipoEntidade tipoEntidade, Long entidadeId);
 }

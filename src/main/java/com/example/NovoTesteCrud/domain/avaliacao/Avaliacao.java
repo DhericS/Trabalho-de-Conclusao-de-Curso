@@ -27,7 +27,7 @@ public class Avaliacao {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)
-    private UserAcad usuario;
+    private UserAcad usuarioId;
 
 
     @Enumerated(EnumType.STRING)

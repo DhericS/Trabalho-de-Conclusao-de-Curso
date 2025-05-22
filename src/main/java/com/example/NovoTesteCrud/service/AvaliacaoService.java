@@ -38,7 +38,7 @@ public class AvaliacaoService {
         Avaliacao avaliacao = Avaliacao.builder()
                 .nota(dto.nota())
                 .comentario(dto.comentario())
-                .usuario(user)
+                .usuarioId(user)
                 .tipoEntidade(dto.tipoEntidade())
                 .entidadeId(dto.entidadeId())
                 .build();
@@ -56,7 +56,7 @@ public class AvaliacaoService {
 
         aval.setNota(dto.nota());
         aval.setComentario(dto.comentario());
-        aval.setUsuario(user);
+        aval.setUsuarioId(user);
 
         Avaliacao atualizado = repository.save(aval);
         return new AvaliacaoResponseDTO(atualizado);

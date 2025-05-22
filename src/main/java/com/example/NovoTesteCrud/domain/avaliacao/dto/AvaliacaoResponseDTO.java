@@ -18,7 +18,7 @@ public record AvaliacaoResponseDTO(
                 a.getId(),
                 a.getNota(),
                 a.getComentario(),
-                a.getUsuarioId(),
+                a.getUsuarioId().getId(),
                 a.getTipoEntidade().name(),
                 a.getEntidadeId(),
                 a.getDataCriacao()
