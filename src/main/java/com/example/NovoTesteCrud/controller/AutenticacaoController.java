@@ -185,7 +185,7 @@ public class AutenticacaoController {
         String token = java.util.UUID.randomUUID().toString();
         resetarSenhaRedisService.salvarToken(token, request.getEmail(), 60);
 
-        String resetLink = "http://localhost:5173/redefinir-senha?token=" + token;
+        String resetLink = "http://guidesfit.com.br/redefinir-senha?token=" + token;
 
         emailService.sendEmail(
                 request.getEmail(),
