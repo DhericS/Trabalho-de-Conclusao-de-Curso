@@ -1,9 +1,8 @@
 package com.example.NovoTesteCrud.controller;
 
-import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoRegister;
+import com.example.NovoTesteCrud.domain.autenticacao.AutenticacaoRegister;
 import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoRequestDTO;
 import com.example.NovoTesteCrud.domain.autenticacao.dto.AutenticacaoResponseDTO;
-import com.example.NovoTesteCrud.domain.email.ResetarSenhaToken;
 import com.example.NovoTesteCrud.domain.email.dto.EsquecerSenhaRequest;
 import com.example.NovoTesteCrud.domain.email.dto.ResetarSenhaRequest;
 import com.example.NovoTesteCrud.domain.personal.Personal;
@@ -11,7 +10,7 @@ import com.example.NovoTesteCrud.domain.user.UserAcad;
 import com.example.NovoTesteCrud.domain.useracadadmin.UserAcadAdmin;
 import com.example.NovoTesteCrud.domain.useradmin.UserAdmin;
 import com.example.NovoTesteCrud.repository.*;
-import com.example.NovoTesteCrud.security.JwtUtil;
+import com.example.NovoTesteCrud.config.security.JwtUtil;
 import com.example.NovoTesteCrud.service.EmailService;
 import com.example.NovoTesteCrud.service.ResetarSenhaRedisService;
 import jakarta.mail.MessagingException;
@@ -21,16 +20,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/auth")
@@ -113,6 +108,7 @@ public class AutenticacaoController {
                         dto.getEmail(),
                         passwordEncoder.encode(dto.getSenha()),
                         dto.getTelefone(),
+                        dto.getImagemUrl(),
                         dto.getRoleAsEnum()
                 );
                 userAcadRepository.save(user);
@@ -152,6 +148,7 @@ public class AutenticacaoController {
                         passwordEncoder.encode(dto.getSenha()),
                         dto.getTelefone(),
                         dto.getCref(),
+                        dto.getImagemUrl(),
                         dto.getRoleAsEnum()
                 );
                 personalRepository.save(user);
@@ -188,7 +185,7 @@ public class AutenticacaoController {
         String token = java.util.UUID.randomUUID().toString();
         resetarSenhaRedisService.salvarToken(token, request.getEmail(), 60);
 
-        String resetLink = "http://localhost:8080/reset-password?token=" + token;
+        String resetLink = "http://localhost:5173/redefinir-senha?token=" + token;
 
         emailService.sendEmail(
                 request.getEmail(),

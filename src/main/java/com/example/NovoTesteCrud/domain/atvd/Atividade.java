@@ -1,6 +1,7 @@
 package com.example.NovoTesteCrud.domain.atvd;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
+import com.example.NovoTesteCrud.domain.atvd.enums.DiaSemana;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,6 +17,11 @@ public class Atividade {
 
     private String nome;
 
+    private String horario;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DiaSemana diaSemana;
 
     @ManyToOne
     @JoinColumn(name = "academia_id", nullable = false)

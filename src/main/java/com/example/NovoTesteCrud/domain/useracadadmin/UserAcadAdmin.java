@@ -31,17 +31,16 @@ public class UserAcadAdmin {
     @JoinColumn(name = "academia_id", unique = true)
     private Academia academia;
 
-    public UserAcadAdmin(Long id, String name, String email, String senha, String telefone, String cnpj, Academia academia, Role role) {
-        this.usuario = new Usuario(name, email, senha, telefone, role);
+    public UserAcadAdmin(Long id, String nome, String email, String senha, String telefone, String cnpj, Academia academia, Role role) {
+        this.usuario = new Usuario(nome, email, senha, telefone, role);
         this.id = id;
         this.cnpj = cnpj;
         this.academia = academia;
     }
 
     public void atualizarDados(RequestUserAcadAdmin data) {
-        usuario.setNome(data.name());
+        usuario.setNome(data.nome());
         usuario.setEmail(data.email());
-        usuario.setSenha(data.senha());
         usuario.setTelefone(data.telefone());
         this.cnpj = data.cnpj();
         this.academia = new Academia(data.academiaId());

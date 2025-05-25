@@ -1,0 +1,1 @@
+ALTER TABLE user_acad_admin MODIFY cnpj VARCHAR(30);

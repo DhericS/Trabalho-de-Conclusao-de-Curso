@@ -9,5 +9,6 @@ public record AcademiaRequestDTO(
         @NotBlank(message = "O endereço é obrigatório") String endereco,
         @NotBlank(message = "O telefone é obrigatório") String telefone,
         @NotNull(message = "O tipo da academia é obrigatório") TipoAcad tipoAcad,
+        String imagemUrl,
         Long id
 ) {}

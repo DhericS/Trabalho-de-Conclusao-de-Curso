@@ -1,6 +1,7 @@
 package com.example.NovoTesteCrud.domain.treino;
 
 import com.example.NovoTesteCrud.domain.exercicios.Exercicio;
+import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
 import com.example.NovoTesteCrud.domain.treino.enums.Hipertrofia_Performace;
 import com.example.NovoTesteCrud.domain.treino.enums.Cardio;
@@ -23,9 +24,10 @@ public class Treino {
     private String nome;
     private String descricao;
 
+
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserAcad user;
+    @JoinColumn(name = "personal_id")
+    private Personal personal;
 
     @ElementCollection(targetClass = Cardio.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -45,15 +47,11 @@ public class Treino {
     @Column(name = "tipo_treino")
     private List<Tipos> tiposTreino;
 
-
     @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Exercicio> exercicios;
 
-
-    public Treino() {
-
-    }
+    public Treino() {}
 
     public Treino(Long id) {
         this.id = id;

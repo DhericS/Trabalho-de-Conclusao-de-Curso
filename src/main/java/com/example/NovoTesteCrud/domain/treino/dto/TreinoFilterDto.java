@@ -4,7 +4,7 @@ import com.example.NovoTesteCrud.domain.treino.Treino;
 import com.example.NovoTesteCrud.domain.treino.enums.Cardio;
 import com.example.NovoTesteCrud.domain.treino.enums.Hipertrofia_Performace;
 import com.example.NovoTesteCrud.domain.treino.enums.Tipos;
-import com.example.NovoTesteCrud.infra.FilterSpecification;
+import com.example.NovoTesteCrud.config.infra.FilterSpecification;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;

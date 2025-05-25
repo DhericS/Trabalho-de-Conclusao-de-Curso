@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/dietas")
+@RequestMapping("/dieta")
 public class DietaController {
 
     @Autowired
@@ -29,10 +29,32 @@ public class DietaController {
         return ResponseEntity.ok(lista);
     }
     @GetMapping("/filtro")
-    public List<Dieta> buscarFiltradas(@RequestParam(required = false) TipoDieta tipoDieta) {
-        DietaFilterDto filtro = new DietaFilterDto(tipoDieta);
-        return dietaService.buscarTodasDietasFiltradas(filtro);
+    public List<DietaResponseDTO> buscarFiltradas(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) List<String> tipos
+    ) {
+        List<TipoDieta> tiposEnum = null;
+
+        if (tipos != null && !tipos.isEmpty()) {
+            tiposEnum = tipos.stream()
+                    .map(String::toUpperCase)
+                    .map(TipoDieta::valueOf)
+                    .toList();
+        }
+
+        DietaFilterDto filtro = new DietaFilterDto(tiposEnum);
+        return dietaService.buscarDietasFiltradasComBusca(search, filtro);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DietaResponseDTO> buscarPorId(@PathVariable Long id) {
+        Dieta dieta = dietaService.buscarDietaPorId(id);
+        if (dieta == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new DietaResponseDTO(dieta));
+    }
+
 
     @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @PostMapping
