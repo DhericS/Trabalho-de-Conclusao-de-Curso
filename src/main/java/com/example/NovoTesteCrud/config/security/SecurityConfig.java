@@ -82,6 +82,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/auth/reset-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "reset-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/usuarios/{id}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios/{id}/upload-imagem").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios/upload-imagem-temp").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia").permitAll()
@@ -98,6 +99,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/avaliacoes/academia/{academiaId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/avaliacoes/personal/{personalId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/avaliacoes/user/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/avaliacoes").permitAll()
                         .requestMatchers(HttpMethod.GET, "/dietas").permitAll()
                         .requestMatchers(HttpMethod.GET, "/dietas/filtro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/dieta/filtro").permitAll()
@@ -107,6 +109,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/treino").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treino/filtro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/treinos/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/treino/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/login").permitAll()/**/
                         .requestMatchers(HttpMethod.GET, "/cadastro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/reset-senha").permitAll()
