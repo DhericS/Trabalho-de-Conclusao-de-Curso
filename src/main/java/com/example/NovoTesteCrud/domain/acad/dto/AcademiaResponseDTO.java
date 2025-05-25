@@ -14,6 +14,7 @@ public record AcademiaResponseDTO(
         String endereco,
         String telefone,
         TipoAcad tipoAcad,
+        String imagemUrl,
         List<PlanoAcademiaResponseDTO> planos,
         List<AtividadeResponseDTO> atividades
 ) {
@@ -24,6 +25,7 @@ public record AcademiaResponseDTO(
                 academia.getEndereco(),
                 academia.getTelefone(),
                 academia.getTipoAcad(),
+                academia.getImagemUrl(),
                 academia.getPlanos().stream().map(PlanoAcademiaResponseDTO::new).toList(),
                 academia.getActivities() == null ? List.of() :
                         academia.getActivities().stream().map(AtividadeResponseDTO::new).toList()

@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.infra;
+package com.example.NovoTesteCrud.config.infra;
 
 import org.springframework.data.jpa.domain.Specification;
 

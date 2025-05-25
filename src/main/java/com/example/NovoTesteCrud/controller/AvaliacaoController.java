@@ -28,6 +28,15 @@ public class AvaliacaoController {
         return ResponseEntity.ok(service.listarPorEntidade(tipoEntidade, entidadeId));
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<AvaliacaoResponseDTO>> listarPorUsuarioETipoEntidade(
+            @PathVariable Long userId,
+            @RequestParam TipoEntidade tipoEntidade
+    ) {
+        return ResponseEntity.ok(service.listarPorUsuarioETipoEntidade(userId, tipoEntidade));
+    }
+
+
     @PostMapping
     public ResponseEntity<AvaliacaoResponseDTO> criar(@Valid @RequestBody AvaliacaoRequestDTO dto) {
         return ResponseEntity.ok(service.criar(dto));

@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.infra;
+package com.example.NovoTesteCrud.config.infra;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;

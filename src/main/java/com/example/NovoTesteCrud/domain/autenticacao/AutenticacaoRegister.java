@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.autenticacao.dto;
+package com.example.NovoTesteCrud.domain.autenticacao;
 
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import jakarta.validation.constraints.Email;
@@ -28,6 +28,7 @@ public class AutenticacaoRegister {
 
     private String cnpj;
     private String cref;
+    private String imagemUrl;
 
     public Role getRoleAsEnum() {
         return Role.valueOf(role.toUpperCase());

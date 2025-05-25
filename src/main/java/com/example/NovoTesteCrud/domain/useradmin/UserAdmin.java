@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.useradmin;
 
+import com.example.NovoTesteCrud.domain.useradmin.dto.RequestUserAdmin;
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;

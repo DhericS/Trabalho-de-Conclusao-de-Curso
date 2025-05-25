@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.user;
 
+import com.example.NovoTesteCrud.domain.user.dto.RequestUserAcad;
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import lombok.Data;
@@ -22,7 +23,9 @@ public class UserAcad {
     @Delegate
     private Usuario usuario;
 
-    public UserAcad(Long id, String nome, String email, String senha, String telefone, Role role) {
+    private String imagemUrl;
+
+    public UserAcad(Long id, String nome, String email, String senha, String telefone, String imagemUrl, Role role) {
         this.usuario = new Usuario(nome, email, senha, telefone, role);
         this.id = id;
     }
@@ -37,5 +40,7 @@ public class UserAcad {
         usuario.setEmail(data.email());
         usuario.setSenha(data.senha());
         usuario.setTelefone(data.telefone());
+        this.imagemUrl = data.imagemUrl();
+
     }
 }

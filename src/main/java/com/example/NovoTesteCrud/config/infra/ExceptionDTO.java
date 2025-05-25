@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.infra;
+package com.example.NovoTesteCrud.config.infra;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 

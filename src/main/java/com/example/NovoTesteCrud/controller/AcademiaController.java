@@ -1,16 +1,22 @@
 package com.example.NovoTesteCrud.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.example.NovoTesteCrud.domain.acad.Academia;
 import com.example.NovoTesteCrud.domain.acad.dto.*;
 import com.example.NovoTesteCrud.domain.acad.enums.TipoAcad;
 import com.example.NovoTesteCrud.domain.acad.enums.Estrutura;
 import com.example.NovoTesteCrud.domain.acad.enums.Servicos;
+import com.example.NovoTesteCrud.repository.AcademiaRepository;
 import com.example.NovoTesteCrud.service.AcademiaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +28,11 @@ public class AcademiaController {
     @Autowired
     private AcademiaService academiaService;
 
+    @Autowired
+    private Cloudinary cloudinary;
+
+    @Autowired
+    private AcademiaRepository academiaRepository;
 
 //    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping
@@ -90,4 +101,42 @@ public class AcademiaController {
     public AcademiaDetalhesDTO buscarDetalhes(@RequestParam String placeId) {
         return academiaService.detalhesComoDTO(placeId);
     }
+
+    @PostMapping("/{id}/upload-imagem")
+    public ResponseEntity<?> uploadImagem(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        // Definir pasta para Academia
+        String folderPath = "academias/";
+
+        // 1. Upload para Cloudinary
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap("folder", folderPath));
+
+
+        String imageUrl = (String) uploadResult.get("secure_url");
+
+        // 2. Salvar URL no banco na entidade Academia
+        Academia academia = academiaRepository.findById(id).orElseThrow(() -> new RuntimeException("Academia não encontrada"));
+        academia.setImagemUrl(imageUrl);
+        academiaRepository.save(academia);
+
+        // 3. Retornar URL para o frontend
+        return ResponseEntity.ok(Map.of("url", imageUrl));
+    }
+
+    @PostMapping("/upload-imagem-temp")
+    public ResponseEntity<?> uploadImagemTemp(@RequestParam("file") MultipartFile file) throws IOException {
+        // Definir pasta temporária
+        String folderPath = "academias/";
+
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap("folder", folderPath));
+        String imageUrl = (String) uploadResult.get("secure_url");
+
+        return ResponseEntity.ok(Map.of("url", imageUrl));
+    }
+
+
 }

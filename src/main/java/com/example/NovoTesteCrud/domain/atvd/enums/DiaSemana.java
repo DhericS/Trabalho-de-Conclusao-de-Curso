@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.atvd;
+package com.example.NovoTesteCrud.domain.atvd.enums;
 
 public enum DiaSemana {
 

@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class Academia {
     @Enumerated(EnumType.STRING)
     private TipoAcad tipoAcad;
 
+    private String imagemUrl;
+
 
     @ElementCollection(targetClass = Estrutura.class)
     @Enumerated(EnumType.STRING)
@@ -49,8 +52,7 @@ public class Academia {
     private List<Atividade> activities;
 
     @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PlanoAcademia> planos;
-
+    private List<PlanoAcademia> planos = new ArrayList<>();
 
     public Academia(Long id) {
         this.id = id;

@@ -25,6 +25,13 @@ public class AvaliacaoService {
         this.repository = repository;
     }
 
+    public List<AvaliacaoResponseDTO> listarPorUsuarioETipoEntidade(Long usuarioId, TipoEntidade tipoEntidade) {
+        return repository.findByUsuarioId_IdAndTipoEntidade(usuarioId, tipoEntidade).stream()
+                .map(AvaliacaoResponseDTO::new)
+                .collect(Collectors.toList());
+    }
+
+
     public List<AvaliacaoResponseDTO> listarPorEntidade(TipoEntidade tipo, Long entidadeId) {
         return repository.findByTipoEntidadeAndEntidadeId(tipo, entidadeId).stream()
                 .map(AvaliacaoResponseDTO::new)

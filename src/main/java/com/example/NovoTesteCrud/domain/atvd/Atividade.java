@@ -1,6 +1,7 @@
 package com.example.NovoTesteCrud.domain.atvd;
 
 import com.example.NovoTesteCrud.domain.acad.Academia;
+import com.example.NovoTesteCrud.domain.atvd.enums.DiaSemana;
 import jakarta.persistence.*;
 import lombok.Data;
 

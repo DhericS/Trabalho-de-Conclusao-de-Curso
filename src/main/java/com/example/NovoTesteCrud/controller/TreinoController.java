@@ -8,7 +8,7 @@ import com.example.NovoTesteCrud.domain.treino.enums.Tipos;
 import com.example.NovoTesteCrud.domain.treino.enums.Hipertrofia_Performace;
 import com.example.NovoTesteCrud.domain.treino.enums.Cardio;
 
-import com.example.NovoTesteCrud.security.JwtUtil;
+import com.example.NovoTesteCrud.config.security.JwtUtil;
 import com.example.NovoTesteCrud.service.TreinoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

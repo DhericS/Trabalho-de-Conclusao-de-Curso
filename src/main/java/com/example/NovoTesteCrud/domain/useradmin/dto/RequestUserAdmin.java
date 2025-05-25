@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.domain.useradmin;
+package com.example.NovoTesteCrud.domain.useradmin.dto;
 
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.dto.IRequestUsuario;

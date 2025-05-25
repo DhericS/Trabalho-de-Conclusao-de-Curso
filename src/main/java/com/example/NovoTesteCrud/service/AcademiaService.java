@@ -61,6 +61,7 @@ public class AcademiaService {
         newAcademia.setEndereco(data.endereco());
         newAcademia.setTelefone(data.telefone());
         newAcademia.setTipoAcad(data.tipoAcad());
+        newAcademia.setImagemUrl(data.imagemUrl());
 
         return repository.save(newAcademia);
     }
@@ -73,6 +74,8 @@ public class AcademiaService {
             academia.setNome(data.nome());
             academia.setEndereco(data.endereco());
             academia.setTelefone(data.telefone());
+            academia.setTipoAcad(data.tipoAcad());
+            academia.setImagemUrl(data.imagemUrl());
             return academia;
         } else {
             throw new EntityNotFoundException("Academia não encontrada!");

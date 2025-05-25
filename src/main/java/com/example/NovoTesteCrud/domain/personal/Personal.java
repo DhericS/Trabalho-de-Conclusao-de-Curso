@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.personal;
 
+import com.example.NovoTesteCrud.domain.personal.dto.RequestPersonal;
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
@@ -26,7 +27,9 @@ public class Personal {
     @Column(unique = true, nullable = false)
     private String cref;
 
-    public Personal(Long id, String nome, String email, String senha, String telefone, String cref, Role role) {
+    private String imagemUrl;
+
+    public Personal(Long id, String nome, String email, String senha, String telefone, String cref, String imagemUrl, Role role) {
         this.usuario = new Usuario(nome, email, senha, telefone, role);
         this.id = id;
         this.cref = cref;
@@ -36,6 +39,7 @@ public class Personal {
         usuario.setNome(data.nome());
         usuario.setEmail(data.email());
         usuario.setTelefone(data.telefone());
+        this.imagemUrl = data.imagemUrl();
         this.cref = data.cref();
     }
 }

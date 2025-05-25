@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.security;
+package com.example.NovoTesteCrud.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -82,15 +82,22 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/auth/reset-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "reset-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuarios/{id}/upload-imagem").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuarios/upload-imagem-temp").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academias/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia/externas-detalhes").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia/externas").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia/filtro").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/academia/{id}/upload-imagem").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/academia/upload-imagem-temp").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/academia/{id}/upload-imagem").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/academia/upload-imagem-temp").permitAll()
                         .requestMatchers(HttpMethod.GET, "/atividades").permitAll()
                         .requestMatchers("/academias-externas/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/avaliacoes/academia/{academiaId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/avaliacoes/personal/{personalId}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/avaliacoes/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/dietas").permitAll()
                         .requestMatchers(HttpMethod.GET, "/dietas/filtro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/dieta/filtro").permitAll()

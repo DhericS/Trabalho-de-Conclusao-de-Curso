@@ -1,6 +1,6 @@
 package com.example.NovoTesteCrud.domain.atvd.dto;
 
-import com.example.NovoTesteCrud.domain.atvd.DiaSemana;
+import com.example.NovoTesteCrud.domain.atvd.enums.DiaSemana;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

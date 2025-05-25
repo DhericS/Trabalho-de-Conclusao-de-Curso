@@ -1,7 +1,7 @@
 package com.example.NovoTesteCrud.domain.atvd.dto;
 
 import com.example.NovoTesteCrud.domain.atvd.Atividade;
-import com.example.NovoTesteCrud.domain.atvd.DiaSemana;
+import com.example.NovoTesteCrud.domain.atvd.enums.DiaSemana;
 
 public record AtividadeResponseDTO(
         Long id,

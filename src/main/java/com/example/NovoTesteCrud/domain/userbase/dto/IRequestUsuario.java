@@ -1,9 +1,9 @@
 package com.example.NovoTesteCrud.domain.userbase.dto;
 
-import com.example.NovoTesteCrud.domain.personal.RequestPersonal;
-import com.example.NovoTesteCrud.domain.user.RequestUserAcad;
+import com.example.NovoTesteCrud.domain.personal.dto.RequestPersonal;
+import com.example.NovoTesteCrud.domain.user.dto.RequestUserAcad;
 import com.example.NovoTesteCrud.domain.useracadadmin.RequestUserAcadAdmin;
-import com.example.NovoTesteCrud.domain.useradmin.RequestUserAdmin;
+import com.example.NovoTesteCrud.domain.useradmin.dto.RequestUserAdmin;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 

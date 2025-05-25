@@ -1,4 +1,4 @@
-package com.example.NovoTesteCrud.security;
+package com.example.NovoTesteCrud.config.security;
 
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.service.DetalhesUsuarioService;
