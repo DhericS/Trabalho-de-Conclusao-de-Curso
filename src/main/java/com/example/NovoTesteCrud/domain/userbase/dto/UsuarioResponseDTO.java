@@ -19,12 +19,14 @@ public class UsuarioResponseDTO {
     private String cnpj;
     private String cref;
     private Long academiaId;
+    private String imagemUrl;
 
     public UsuarioResponseDTO(UserAcad user) {
         this.id = user.getId();
         this.nome = user.getUsuario().getNome();
         this.email = user.getUsuario().getEmail();
         this.telefone = user.getUsuario().getTelefone();
+        this.imagemUrl = user.getImagemUrl();
         this.tipoUsuario = "useracad";
     }
 
@@ -52,6 +54,7 @@ public class UsuarioResponseDTO {
         this.email = user.getUsuario().getEmail();
         this.telefone = user.getUsuario().getTelefone();
         this.cref = user.getCref();
+        this.imagemUrl = user.getImagemUrl();
         this.tipoUsuario = "personal";
     }
 

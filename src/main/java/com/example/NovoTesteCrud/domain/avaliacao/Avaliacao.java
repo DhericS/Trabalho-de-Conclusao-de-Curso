@@ -1,34 +1,47 @@
 package com.example.NovoTesteCrud.domain.avaliacao;
 
-import com.example.NovoTesteCrud.domain.acad.Academia;
-import com.example.NovoTesteCrud.domain.personal.Personal;
+import com.example.NovoTesteCrud.domain.avaliacao.enums.TipoEntidade;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "feedbacks")
+@Table(name = "avaliacao",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "tipo_entidade", "entidade_id"}))
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String descricao;
+    private int nota; // 1 a 5
 
-    @Column(nullable = false)
-    private Integer estrelas;
+    private String comentario;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserAcad user;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UserAcad usuarioId;
 
-    @ManyToOne
-    @JoinColumn(name = "academia_id")
-    private Academia academia;
 
-    @ManyToOne
-    @JoinColumn(name = "personal_id")
-    private Personal personal;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_entidade", nullable = false)
+    private TipoEntidade tipoEntidade;
+
+    @Column(name = "entidade_id", nullable = false)
+    private Long entidadeId;
+
+    @Column(name = "data_criacao", nullable = false)
+    private LocalDateTime dataCriacao;
+
+    @PrePersist
+    public void prePersist() {
+        dataCriacao = LocalDateTime.now();
+    }
 }

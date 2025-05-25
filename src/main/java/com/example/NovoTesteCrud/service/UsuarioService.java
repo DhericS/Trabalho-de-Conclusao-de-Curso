@@ -3,14 +3,14 @@ package com.example.NovoTesteCrud.service;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.userbase.dto.UsuarioResponseDTO;
 import com.example.NovoTesteCrud.repository.PersonalRepository;
-import com.example.NovoTesteCrud.domain.personal.RequestPersonal;
-import com.example.NovoTesteCrud.domain.user.RequestUserAcad;
+import com.example.NovoTesteCrud.domain.personal.dto.RequestPersonal;
+import com.example.NovoTesteCrud.domain.user.dto.RequestUserAcad;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
 import com.example.NovoTesteCrud.repository.UserAcadRepository;
 import com.example.NovoTesteCrud.domain.useracadadmin.RequestUserAcadAdmin;
 import com.example.NovoTesteCrud.domain.useracadadmin.UserAcadAdmin;
 import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
-import com.example.NovoTesteCrud.domain.useradmin.RequestUserAdmin;
+import com.example.NovoTesteCrud.domain.useradmin.dto.RequestUserAdmin;
 import com.example.NovoTesteCrud.domain.useradmin.UserAdmin;
 import com.example.NovoTesteCrud.repository.UserAdminRepository;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -37,36 +38,44 @@ public class UsuarioService {
     @Autowired
     private PersonalRepository personalRepository;
 
-    public List<UserAcad> buscarTodosUserAcad() {
-        return userAcadRepository.findAll();
+    public List<UsuarioResponseDTO> buscarTodosUserAdminDTO() {
+        return userAdminRepository.findAll()
+                .stream()
+                .map(UsuarioResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public List<UserAdmin> buscarTodosUserAdmin() {
-        return userAdminRepository.findAll();
+    public List<UsuarioResponseDTO> buscarTodosUserAcadAdminDTO() {
+        return userAcadAdminRepository.findAll()
+                .stream()
+                .map(UsuarioResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public List<UserAcadAdmin> buscarTodosUserAcadAdmin() {
-        return userAcadAdminRepository.findAll();
+    public List<UsuarioResponseDTO> buscarTodosPersonalDTO() {
+        return personalRepository.findAll()
+                .stream()
+                .map(UsuarioResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public List<Personal> buscarTodosPersonal() {
-        return personalRepository.findAll();
+    public List<UsuarioResponseDTO> buscarTodosUserAcadDTO() {
+        return userAcadRepository.findAll()
+                .stream()
+                .map(UsuarioResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Personal> buscarPersonalPorId(Long id) {
-        return personalRepository.findById(id);
-    }
 
     public List<UsuarioResponseDTO> buscarTodosUsuarios() {
         List<UsuarioResponseDTO> todos = new ArrayList<>();
-
-        todos.addAll(userAcadRepository.findAll().stream().map(UsuarioResponseDTO::new).toList());
-        todos.addAll(userAdminRepository.findAll().stream().map(UsuarioResponseDTO::new).toList());
-        todos.addAll(userAcadAdminRepository.findAll().stream().map(UsuarioResponseDTO::new).toList());
-        todos.addAll(personalRepository.findAll().stream().map(UsuarioResponseDTO::new).toList());
-
+        todos.addAll(buscarTodosUserAcadDTO());
+        todos.addAll(buscarTodosUserAdminDTO());
+        todos.addAll(buscarTodosUserAcadAdminDTO());
+        todos.addAll(buscarTodosPersonalDTO());
         return todos;
     }
+
 
 
     public Optional<Usuario> buscarUsuarioPorEmail(String email) {
@@ -92,10 +101,11 @@ public class UsuarioService {
                 if (data instanceof RequestUserAcad userAcadData) {
                     userAcadRepository.save(new UserAcad(
                             userAcadData.id(),
-                            userAcadData.name(),
+                            userAcadData.nome(),
                             userAcadData.email(),
                             userAcadData.senha(),
                             userAcadData.telefone(),
+                            userAcadData.imagemUrl(),
                             userAcadData.role()
                     ));
                 }
@@ -104,7 +114,7 @@ public class UsuarioService {
                 if (data instanceof RequestUserAdmin userAdminData) {
                     userAdminRepository.save(new UserAdmin(
                             userAdminData.id(),
-                            userAdminData.name(),
+                            userAdminData.nome(),
                             userAdminData.email(),
                             userAdminData.senha(),
                             userAdminData.telefone(),
@@ -116,7 +126,7 @@ public class UsuarioService {
                 if (data instanceof RequestUserAcadAdmin adminData) {
                     userAcadAdminRepository.save(new UserAcadAdmin(
                             adminData.id(),
-                            adminData.name(),
+                            adminData.nome(),
                             adminData.email(),
                             adminData.senha(),
                             adminData.telefone(),
@@ -130,11 +140,12 @@ public class UsuarioService {
                 if (data instanceof RequestPersonal personalData) {
                     personalRepository.save(new Personal(
                             personalData.id(),
-                            personalData.name(),
+                            personalData.nome(),
                             personalData.email(),
                             personalData.senha(),
                             personalData.telefone(),
                             personalData.cref(),
+                            personalData.imagemUrl(),
                             personalData.role()
                     ));
                 }
@@ -181,6 +192,48 @@ public class UsuarioService {
             default -> throw new IllegalArgumentException("Tipo de usuário inválido: " + data.tipoUsuario());
         }
     }
+
+    @Transactional
+    public void atualizarUsuarioPorEmail(IRequestUsuario data) {
+        String email = data.email();
+
+        switch (data.tipoUsuario().toLowerCase()) {
+            case "useracad" -> {
+                var user = userAcadRepository.findByUsuario_Email(email)
+                        .orElseThrow(() -> new EntityNotFoundException("UserAcad não encontrado"));
+                if (data instanceof RequestUserAcad req) {
+                    user.atualizarDados(req);
+                    userAcadRepository.save(user);
+                }
+            }
+            case "useradmin" -> {
+                var user = userAdminRepository.findByUsuario_Email(email)
+                        .orElseThrow(() -> new EntityNotFoundException("UserAdmin não encontrado"));
+                if (data instanceof RequestUserAdmin req) {
+                    user.atualizarDados(req);
+                    userAdminRepository.save(user);
+                }
+            }
+            case "useracadadmin" -> {
+                var user = userAcadAdminRepository.findByUsuario_Email(email)
+                        .orElseThrow(() -> new EntityNotFoundException("UserAcadAdmin não encontrado"));
+                if (data instanceof RequestUserAcadAdmin req) {
+                    user.atualizarDados(req);
+                    userAcadAdminRepository.save(user);
+                }
+            }
+            case "personal" -> {
+                var user = personalRepository.findByUsuario_Email(email)
+                        .orElseThrow(() -> new EntityNotFoundException("Personal não encontrado"));
+                if (data instanceof RequestPersonal req) {
+                    user.atualizarDados(req);
+                    personalRepository.save(user);
+                }
+            }
+            default -> throw new IllegalArgumentException("Tipo de usuário inválido: " + data.tipoUsuario());
+        }
+    }
+
 
     @Transactional
     public void deletarUsuario(Long id, String tipoUsuario) {

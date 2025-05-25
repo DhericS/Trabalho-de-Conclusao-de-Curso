@@ -35,7 +35,6 @@ public class Dieta {
     @JoinColumn(name = "user_acad_id")
     private UserAcad userAcad;
 
-
     @ManyToOne
     @JoinColumn(name = "personal_id")
     private Personal personal;

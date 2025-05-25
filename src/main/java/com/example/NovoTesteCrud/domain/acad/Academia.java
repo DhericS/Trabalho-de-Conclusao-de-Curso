@@ -5,11 +5,13 @@ import com.example.NovoTesteCrud.domain.acad.enums.TipoAcad;
 import com.example.NovoTesteCrud.domain.acad.enums.Estrutura;
 import com.example.NovoTesteCrud.domain.acad.enums.Servicos;
 
+import com.example.NovoTesteCrud.domain.planoacad.PlanoAcademia;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class Academia {
     @Enumerated(EnumType.STRING)
     private TipoAcad tipoAcad;
 
+    private String imagemUrl;
+
 
     @ElementCollection(targetClass = Estrutura.class)
     @Enumerated(EnumType.STRING)
@@ -47,6 +51,8 @@ public class Academia {
     @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> activities;
 
+    @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanoAcademia> planos = new ArrayList<>();
 
     public Academia(Long id) {
         this.id = id;

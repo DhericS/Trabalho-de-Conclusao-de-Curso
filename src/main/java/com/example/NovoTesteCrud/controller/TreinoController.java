@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.controller;
 
+import com.example.NovoTesteCrud.domain.treino.Treino;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoResponseDTO;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoRequestDTO;
 import com.example.NovoTesteCrud.domain.treino.dto.TreinoFilterDto;
@@ -7,6 +8,7 @@ import com.example.NovoTesteCrud.domain.treino.enums.Tipos;
 import com.example.NovoTesteCrud.domain.treino.enums.Hipertrofia_Performace;
 import com.example.NovoTesteCrud.domain.treino.enums.Cardio;
 
+import com.example.NovoTesteCrud.config.security.JwtUtil;
 import com.example.NovoTesteCrud.service.TreinoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +28,36 @@ public class TreinoController {
     @Autowired
     private TreinoService treinoService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @GetMapping
     public ResponseEntity<List<TreinoResponseDTO>> buscarTodosTreinos() {
         return ResponseEntity.ok(treinoService.buscarTodosTreinos());
     }
     @GetMapping("/filtro")
     public List<TreinoResponseDTO> buscarFiltrados(
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) List<Cardio> cardios,
             @RequestParam(required = false) List<Hipertrofia_Performace> hipertrofias,
             @RequestParam(required = false) List<Tipos> tiposTreino
     ) {
         TreinoFilterDto filtro = new TreinoFilterDto(cardios, hipertrofias, tiposTreino);
-        return treinoService.buscarTreinosFiltrados(filtro);
+        return treinoService.buscarTreinosFiltradosComBusca(search, filtro);
+    }
+
+
+    @GetMapping("{id}")
+    public ResponseEntity<Treino> buscarTreino(@PathVariable Long id) {
+        return ResponseEntity.ok()
+                .body(treinoService.buscarPorId(id));
     }
 
 
     @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarTreinos(@RequestBody TreinoRequestDTO data) {
+
         TreinoResponseDTO treinoResponseDTO = treinoService.registrarTreinos(data);
 
         Map<String, Object> response = new HashMap<>();

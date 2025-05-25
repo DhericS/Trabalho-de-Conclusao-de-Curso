@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlanoAcademiaService {
@@ -29,6 +30,10 @@ public class PlanoAcademiaService {
     public List<PlanoAcademia> buscarPlanosPorAcademia(Long academiaId) {
         return repository.findByAcademiaId(academiaId);
     }
+    public Optional<PlanoAcademia> buscarPorId(Long id) {
+        return repository.findById(id);
+    }
+
 
     @Transactional
     public PlanoAcademiaResponseDTO registrarPlano(PlanoAcademiaRequestDTO data) {
@@ -54,6 +59,10 @@ public class PlanoAcademiaService {
         plano.setNome(data.nome());
         plano.setDescricao(data.descricao());
         plano.setPreco(data.preco());
+
+        Academia academia = academiaRepository.findById(data.academiaId())
+                .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada"));
+        plano.setAcademia(academia);
 
         repository.save(plano);
         return new PlanoAcademiaResponseDTO(plano);

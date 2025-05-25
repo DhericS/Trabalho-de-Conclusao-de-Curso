@@ -39,13 +39,20 @@ public class AtividadeService {
         return atividadeRepository.findByAcademia(academia);
     }
 
+    public Atividade buscarPorId(Long id) {
+        return atividadeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada com ID: " + id));
+    }
+
     @Transactional
     public Atividade registrarAtividade(AtividadeRequestDTO data) {
         Academia academia = academiaRepository.findById(data.academiaId())
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
 
         Atividade newAtividade = new Atividade();
-        newAtividade.setNome(data.name());
+        newAtividade.setNome(data.nome());
+        newAtividade.setHorario(data.horario());
+        newAtividade.setDiaSemana(data.diaSemana());
         newAtividade.setAcademia(academia);
 
         return atividadeRepository.save(newAtividade);
@@ -56,7 +63,7 @@ public class AtividadeService {
         Atividade atividade = atividadeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada!"));
 
-        atividade.setNome(data.name());
+        atividade.setNome(data.nome());
 
         return atividadeRepository.save(atividade);
     }
