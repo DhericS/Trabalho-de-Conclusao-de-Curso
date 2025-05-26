@@ -278,6 +278,7 @@ public class UsuarioService {
 
 
 
+
     @Transactional
     public void deletarUsuario(Long id, String tipoUsuario) {
         switch (tipoUsuario.toLowerCase()) {

@@ -9,6 +9,7 @@ import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.UsuarioResponseDTO;
 import com.example.NovoTesteCrud.config.security.JwtUtil;
+import com.example.NovoTesteCrud.repository.AcademiaRepository;
 import com.example.NovoTesteCrud.repository.PersonalRepository;
 import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
 import com.example.NovoTesteCrud.repository.UserAcadRepository;
@@ -49,6 +50,9 @@ public class UsuarioController {
 
     @Autowired
     private PersonalRepository personalRepository;
+
+    @Autowired
+    private AcademiaRepository academiaRepository;
 
     @PreAuthorize("hasRole('USERADMIN')")
     @GetMapping("/todos")
@@ -190,6 +194,13 @@ public class UsuarioController {
 
         AcademiaResponseDTO response = usuarioService.editarAcademiaDoUserAcadAdmin(id, dto);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/academia/{id}")
+    @PreAuthorize("hasRole('USERACADADMIN')")
+    public ResponseEntity<?> deletarAcademia(@PathVariable Long id) {
+        academiaRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 
