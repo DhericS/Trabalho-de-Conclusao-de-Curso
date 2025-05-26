@@ -4,17 +4,14 @@ import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
 import com.example.NovoTesteCrud.domain.acad.dto.AcademiaResponseDTO;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.userbase.dto.UsuarioResponseDTO;
-import com.example.NovoTesteCrud.repository.PersonalRepository;
+import com.example.NovoTesteCrud.repository.*;
 import com.example.NovoTesteCrud.domain.personal.dto.RequestPersonal;
 import com.example.NovoTesteCrud.domain.user.dto.RequestUserAcad;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
-import com.example.NovoTesteCrud.repository.UserAcadRepository;
 import com.example.NovoTesteCrud.domain.useracadadmin.RequestUserAcadAdmin;
 import com.example.NovoTesteCrud.domain.useracadadmin.UserAcadAdmin;
-import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
 import com.example.NovoTesteCrud.domain.useradmin.dto.RequestUserAdmin;
 import com.example.NovoTesteCrud.domain.useradmin.UserAdmin;
-import com.example.NovoTesteCrud.repository.UserAdminRepository;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.acad.Academia;
@@ -39,6 +36,10 @@ public class UsuarioService {
     private UserAcadAdminRepository userAcadAdminRepository;
     @Autowired
     private PersonalRepository personalRepository;
+    @Autowired
+    private AvaliacaoRepository avaliacaoRepository;
+    @Autowired
+    private DietaRepository dietaRepository;
 
     public List<UsuarioResponseDTO> buscarTodosUserAdminDTO() {
         return userAdminRepository.findAll()
@@ -282,11 +283,16 @@ public class UsuarioService {
     @Transactional
     public void deletarUsuario(Long id, String tipoUsuario) {
         switch (tipoUsuario.toLowerCase()) {
-            case "useracad" -> userAcadRepository.deleteById(id);
+            case "useracad" -> {
+                avaliacaoRepository.deleteAllByUsuarioId_Id(id);
+                dietaRepository.deleteAllByUserAcad_Id(id);
+                userAcadRepository.deleteById(id);
+            }
             case "useradmin" -> userAdminRepository.deleteById(id);
             case "useracadadmin" -> userAcadAdminRepository.deleteById(id);
             case "personal" -> personalRepository.deleteById(id);
             default -> throw new IllegalArgumentException("Tipo de usuário inválido: " + tipoUsuario);
         }
     }
+
 }
