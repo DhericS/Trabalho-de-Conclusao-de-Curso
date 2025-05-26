@@ -73,6 +73,7 @@ public class AcademiaController {
         return ResponseEntity.ok(response);
     }
 
+    //teste
     @PreAuthorize("@academiaService.usuarioPodeGerenciar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarAcademia(@PathVariable Long id, @RequestBody @Valid AcademiaRequestDTO data) {
