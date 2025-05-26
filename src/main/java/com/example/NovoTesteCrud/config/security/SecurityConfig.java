@@ -90,6 +90,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/academia/externas-detalhes").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia/externas").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia/filtro").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/academia/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia/{id}/upload-imagem").permitAll()
                         .requestMatchers(HttpMethod.GET, "/academia/upload-imagem-temp").permitAll()
                         .requestMatchers(HttpMethod.POST, "/academia/{id}/upload-imagem").permitAll()
