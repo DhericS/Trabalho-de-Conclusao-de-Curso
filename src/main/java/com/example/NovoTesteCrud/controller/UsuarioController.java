@@ -2,14 +2,18 @@ package com.example.NovoTesteCrud.controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
+import com.example.NovoTesteCrud.domain.acad.dto.AcademiaResponseDTO;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.IRequestUsuario;
 import com.example.NovoTesteCrud.domain.userbase.dto.UsuarioResponseDTO;
 import com.example.NovoTesteCrud.config.security.JwtUtil;
 import com.example.NovoTesteCrud.repository.PersonalRepository;
+import com.example.NovoTesteCrud.repository.UserAcadAdminRepository;
 import com.example.NovoTesteCrud.repository.UserAcadRepository;
 import com.example.NovoTesteCrud.service.UsuarioService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +43,9 @@ public class UsuarioController {
 
     @Autowired
     private UserAcadRepository userAcadRepository;
+
+    @Autowired
+    private UserAcadAdminRepository userAcadAdminRepository;
 
     @Autowired
     private PersonalRepository personalRepository;
@@ -141,6 +148,51 @@ public class UsuarioController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/{id}/academia")
+    @PreAuthorize("hasRole('USERACADADMIN')")
+    public ResponseEntity<AcademiaResponseDTO> associarAcademia(
+            @PathVariable Long id,
+            @RequestParam("tipoUsuario") String tipoUsuario,
+            @RequestBody @Valid AcademiaRequestDTO dto
+    ) {
+        if (!tipoUsuario.equalsIgnoreCase("useracadadmin")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        AcademiaResponseDTO response = usuarioService.associarAcademiaAoUserAcadAdmin(id, dto);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}/academia")
+    @PreAuthorize("hasRole('USERACADADMIN')")
+    public ResponseEntity<AcademiaResponseDTO> buscarAcademiaDoUsuario(@PathVariable Long id) {
+        var user = userAcadAdminRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("UserAcadAdmin não encontrado"));
+
+        if (user.getAcademia() == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(new AcademiaResponseDTO(user.getAcademia()));
+    }
+
+    @PutMapping("/{id}/academia")
+    @PreAuthorize("hasRole('USERACADADMIN')")
+    public ResponseEntity<AcademiaResponseDTO> editarAcademiaDoUsuario(
+            @PathVariable Long id,
+            @RequestParam("tipoUsuario") String tipoUsuario,
+            @RequestBody @Valid AcademiaRequestDTO dto
+    ) {
+        if (!tipoUsuario.equalsIgnoreCase("useracadadmin")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        AcademiaResponseDTO response = usuarioService.editarAcademiaDoUserAcadAdmin(id, dto);
+        return ResponseEntity.ok(response);
+    }
+
+
 
     @PostMapping("/{id}/upload-imagem")
     public ResponseEntity<?> uploadImagem(

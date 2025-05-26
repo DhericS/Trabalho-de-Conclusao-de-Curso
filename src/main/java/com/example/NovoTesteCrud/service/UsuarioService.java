@@ -1,5 +1,7 @@
 package com.example.NovoTesteCrud.service;
 
+import com.example.NovoTesteCrud.domain.acad.dto.AcademiaRequestDTO;
+import com.example.NovoTesteCrud.domain.acad.dto.AcademiaResponseDTO;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.userbase.dto.UsuarioResponseDTO;
 import com.example.NovoTesteCrud.repository.PersonalRepository;
@@ -233,6 +235,47 @@ public class UsuarioService {
             default -> throw new IllegalArgumentException("Tipo de usuário inválido: " + data.tipoUsuario());
         }
     }
+
+    @Transactional
+    public AcademiaResponseDTO associarAcademiaAoUserAcadAdmin(Long userId, AcademiaRequestDTO data) {
+        var user = userAcadAdminRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("UserAcadAdmin não encontrado"));
+
+        Academia academia = new Academia();
+        academia.setNome(data.nome());
+        academia.setEndereco(data.endereco());
+        academia.setTelefone(data.telefone());
+        academia.setImagemUrl(data.imagemUrl());
+        academia.setTipoAcad(data.tipoAcad());
+
+        user.setAcademia(academia);
+
+        userAcadAdminRepository.save(user);
+
+        return new AcademiaResponseDTO(user.getAcademia());
+    }
+
+    @Transactional
+    public AcademiaResponseDTO editarAcademiaDoUserAcadAdmin(Long userId, AcademiaRequestDTO data) {
+        var user = userAcadAdminRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("UserAcadAdmin não encontrado"));
+
+        Academia academia = user.getAcademia();
+        if (academia == null) {
+            throw new EntityNotFoundException("Usuário ainda não possui academia associada.");
+        }
+
+        academia.setNome(data.nome());
+        academia.setEndereco(data.endereco());
+        academia.setTelefone(data.telefone());
+        academia.setImagemUrl(data.imagemUrl());
+        academia.setTipoAcad(data.tipoAcad());
+
+
+        return new AcademiaResponseDTO(academia);
+    }
+
+
 
 
     @Transactional
