@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.controller;
 
+import com.example.NovoTesteCrud.domain.atvd.Atividade;
 import com.example.NovoTesteCrud.domain.atvd.dto.AtividadeRequestDTO;
 import com.example.NovoTesteCrud.domain.atvd.dto.AtividadeResponseDTO;
 import com.example.NovoTesteCrud.service.AtividadeService;
@@ -29,7 +30,14 @@ public class AtividadeController {
         return ResponseEntity.ok(atividades);
     }
 
-//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<AtividadeResponseDTO> buscarPorId(@PathVariable Long id) {
+        Atividade atividade = atividadeService.buscarPorId(id);
+        return ResponseEntity.ok(new AtividadeResponseDTO(atividade));
+    }
+
+
+    //    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividadesPorAcademia(@PathVariable Long academiaId) {
         List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividadesPorAcademia(academiaId)
@@ -37,7 +45,7 @@ public class AtividadeController {
         return ResponseEntity.ok(atividades);
     }
 
-    @PreAuthorize("@academiaService.usuarioPodeGerenciar(#data.academiaId) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    //@PreAuthorize("@academiaService.usuarioPodeGerenciar(#data.academiaId) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAtividade(@RequestBody @Valid AtividadeRequestDTO data) {
         AtividadeResponseDTO atividadeResponseDTO = new AtividadeResponseDTO(atividadeService.registrarAtividade(data));

@@ -1,6 +1,7 @@
 package com.example.NovoTesteCrud.domain.exercicios;
 
 import com.example.NovoTesteCrud.domain.treino.Treino;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,5 +23,6 @@ public class Exercicio {
 
     @ManyToOne
     @JoinColumn(name = "treino_id", nullable = false)
+    @JsonBackReference
     private Treino treino;
 }

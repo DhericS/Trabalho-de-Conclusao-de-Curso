@@ -1,6 +1,7 @@
 package com.example.NovoTesteCrud.domain.dieta.dto;
 
 import com.example.NovoTesteCrud.domain.dieta.Dieta;
+import com.example.NovoTesteCrud.domain.dieta.enums.TipoDieta;
 
 public record DietaResponseDTO(
         Long id,
@@ -8,6 +9,7 @@ public record DietaResponseDTO(
         String descricao,
         Integer calorias,
         String objetivo,
+        TipoDieta tipoDieta,
         String nomeUsuario
 ) {
     public DietaResponseDTO(Dieta dieta) {
@@ -17,6 +19,7 @@ public record DietaResponseDTO(
                 dieta.getDescricao(),
                 dieta.getCalorias(),
                 dieta.getObjetivo().name(),
+                dieta.getTipoDieta(),
                 dieta.getUserAcad() != null
                         ? dieta.getUserAcad().getUsuario().getNome()
                         : dieta.getPersonal().getUsuario().getNome()

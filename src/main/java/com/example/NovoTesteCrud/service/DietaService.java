@@ -2,6 +2,9 @@ package com.example.NovoTesteCrud.service;
 
 import com.example.NovoTesteCrud.domain.dieta.Dieta;
 import com.example.NovoTesteCrud.domain.dieta.dto.DietaRequestDTO;
+import com.example.NovoTesteCrud.domain.dieta.dto.DietaResponseDTO;
+import org.springframework.data.jpa.domain.Specification;
+import com.example.NovoTesteCrud.domain.dieta.dto.DietaFilterDto;
 import com.example.NovoTesteCrud.domain.personal.Personal;
 import com.example.NovoTesteCrud.domain.user.UserAcad;
 import com.example.NovoTesteCrud.repository.DietaRepository;
@@ -28,6 +31,20 @@ public class DietaService {
 
     public List<Dieta> listarTodasDieta() {
         return dietaRepository.findAll();
+    }
+
+    public List<DietaResponseDTO> buscarDietasFiltradasComBusca(String search, DietaFilterDto filtro) {
+        Specification<Dieta> spec = filtro.toSpecification();
+
+        if (search != null && !search.isEmpty()) {
+            Specification<Dieta> searchSpec = (root, query, cb) ->
+                    cb.like(cb.lower(root.get("titulo")), "%" + search.toLowerCase() + "%");
+            spec = spec == null ? searchSpec : spec.and(searchSpec);
+        }
+
+        return dietaRepository.findAll(spec).stream()
+                .map(DietaResponseDTO::new)
+                .toList();
     }
 
     public Dieta criarDieta(DietaRequestDTO dto) {
@@ -79,5 +96,10 @@ public class DietaService {
                     return false;
                 })
                 .orElse(false);
+    }
+
+    public Dieta buscarDietaPorId(Long id) {
+        return dietaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada com id: " + id));
     }
 }

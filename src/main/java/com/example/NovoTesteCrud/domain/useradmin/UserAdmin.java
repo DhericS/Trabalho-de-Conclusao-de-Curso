@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.useradmin;
 
+import com.example.NovoTesteCrud.domain.useradmin.dto.RequestUserAdmin;
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import jakarta.persistence.*;
@@ -23,15 +24,14 @@ public class UserAdmin {
     @Delegate
     private Usuario usuario;
 
-    public UserAdmin(Long id, String name, String email, String senha, String telefone, Role role) {
-        this.usuario = new Usuario(name, email, senha, telefone, role);
+    public UserAdmin(Long id, String nome, String email, String senha, String telefone, Role role) {
+        this.usuario = new Usuario(nome, email, senha, telefone, role);
         this.id = id;
     }
 
     public void atualizarDados(RequestUserAdmin data) {
-        usuario.setNome(data.name());
+        usuario.setNome(data.nome());
         usuario.setEmail(data.email());
-        usuario.setSenha(data.senha());
         usuario.setTelefone(data.telefone());
     }
 }

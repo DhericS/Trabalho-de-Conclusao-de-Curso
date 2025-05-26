@@ -1,5 +1,6 @@
 package com.example.NovoTesteCrud.domain.user;
 
+import com.example.NovoTesteCrud.domain.user.dto.RequestUserAcad;
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
 import lombok.Data;
@@ -22,8 +23,10 @@ public class UserAcad {
     @Delegate
     private Usuario usuario;
 
-    public UserAcad(Long id, String name, String email, String senha, String telefone, Role role) {
-        this.usuario = new Usuario(name, email, senha, telefone, role);
+    private String imagemUrl;
+
+    public UserAcad(Long id, String nome, String email, String senha, String telefone, String imagemUrl, Role role) {
+        this.usuario = new Usuario(nome, email, senha, telefone, role);
         this.id = id;
     }
 
@@ -33,9 +36,11 @@ public class UserAcad {
     }
 
     public void atualizarDados(RequestUserAcad data) {
-        usuario.setNome(data.name());
+        usuario.setNome(data.nome());
         usuario.setEmail(data.email());
         usuario.setSenha(data.senha());
         usuario.setTelefone(data.telefone());
+        this.imagemUrl = data.imagemUrl();
+
     }
 }
