@@ -1,5 +1,7 @@
 package com.example.NovoTesteCrud.domain.user;
 
+import com.example.NovoTesteCrud.domain.avaliacao.Avaliacao;
+import com.example.NovoTesteCrud.domain.dieta.Dieta;
 import com.example.NovoTesteCrud.domain.user.dto.RequestUserAcad;
 import com.example.NovoTesteCrud.domain.userbase.Role;
 import com.example.NovoTesteCrud.domain.userbase.Usuario;
@@ -8,6 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Delegate;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user_academia")
@@ -24,6 +29,13 @@ public class UserAcad {
     private Usuario usuario;
 
     private String imagemUrl;
+
+    @OneToMany(mappedBy = "userAcad", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Dieta> dietas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuarioId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Avaliacao> avaliacoes = new ArrayList<>();
+
 
     public UserAcad(Long id, String nome, String email, String senha, String telefone, String imagemUrl, Role role) {
         this.usuario = new Usuario(nome, email, senha, telefone, role);
