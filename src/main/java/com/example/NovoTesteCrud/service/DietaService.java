@@ -29,8 +29,11 @@ public class DietaService {
     @Autowired
     private PersonalRepository personalRepository;
 
-    public List<Dieta> listarTodasDieta() {
-        return dietaRepository.findAll();
+    public List<DietaResponseDTO> listarTodasDieta() {
+        return dietaRepository.findAll()
+                .stream()
+                .map(DietaResponseDTO::new)
+                .toList();
     }
 
     public List<DietaResponseDTO> buscarDietasFiltradasComBusca(String search, DietaFilterDto filtro) {
@@ -46,6 +49,14 @@ public class DietaService {
                 .map(DietaResponseDTO::new)
                 .toList();
     }
+
+    public List<DietaResponseDTO> listarPorPersonal(Long personalId) {
+        return dietaRepository.findByPersonalId(personalId)
+                .stream()
+                .map(DietaResponseDTO::new)
+                .toList();
+    }
+
 
     public Dieta criarDieta(DietaRequestDTO dto) {
         Dieta dieta = new Dieta();

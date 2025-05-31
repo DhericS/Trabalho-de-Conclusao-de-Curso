@@ -25,9 +25,9 @@ public class DietaController {
 //    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping
     public ResponseEntity<List<DietaResponseDTO>> listar() {
-        var lista = dietaService.listarTodasDieta().stream().map(DietaResponseDTO::new).toList();
-        return ResponseEntity.ok(lista);
+        return ResponseEntity.ok(dietaService.listarTodasDieta());
     }
+
     @GetMapping("/filtro")
     public List<DietaResponseDTO> buscarFiltradas(
             @RequestParam(required = false) String search,
@@ -53,6 +53,14 @@ public class DietaController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(new DietaResponseDTO(dieta));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DietaResponseDTO>> listarPorPersonal(@RequestParam(required = false) Long personalId) {
+        if (personalId != null) {
+            return ResponseEntity.ok(dietaService.listarPorPersonal(personalId));
+        }
+        return ResponseEntity.ok(dietaService.listarTodasDieta());
     }
 
 

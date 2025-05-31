@@ -53,6 +53,14 @@ public class TreinoService {
         return treinoRepository.findById(id).orElse(null);
     }
 
+    public List<TreinoResponseDTO> listarPorPersonal(Long personalId) {
+        return treinoRepository.findByPersonalId(personalId)
+                .stream()
+                .map(TreinoResponseDTO::new)
+                .toList();
+    }
+
+
 
     @Transactional
     public TreinoResponseDTO registrarTreinos(TreinoRequestDTO data) {

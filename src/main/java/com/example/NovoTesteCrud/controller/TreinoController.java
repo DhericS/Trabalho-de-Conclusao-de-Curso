@@ -53,6 +53,15 @@ public class TreinoController {
                 .body(treinoService.buscarPorId(id));
     }
 
+    @GetMapping
+    public ResponseEntity<List<TreinoResponseDTO>> listarPorPersonal(@RequestParam(required = false) Long personalId) {
+        if (personalId != null) {
+            return ResponseEntity.ok(treinoService.listarPorPersonal(personalId));
+        }
+        return ResponseEntity.ok(treinoService.buscarTodosTreinos());
+    }
+
+
 
     @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
     @PostMapping
