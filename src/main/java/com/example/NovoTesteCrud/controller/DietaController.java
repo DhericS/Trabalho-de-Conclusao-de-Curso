@@ -22,7 +22,7 @@ public class DietaController {
     @Autowired
     private DietaService dietaService;
 
-//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+    // Endpoint para listar todas as dietas ou filtrar por personalId
     @GetMapping
     public ResponseEntity<List<DietaResponseDTO>> listar(@RequestParam(required = false) Long personalId) {
         if (personalId != null) {
@@ -31,6 +31,7 @@ public class DietaController {
         return ResponseEntity.ok(dietaService.listarTodasDieta());
     }
 
+    // Endpoint para buscar dietas filtradas com busca por nome e tipos
     @GetMapping("/filtro")
     public List<DietaResponseDTO> buscarFiltradas(
             @RequestParam(required = false) String search,
@@ -49,6 +50,7 @@ public class DietaController {
         return dietaService.buscarDietasFiltradasComBusca(search, filtro);
     }
 
+    // Endpoint para buscar dieta por ID
     @GetMapping("/{id}")
     public ResponseEntity<DietaResponseDTO> buscarPorId(@PathVariable Long id) {
         Dieta dieta = dietaService.buscarDietaPorId(id);
@@ -58,21 +60,22 @@ public class DietaController {
         return ResponseEntity.ok(new DietaResponseDTO(dieta));
     }
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+
+    // Endpoints para criar nova dieta
     @PostMapping
     public ResponseEntity<DietaResponseDTO> criarDieta(@RequestBody @Valid DietaRequestDTO dto) {
         var dieta = dietaService.criarDieta(dto);
         return ResponseEntity.ok(new DietaResponseDTO(dieta));
     }
 
-    //@PreAuthorize("@dietaService.usuarioPodeAlterar(#id)")
+    // Endpoints para atualizar dieta existente
     @PutMapping("/{id}")
     public ResponseEntity<DietaResponseDTO> atualizarDieta(@PathVariable Long id, @RequestBody @Valid DietaRequestDTO dto) {
         var dieta = dietaService.atualizarDieta(id, dto);
         return ResponseEntity.ok(new DietaResponseDTO(dieta));
     }
 
-    //@PreAuthorize("@dietaService.usuarioPodeAlterar(#id)")
+    // Endpoint para deletar dieta por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarDieta(@PathVariable Long id) {
         dietaService.deletarDieta(id);

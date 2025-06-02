@@ -21,7 +21,7 @@ public class PlanoAcademiaController {
     @Autowired
     private PlanoAcademiaService planoAcademiaService;
 
-    @PreAuthorize("hasRole('USERADMIN')")
+    // Endpoint para buscar todos os planos de academia
     @GetMapping
     public ResponseEntity<List<PlanoAcademiaResponseDTO>> buscarTodosPlanos() {
         List<PlanoAcademiaResponseDTO> planos = planoAcademiaService.buscarTodosPlanos()
@@ -32,6 +32,7 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(planos);
     }
 
+    // Endpoint para buscar um plano de academia por ID
     @GetMapping("/{id}")
     public ResponseEntity<PlanoAcademiaResponseDTO> buscarPorId(@PathVariable Long id) {
         return planoAcademiaService.buscarPorId(id)
@@ -39,7 +40,7 @@ public class PlanoAcademiaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+    // Endpoint para buscar planos de academia por academia ID
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<PlanoAcademiaResponseDTO>> buscarPlanosPorAcademia(@PathVariable Long academiaId) {
         List<PlanoAcademiaResponseDTO> planos = planoAcademiaService.buscarPlanosPorAcademia(academiaId)
@@ -50,7 +51,7 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(planos);
     }
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    // Endpoints para registrar planos de academia
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarPlano(@RequestBody @Valid PlanoAcademiaRequestDTO data) {
         PlanoAcademiaResponseDTO planoDTO = planoAcademiaService.registrarPlano(data);
@@ -62,7 +63,7 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    // Endpoint para atualizar um plano de academia
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarPlano(@PathVariable Long id, @RequestBody @Valid PlanoAcademiaRequestDTO data) {
         PlanoAcademiaResponseDTO updatedPlano = planoAcademiaService.atualizarPlano(id, data);
@@ -74,7 +75,8 @@ public class PlanoAcademiaController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+
+    // Endpoint para deletar um plano de academia por id
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarPlano(@PathVariable Long id) {
         planoAcademiaService.deletarPlano(id);

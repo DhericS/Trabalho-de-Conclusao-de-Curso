@@ -54,12 +54,13 @@ public class UsuarioController {
     @Autowired
     private AcademiaRepository academiaRepository;
 
-    @PreAuthorize("hasRole('USERADMIN')")
+    // Endpoint para buscar todos os usuários
     @GetMapping("/todos")
     public ResponseEntity<List<UsuarioResponseDTO>> buscarTodosUsuarios() {
         return ResponseEntity.ok(usuarioService.buscarTodosUsuarios());
     }
 
+    // Endpoint para buscar usuários por tipo
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuariosPorTipo(@RequestParam("tipoUsuario") String tipoUsuario) {
         switch (tipoUsuario.toLowerCase()) {
@@ -77,7 +78,7 @@ public class UsuarioController {
     }
 
 
-    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACAD')")
+    // Endpoint para buscar usuário por email
     @GetMapping("/buscar-por-email")
     public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorEmail(@RequestParam String email) {
         Optional<Usuario> usuario = usuarioService.buscarUsuarioPorEmail(email);
@@ -85,6 +86,7 @@ public class UsuarioController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // Endpoint para buscar usuário logado
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UsuarioResponseDTO> buscarUsuarioLogado(
@@ -99,6 +101,7 @@ public class UsuarioController {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     }
 
+    // Endpoint para buscar usuário por ID
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) {
         Optional<Personal> personal = personalRepository.findById(id);
@@ -110,7 +113,7 @@ public class UsuarioController {
     }
 
 
-
+    // Endpoint para registrar um novo usuário
     @PostMapping
     public ResponseEntity<Map<String, String>> registrarUsuario(@RequestBody @Valid IRequestUsuario data) {
         usuarioService.registrarUsuario(data);
@@ -120,6 +123,7 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
+    // Endpoint para atualizar um usuário por ID
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> atualizarUsuario(
             @PathVariable Long id, @RequestBody @Valid IRequestUsuario data) {
@@ -131,6 +135,7 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
+    // Endpoint para atualizar usuário por email
     @PutMapping("/atualizar")
     public ResponseEntity<Map<String, String>> atualizarUsuarioPorEmail(@RequestBody @Valid IRequestUsuario data) {
         usuarioService.atualizarUsuarioPorEmail(data);
@@ -142,6 +147,7 @@ public class UsuarioController {
 
 
     // Exemplo: DELETE http://localhost:8080/usuarios/1?userType=useracad
+    // Endpoint para deletar um usuário por ID e tipo
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarUsuario(@PathVariable Long id, @RequestParam("userType") String userType) {
 
@@ -153,6 +159,8 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
+
+    // Endpoint para associar uma academia a um usuário do tipo UserAcadAdmin
     @PostMapping("/{id}/academia")
     @PreAuthorize("hasRole('USERACADADMIN')")
     public ResponseEntity<AcademiaResponseDTO> associarAcademia(
@@ -168,6 +176,7 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
+    // Endpoint para buscar a academia associada a um usuário do tipo UserAcadAdmin
     @GetMapping("/{id}/academia")
     @PreAuthorize("hasRole('USERACADADMIN')")
     public ResponseEntity<AcademiaResponseDTO> buscarAcademiaDoUsuario(@PathVariable Long id) {
@@ -181,6 +190,7 @@ public class UsuarioController {
         return ResponseEntity.ok(new AcademiaResponseDTO(user.getAcademia()));
     }
 
+// Endpoint para editar a academia associada a um usuário do tipo UserAcadAdmin
     @PutMapping("/{id}/academia")
     @PreAuthorize("hasRole('USERACADADMIN')")
     public ResponseEntity<AcademiaResponseDTO> editarAcademiaDoUsuario(
@@ -196,6 +206,7 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
+    // Endpoint para deletar a academia associada a um usuário do tipo UserAcadAdmin
     @DeleteMapping("/academia/{id}")
     @PreAuthorize("hasRole('USERACADADMIN')")
     public ResponseEntity<?> deletarAcademia(@PathVariable Long id) {
@@ -204,7 +215,7 @@ public class UsuarioController {
     }
 
 
-
+    // Endpoint para upload de imagem de usuário
     @PostMapping("/{id}/upload-imagem")
     public ResponseEntity<?> uploadImagem(
             @PathVariable Long id,
@@ -249,6 +260,7 @@ public class UsuarioController {
         return ResponseEntity.ok(Map.of("url", imageUrl));
     }
 
+// Endpoint para upload de imagem temporária
     @PostMapping("/upload-imagem-temp")
     public ResponseEntity<?> uploadImagemTemp(
             @RequestParam("file") MultipartFile file,

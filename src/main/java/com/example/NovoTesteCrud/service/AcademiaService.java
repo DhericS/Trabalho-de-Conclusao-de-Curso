@@ -37,23 +37,25 @@ public class AcademiaService {
 
     private final String FIELD_MASK = "places.name,places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.businessStatus,places.photos";
 
-
+    // Metodo para buscar todas as academias
     public List<Academia> buscarTodasAcademias() {
         return repository.findAll();
     }
 
+    // Metodo para buscar todas as academias filtradas
     public List<Academia> buscarTodasAcademiasFiltradas(AcademiaFilterDTO filter) {
         Specification<Academia> spec = filter.toSpecification();
 
         return repository.findAll(spec);
     }
 
+    // Metodo para buscar uma academia por ID
     public Academia buscarPorId(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada com ID: " + id));
     }
 
-
+    // Metodo para registar uma nova academia
     @Transactional
     public Academia registrarAcademia(AcademiaRequestDTO data) {
         Academia newAcademia = new Academia();
@@ -66,6 +68,7 @@ public class AcademiaService {
         return repository.save(newAcademia);
     }
 
+    // Metodo para atualizar uma academia existente
     @Transactional
     public Academia atualizarAcademia(AcademiaRequestDTO data, Long id) {
         Optional<Academia> optionalAcademia = repository.findById(id);
@@ -82,6 +85,7 @@ public class AcademiaService {
         }
     }
 
+    // Metodo para deletar uma academia
     @Transactional
     public void deletarAcademia(Long id) {
         Optional<Academia> optionalAcademia = repository.findById(id);
@@ -92,6 +96,7 @@ public class AcademiaService {
         }
     }
 
+    // Metodo para verificar se o usuário pode gerenciar uma academia
     public boolean usuarioPodeGerenciar(Long academiaId) {
         var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = authUser.getUsername();
@@ -101,11 +106,13 @@ public class AcademiaService {
                 .orElse(false);
     }
 
+    // Metodo para buscar academias próximas a um endereço usando a API do Google Places
     public List<AcademiaExternaDTO> buscarAcademiasProximas(String endereco) {
         String coordenadas = buscarCoordenadas(endereco);
         return buscarAcademias(coordenadas);
     }
 
+    // Metodo para buscar coordenadas de um endereço usando a API do Google Geocoding
     private String buscarCoordenadas(String endereco) {
         String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
                 endereco.replace(" ", "+") + "&key=" + apiKey;
@@ -121,6 +128,7 @@ public class AcademiaService {
         return location.get("lat").asText() + "," + location.get("lng").asText();
     }
 
+    // Metodo para buscar academias externas usando a API do Google Places
     private List<AcademiaExternaDTO> buscarAcademias(String coordenadas) {
         String url = "https://places.googleapis.com/v1/places:searchNearby";
 
@@ -161,6 +169,7 @@ public class AcademiaService {
         return lista;
     }
 
+    // Metodo para buscar detalhes de uma academia externa usando a API do Google Places
     public AcademiaDetalhesDTO detalhesComoDTO(String placeId) {
         String url = "https://places.googleapis.com/v1/places/" + placeId;
         HttpHeaders headers = new HttpHeaders();

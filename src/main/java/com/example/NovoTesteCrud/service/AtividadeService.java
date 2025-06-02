@@ -28,10 +28,12 @@ public class AtividadeService {
     @Autowired
     private UserAcadAdminRepository userAcadAdminRepository;
 
+    // Metodo para buscar todas as atividades
     public List<Atividade> buscarTodasAtividades() {
         return atividadeRepository.findAll();
     }
 
+    // Metodo para buscar todas as atividades por academia
     public List<Atividade> buscarTodasAtividadesPorAcademia(Long academiaId) {
         Academia academia = academiaRepository.findById(academiaId)
                 .orElseThrow(() -> new EntityNotFoundException("Academia não encontrada!"));
@@ -39,11 +41,13 @@ public class AtividadeService {
         return atividadeRepository.findByAcademia(academia);
     }
 
+    // Metodo para buscar uma atividade por ID
     public Atividade buscarPorId(Long id) {
         return atividadeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada com ID: " + id));
     }
 
+    // Metodo para registrar uma nova atividade
     @Transactional
     public Atividade registrarAtividade(AtividadeRequestDTO data) {
         Academia academia = academiaRepository.findById(data.academiaId())
@@ -58,6 +62,7 @@ public class AtividadeService {
         return atividadeRepository.save(newAtividade);
     }
 
+    // Metodo para atualizar uma atividade existente
     @Transactional
     public Atividade atualizarAtividade(AtividadeRequestDTO data, Long id) {
         Atividade atividade = atividadeRepository.findById(id)
@@ -69,6 +74,7 @@ public class AtividadeService {
     }
 
 
+    // Metodo para deletar uma atividade
     @Transactional
     public void deletarAtividade(Long id) {
         Optional<Atividade> optionalAtividade = atividadeRepository.findById(id);
@@ -79,6 +85,7 @@ public class AtividadeService {
         }
     }
 
+    // Metodo para verificar se o usuario pode editar a atividade
     public boolean usuarioPodeEditar(Long atividadeId) {
         var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = authUser.getUsername();

@@ -22,15 +22,18 @@ public class ExercicioService {
     @Autowired
     private TreinoRepository treinoRepository;
 
+    // Metodo para buscar todos os exercícios
     public List<ExercicioResponseDTO> buscarTodosExercicios() {
         return exercicioRepository.findAll().stream().map(ExercicioResponseDTO::new).toList();
     }
 
+    // Metodo para buscar exercícios por grupo muscular
     public List<ExercicioResponseDTO> buscarExerciciosPorGrupoMuscular(GrupoMuscular grupoMuscular) {
         List<Exercicio> exercicios = exercicioRepository.findByGrupoMuscular(grupoMuscular);
         return exercicios.stream().map(ExercicioResponseDTO::new).collect(Collectors.toList());
     }
 
+    // Metodo para registrar exercícios
     public Exercicio registrarExercicio(ExercicioRequestDTO dto) {
         Exercicio exercicio = new Exercicio();
         exercicio.setNome(dto.nome());
@@ -41,6 +44,7 @@ public class ExercicioService {
         return exercicioRepository.save(exercicio);
     }
 
+    // Metodo para atualizar exercício por id
     public Exercicio atualizarExercicio(Long id, ExercicioRequestDTO dto) {
         Exercicio exercicio = exercicioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Exercício não encontrado com ID: " + id));
@@ -52,6 +56,7 @@ public class ExercicioService {
         return exercicioRepository.save(exercicio);
     }
 
+    // Metodo para deletar exercício por id
     public void deletarExercicioPorId(Long id) {
         Exercicio exercicio = exercicioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Exercício não encontrado com ID: " + id));

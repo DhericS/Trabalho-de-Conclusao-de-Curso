@@ -43,7 +43,7 @@ public class AutenticacaoController {
 
 
 
-
+    // Endpoint para autenticação de usuário
     @PostMapping("/login")
     public ResponseEntity<AutenticacaoResponseDTO> login(@RequestBody @Valid AutenticacaoRequestDTO dto) {
         try {
@@ -93,6 +93,8 @@ public class AutenticacaoController {
         return null;
     }
 
+
+    // Endpoint para registrar um novo usuário
     @PostMapping("/register")
     public String register(@RequestBody @Valid AutenticacaoRegister dto) {
         // Verifica se o email já existe
@@ -167,6 +169,7 @@ public class AutenticacaoController {
                 personalRepository.findByUsuario_Email(email).isPresent();
     }
 
+    // Endpoint para esquecer a senha
     @PostMapping("/forgot-password")
     public String forgotPassword(@RequestBody EsquecerSenhaRequest request) throws MessagingException {
         boolean userFound = false;
@@ -197,6 +200,7 @@ public class AutenticacaoController {
         return "E-mail de recuperação enviado!";
     }
 
+    // Endpoint para redefinir a senha
     @PostMapping("/reset-password")
     public String resetPassword(@RequestBody ResetarSenhaRequest request) {
         String email = resetarSenhaRedisService.buscarEmailPorToken(request.getToken());

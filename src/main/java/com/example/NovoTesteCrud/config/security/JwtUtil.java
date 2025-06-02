@@ -23,6 +23,7 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
+    // Metodo para gerar o token JWT
     public String generateToken(String email, Role role) {
         return Jwts.builder()
                 .setSubject(email)
@@ -33,10 +34,12 @@ public class JwtUtil {
                 .compact();
     }
 
+    // Metodo para extrair o email do token JWT
     public String extractEmail(String token) {
         return parseToken(token).getBody().getSubject();
     }
 
+    // Metodo para extrair a role do token JWT
     public Role extractRole(String token) {
         String roleString = (String) parseToken(token).getBody().get("role");
         try {
@@ -47,8 +50,7 @@ public class JwtUtil {
         }
     }
 
-
-
+    // Metodo para verificar se o token JWT é válido
     public boolean isTokenValid(String token) {
         try {
             parseToken(token);
@@ -58,6 +60,7 @@ public class JwtUtil {
         }
     }
 
+    // Metodo para verificar se o token JWT expirou
     private Jws<Claims> parseToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())

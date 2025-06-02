@@ -34,7 +34,7 @@ public class AcademiaController {
     @Autowired
     private AcademiaRepository academiaRepository;
 
-//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
+    //buscar academias retornando o DTO
     @GetMapping
     public ResponseEntity<List<AcademiaResponseDTO>> buscarTodasAcademias() {
         List<AcademiaResponseDTO> academias = academiaService.buscarTodasAcademias().stream()
@@ -43,6 +43,7 @@ public class AcademiaController {
         return ResponseEntity.ok(academias);
     }
 
+    //buscar academias por id retornando o DTO
     @GetMapping("/{id}")
     public ResponseEntity<AcademiaResponseDTO> buscarPorId(@PathVariable Long id) {
         var academia = academiaService.buscarPorId(id);
@@ -50,6 +51,7 @@ public class AcademiaController {
     }
 
 
+    //buscar academias filtradas retornando o DTO
     @GetMapping("/filtro")
     public ResponseEntity<List<AcademiaResponseDTO>> buscarComFiltro(
             @RequestParam(required = false) List<TipoAcad> tipos,
@@ -63,6 +65,7 @@ public class AcademiaController {
         return ResponseEntity.ok(lista);
     }
 
+    //registrar academia enviado o pelo Request DTO
     @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAcademia(@RequestBody @Valid AcademiaRequestDTO data) {
@@ -73,8 +76,7 @@ public class AcademiaController {
         return ResponseEntity.ok(response);
     }
 
-    //teste
-    @PreAuthorize("@academiaService.usuarioPodeGerenciar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    //atualizar academia enviado o pelo Request DTO
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarAcademia(@PathVariable Long id, @RequestBody @Valid AcademiaRequestDTO data) {
         AcademiaResponseDTO updatedAcademia = new AcademiaResponseDTO(academiaService.atualizarAcademia(data, id));
@@ -84,7 +86,8 @@ public class AcademiaController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("@academiaService.usuarioPodeGerenciar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
+
+    // Deletar academia por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarAcademia(@PathVariable Long id) {
         academiaService.deletarAcademia(id);
@@ -93,16 +96,20 @@ public class AcademiaController {
         return ResponseEntity.ok(response);
     }
 
+
+    // Buscar academias externas (Google Places API)
     @GetMapping("externas")
     public List<AcademiaExternaDTO> buscarAcademias(@RequestParam String endereco) {
         return academiaService.buscarAcademiasProximas(endereco);
     }
 
+   // Buscar detalhes de uma academia externa (Google Places API)
     @GetMapping("externas-detalhes")
     public AcademiaDetalhesDTO buscarDetalhes(@RequestParam String placeId) {
         return academiaService.detalhesComoDTO(placeId);
     }
 
+    // fazer upload de imagem para uma academia específica
     @PostMapping("/{id}/upload-imagem")
     public ResponseEntity<?> uploadImagem(
             @PathVariable Long id,
@@ -127,6 +134,8 @@ public class AcademiaController {
         return ResponseEntity.ok(Map.of("url", imageUrl));
     }
 
+
+    // Upload de imagem temporária para visualização
     @PostMapping("/upload-imagem-temp")
     public ResponseEntity<?> uploadImagemTemp(@RequestParam("file") MultipartFile file) throws IOException {
         // Definir pasta temporária

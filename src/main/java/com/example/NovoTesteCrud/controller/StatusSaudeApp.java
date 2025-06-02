@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class StatusSaudeApp {
 
+    // Endpoint para verificar se o backend está online
     @GetMapping
     public String status() {
         return "<h1>✅ Backend online</h1>";

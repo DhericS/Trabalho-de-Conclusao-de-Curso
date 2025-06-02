@@ -22,6 +22,7 @@ public class DetalhesUsuarioService implements UserDetailsService {
     @Autowired private UserAcadAdminRepository userAcadAdminRepository;
     @Autowired private PersonalRepository personalRepository;
 
+    // Método para carregar o usuário pelo email
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userAcadRepository.findByUsuario_Email(email)
@@ -35,6 +36,7 @@ public class DetalhesUsuarioService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     }
 
+    // Metodo auxiliar para construir UserDetails
     private UserDetails buildUserDetails(String email, String senha, String role) {
         return new User(email, senha, List.of(new SimpleGrantedAuthority("ROLE_" + role)));
     }

@@ -31,6 +31,7 @@ public class TreinoController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    // Endpoint para listar todos os treinos e filtrar por personal
     @GetMapping
     public ResponseEntity<List<TreinoResponseDTO>> listar(@RequestParam(required = false) Long personalId) {
         if (personalId != null) {
@@ -39,6 +40,7 @@ public class TreinoController {
         return ResponseEntity.ok(treinoService.buscarTodosTreinos());
     }
 
+    // Endpoint para buscar treinos filtrados com busca
     @GetMapping("/filtro")
     public List<TreinoResponseDTO> buscarFiltrados(
             @RequestParam(required = false) String search,
@@ -51,6 +53,7 @@ public class TreinoController {
     }
 
 
+    // Endpoint para buscar treinos por ID
     @GetMapping("{id}")
     public ResponseEntity<Treino> buscarTreino(@PathVariable Long id) {
         return ResponseEntity.ok()
@@ -58,7 +61,7 @@ public class TreinoController {
     }
 
 
-    @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
+    // Endpoint para registrar novos treinos
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarTreinos(@RequestBody TreinoRequestDTO data) {
 
@@ -72,7 +75,7 @@ public class TreinoController {
     }
 
 
-    //@PreAuthorize("@treinoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
+    // Endpoint para atualizar treinos por ID
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarTreinos(@PathVariable Long id, @RequestBody @Valid TreinoRequestDTO data) {
         TreinoResponseDTO updatedTreino = treinoService.atualizarTreinos(id, data);
@@ -84,7 +87,7 @@ public class TreinoController {
         return ResponseEntity.ok(response);
     }
 
-    //@PreAuthorize("@treinoService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'PERSONAL')")
+    // Endpoint para deletar treinos por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarTreinos(@PathVariable Long id) {
         treinoService.deletarTreinos(id);

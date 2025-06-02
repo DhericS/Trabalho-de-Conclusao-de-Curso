@@ -25,6 +25,7 @@ public class AvaliacaoService {
         this.repository = repository;
     }
 
+    // Metodod para Listar todas as avaliações
     public List<AvaliacaoResponseDTO> listarPorUsuarioETipoEntidade(Long usuarioId, TipoEntidade tipoEntidade) {
         return repository.findByUsuarioId_IdAndTipoEntidade(usuarioId, tipoEntidade).stream()
                 .map(AvaliacaoResponseDTO::new)
@@ -32,12 +33,14 @@ public class AvaliacaoService {
     }
 
 
+    // Metodo para listar avaliações por tipo de entidade e ID da entidade
     public List<AvaliacaoResponseDTO> listarPorEntidade(TipoEntidade tipo, Long entidadeId) {
         return repository.findByTipoEntidadeAndEntidadeId(tipo, entidadeId).stream()
                 .map(AvaliacaoResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
+    // Metodo para registrar novas avaliações
     public AvaliacaoResponseDTO criar(AvaliacaoRequestDTO dto) {
         UserAcad user = userAcadRepository.findById(dto.usuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -54,6 +57,7 @@ public class AvaliacaoService {
         return new AvaliacaoResponseDTO(salvo);
     }
 
+    // Metodo para atualizar avaliações
     public AvaliacaoResponseDTO atualizar(Long id, AvaliacaoRequestDTO dto) {
         Avaliacao aval = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Avaliação não encontrada"));
@@ -70,6 +74,7 @@ public class AvaliacaoService {
     }
 
 
+    // Metodo para deletar avaliações
     public void deletar(Long id) {
         repository.deleteById(id);
     }

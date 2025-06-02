@@ -30,10 +30,12 @@ public class TreinoService {
     @Autowired
     private PersonalRepository personalRepository;
 
+    // Metodo para buscar todos os treinos
     public List<TreinoResponseDTO> buscarTodosTreinos() {
         return treinoRepository.findAll().stream().map(TreinoResponseDTO::new).toList();
     }
 
+    // Metodo para buscar treinos filtrados
     public List<TreinoResponseDTO> buscarTreinosFiltradosComBusca(String search, TreinoFilterDto filtro) {
         Specification<Treino> spec = filtro.toSpecification();
 
@@ -49,10 +51,12 @@ public class TreinoService {
     }
 
 
+    // Metodo para buscar treinos por id
     public Treino buscarPorId(Long id) {
         return treinoRepository.findById(id).orElse(null);
     }
 
+    // Metodo para buscar treinos por Personal
     public List<TreinoResponseDTO> listarPorPersonal(Long personalId) {
         return treinoRepository.findByPersonalId(personalId)
                 .stream()
@@ -62,6 +66,7 @@ public class TreinoService {
 
 
 
+    // Metodo para registrar treinos
     @Transactional
     public TreinoResponseDTO registrarTreinos(TreinoRequestDTO data) {
         if (data.personalId() == null) {
@@ -92,6 +97,7 @@ public class TreinoService {
         return new TreinoResponseDTO(treino);
     }
 
+    // Metodo para atualizar treinos
     @Transactional
     public TreinoResponseDTO atualizarTreinos(Long id, TreinoRequestDTO data) {
         Treino treino = treinoRepository.findById(id)
@@ -127,6 +133,7 @@ public class TreinoService {
         return new TreinoResponseDTO(treino);
     }
 
+    // Metodo para deletar treinos
     @Transactional
     public void deletarTreinos(Long id) {
         Treino treino = treinoRepository.findById(id)

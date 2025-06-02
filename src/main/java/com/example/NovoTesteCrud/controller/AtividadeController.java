@@ -22,7 +22,7 @@ public class AtividadeController {
     @Autowired
     private AtividadeService atividadeService;
 
-//    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    // buscar as atividades retornando uma lista de DTOs
     @GetMapping
     public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividades() {
         List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividades()
@@ -30,6 +30,7 @@ public class AtividadeController {
         return ResponseEntity.ok(atividades);
     }
 
+    // buscar atividade por ID retornando um DTO
     @GetMapping("/{id}")
     public ResponseEntity<AtividadeResponseDTO> buscarPorId(@PathVariable Long id) {
         Atividade atividade = atividadeService.buscarPorId(id);
@@ -37,7 +38,7 @@ public class AtividadeController {
     }
 
 
-    //    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    // buscar atividades por academia retornando uma lista de DTOs
     @GetMapping("/academia/{academiaId}")
     public ResponseEntity<List<AtividadeResponseDTO>> buscarTodasAtividadesPorAcademia(@PathVariable Long academiaId) {
         List<AtividadeResponseDTO> atividades = atividadeService.buscarTodasAtividadesPorAcademia(academiaId)
@@ -45,7 +46,7 @@ public class AtividadeController {
         return ResponseEntity.ok(atividades);
     }
 
-    //@PreAuthorize("@academiaService.usuarioPodeGerenciar(#data.academiaId) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
+    //registrar uma nova atividade pelo Request DTO e retornar um Response DTO
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarAtividade(@RequestBody @Valid AtividadeRequestDTO data) {
         AtividadeResponseDTO atividadeResponseDTO = new AtividadeResponseDTO(atividadeService.registrarAtividade(data));
@@ -57,7 +58,8 @@ public class AtividadeController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("@atividadeService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
+
+    // atualizar uma atividade pelo ID e Request DTO, retornando um Response DTO
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> atualizarAtividade(@PathVariable Long id, @RequestBody @Valid AtividadeRequestDTO data) {
         AtividadeResponseDTO updatedAtividade = new AtividadeResponseDTO(atividadeService.atualizarAtividade(data, id));
@@ -69,7 +71,7 @@ public class AtividadeController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("@atividadeService.usuarioPodeEditar(#id) or hasAnyRole('USERADMIN', 'USERACADADMIN')")
+   // deletar uma atividade pelo ID e retornar uma mensagem de sucesso
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deletarAtividade(@PathVariable Long id) {
         atividadeService.deletarAtividade(id);

@@ -23,18 +23,23 @@ public class PlanoAcademiaService {
     @Autowired
     private AcademiaRepository academiaRepository;
 
+    // Metodo para buscar todos os planos de academia
     public List<PlanoAcademia> buscarTodosPlanos() {
         return repository.findAll();
     }
 
+    // Metodo para buscar planos de academia por ID da academia
     public List<PlanoAcademia> buscarPlanosPorAcademia(Long academiaId) {
         return repository.findByAcademiaId(academiaId);
     }
+
+    // Metodo para buscar plano de academia por ID
     public Optional<PlanoAcademia> buscarPorId(Long id) {
         return repository.findById(id);
     }
 
 
+    // Metodo para registrar um novo plano de academia
     @Transactional
     public PlanoAcademiaResponseDTO registrarPlano(PlanoAcademiaRequestDTO data) {
         Academia academia = academiaRepository.findById(data.academiaId())
@@ -51,6 +56,7 @@ public class PlanoAcademiaService {
     }
 
 
+    // Metodo para atualizar um plano de academia existente
     @Transactional
     public PlanoAcademiaResponseDTO atualizarPlano(Long id, PlanoAcademiaRequestDTO data) {
         PlanoAcademia plano = repository.findById(id)
@@ -68,6 +74,7 @@ public class PlanoAcademiaService {
         return new PlanoAcademiaResponseDTO(plano);
     }
 
+// Metodo para deletar um plano de academia por ID
     @Transactional
     public void deletarPlano(Long id) {
         PlanoAcademia plano = repository.findById(id)

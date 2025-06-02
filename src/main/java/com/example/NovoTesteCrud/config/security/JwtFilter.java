@@ -25,40 +25,21 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private DetalhesUsuarioService userDetailsService;
 
+    // Metodo para recuperar o token do cabeçalho Authorization
     private String recoverToken(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) return null;
         return authHeader.replace("Bearer ", "");
     }
 
+    // Metodo que será executado a cada requisição
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String token = recoverToken(request);
-//        String email = jwtUtil.extractEmail(token);
 
-//        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-//            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-//
-//            if (jwtUtil.isTokenValid(token)) {
-//                try {
-//                    Role role = jwtUtil.extractRole(token);
-//                    System.out.println("Role extraída com sucesso: " + role);
-//
-//                    UsernamePasswordAuthenticationToken authToken =
-//                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//
-//                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//                    SecurityContextHolder.getContext().setAuthentication(authToken);
-//                } catch (IllegalArgumentException e) {
-//                    System.out.println("Token com role inválida.");
-//                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token com role inválida");
-//                    return;
-//                }
-//            }
-//        }
 
         if (token != null) {
             String email = jwtUtil.extractEmail(token);

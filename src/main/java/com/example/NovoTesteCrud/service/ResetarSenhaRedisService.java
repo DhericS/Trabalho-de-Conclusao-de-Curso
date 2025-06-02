@@ -12,14 +12,17 @@ public class ResetarSenhaRedisService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    // Metodo para salvar o token de redefinição de senha com o email associado
     public void salvarToken(String token, String email, long minutosExpiracao) {
         redisTemplate.opsForValue().set(token, email, minutosExpiracao, TimeUnit.MINUTES);
     }
 
+    // Metodo para buscar o email associado ao token de redefinição de senha
     public String buscarEmailPorToken(String token) {
         return redisTemplate.opsForValue().get(token);
     }
 
+    // Metodo para deletar o token de redefinição de senha
     public void deletarToken(String token) {
         redisTemplate.delete(token);
     }

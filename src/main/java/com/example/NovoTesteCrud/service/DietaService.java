@@ -29,6 +29,7 @@ public class DietaService {
     @Autowired
     private PersonalRepository personalRepository;
 
+    // Listar todas as dietas
     public List<DietaResponseDTO> listarTodasDieta() {
         return dietaRepository.findAll()
                 .stream()
@@ -36,6 +37,7 @@ public class DietaService {
                 .toList();
     }
 
+    // Listar dietas filtradas com busca
     public List<DietaResponseDTO> buscarDietasFiltradasComBusca(String search, DietaFilterDto filtro) {
         Specification<Dieta> spec = filtro.toSpecification();
 
@@ -50,6 +52,7 @@ public class DietaService {
                 .toList();
     }
 
+    // Listar dietas por Personal
     public List<DietaResponseDTO> listarPorPersonal(Long personalId) {
         return dietaRepository.findByPersonalId(personalId)
                 .stream()
@@ -58,6 +61,7 @@ public class DietaService {
     }
 
 
+    // registrar uma nova dieta
     public Dieta criarDieta(DietaRequestDTO dto) {
         Dieta dieta = new Dieta();
         dieta.setTitulo(dto.titulo());
@@ -80,6 +84,7 @@ public class DietaService {
         return dietaRepository.save(dieta);
     }
 
+    // Atualizar uma dieta existente
     public Dieta atualizarDieta(Long id, DietaRequestDTO dto) {
         Dieta dieta = dietaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada"));
         dieta.setTitulo(dto.titulo());
@@ -89,10 +94,12 @@ public class DietaService {
         return dietaRepository.save(dieta);
     }
 
+    // Deletar uma dieta
     public void deletarDieta(Long id) {
         dietaRepository.deleteById(id);
     }
 
+    // Verificar se o usuário pode alterar a dieta
     public boolean usuarioPodeAlterar(Long dietaId) {
         var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = authUser.getUsername();
@@ -109,6 +116,7 @@ public class DietaService {
                 .orElse(false);
     }
 
+    // Buscar dieta por ID
     public Dieta buscarDietaPorId(Long id) {
         return dietaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada com id: " + id));

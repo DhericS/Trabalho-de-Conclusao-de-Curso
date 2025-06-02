@@ -41,6 +41,7 @@ public class UsuarioService {
     @Autowired
     private DietaRepository dietaRepository;
 
+    // Métodos para buscar todos os usuários em diferentes categorias e retornar DTOs
     public List<UsuarioResponseDTO> buscarTodosUserAdminDTO() {
         return userAdminRepository.findAll()
                 .stream()
@@ -80,7 +81,7 @@ public class UsuarioService {
     }
 
 
-
+    // Metodo para buscar um usuário por email e retornar o DTO correspondente
     public Optional<Usuario> buscarUsuarioPorEmail(String email) {
         Optional<UserAcad> userAcad = userAcadRepository.findByUsuario_Email(email);
         if (userAcad.isPresent()) return Optional.of(userAcad.get().getUsuario());
@@ -98,6 +99,7 @@ public class UsuarioService {
     }
 
 
+    // Metodo para registrar um usuário com base no tipo de usuário
     public void registrarUsuario(IRequestUsuario data) {
         switch (data.tipoUsuario().toLowerCase()) {
             case "useracad" -> {
@@ -157,6 +159,7 @@ public class UsuarioService {
         }
     }
 
+    // Metodo para atualizar um usuário com base no tipo de usuário
     @Transactional
     public void atualizarUsuario(Long id, IRequestUsuario data) {
         switch (data.tipoUsuario().toLowerCase()) {
@@ -196,6 +199,7 @@ public class UsuarioService {
         }
     }
 
+    // Metodo para atualizar um usuário com base no email
     @Transactional
     public void atualizarUsuarioPorEmail(IRequestUsuario data) {
         String email = data.email();
@@ -237,6 +241,7 @@ public class UsuarioService {
         }
     }
 
+    // Métodos para associar e editar academia de um usuário do tipo UserAcadAdmin
     @Transactional
     public AcademiaResponseDTO associarAcademiaAoUserAcadAdmin(Long userId, AcademiaRequestDTO data) {
         var user = userAcadAdminRepository.findById(userId)
@@ -256,6 +261,7 @@ public class UsuarioService {
         return new AcademiaResponseDTO(user.getAcademia());
     }
 
+    // Método para editar a academia de um usuário do tipo UserAcadAdmin
     @Transactional
     public AcademiaResponseDTO editarAcademiaDoUserAcadAdmin(Long userId, AcademiaRequestDTO data) {
         var user = userAcadAdminRepository.findById(userId)
@@ -279,7 +285,7 @@ public class UsuarioService {
 
 
 
-
+    // Metodo para deletar um usuário com base no tipo de usuário
     @Transactional
     public void deletarUsuario(Long id, String tipoUsuario) {
         switch (tipoUsuario.toLowerCase()) {

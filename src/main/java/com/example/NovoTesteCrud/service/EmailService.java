@@ -13,6 +13,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    // Metodo para enviar e-mail
     public void sendEmail(String to, String subject, String content) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
