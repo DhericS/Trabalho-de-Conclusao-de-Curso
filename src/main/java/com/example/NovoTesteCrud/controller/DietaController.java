@@ -24,7 +24,10 @@ public class DietaController {
 
 //    @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @GetMapping
-    public ResponseEntity<List<DietaResponseDTO>> listar() {
+    public ResponseEntity<List<DietaResponseDTO>> listar(@RequestParam(required = false) Long personalId) {
+        if (personalId != null) {
+            return ResponseEntity.ok(dietaService.listarPorPersonal(personalId));
+        }
         return ResponseEntity.ok(dietaService.listarTodasDieta());
     }
 
@@ -54,15 +57,6 @@ public class DietaController {
         }
         return ResponseEntity.ok(new DietaResponseDTO(dieta));
     }
-
-    @GetMapping
-    public ResponseEntity<List<DietaResponseDTO>> listarPorPersonal(@RequestParam(required = false) Long personalId) {
-        if (personalId != null) {
-            return ResponseEntity.ok(dietaService.listarPorPersonal(personalId));
-        }
-        return ResponseEntity.ok(dietaService.listarTodasDieta());
-    }
-
 
     @PreAuthorize("hasAnyRole('USERADMIN', 'USERACADADMIN', 'USERACAD', 'PERSONAL')")
     @PostMapping
