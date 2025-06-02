@@ -32,9 +32,13 @@ public class TreinoController {
     private JwtUtil jwtUtil;
 
     @GetMapping
-    public ResponseEntity<List<TreinoResponseDTO>> buscarTodosTreinos() {
+    public ResponseEntity<List<TreinoResponseDTO>> listar(@RequestParam(required = false) Long personalId) {
+        if (personalId != null) {
+            return ResponseEntity.ok(treinoService.listarPorPersonal(personalId));
+        }
         return ResponseEntity.ok(treinoService.buscarTodosTreinos());
     }
+
     @GetMapping("/filtro")
     public List<TreinoResponseDTO> buscarFiltrados(
             @RequestParam(required = false) String search,
@@ -52,15 +56,6 @@ public class TreinoController {
         return ResponseEntity.ok()
                 .body(treinoService.buscarPorId(id));
     }
-
-    @GetMapping
-    public ResponseEntity<List<TreinoResponseDTO>> listarPorPersonal(@RequestParam(required = false) Long personalId) {
-        if (personalId != null) {
-            return ResponseEntity.ok(treinoService.listarPorPersonal(personalId));
-        }
-        return ResponseEntity.ok(treinoService.buscarTodosTreinos());
-    }
-
 
 
     @PreAuthorize("hasAnyRole('USERADMIN','USERACAD', 'PERSONAL')")
