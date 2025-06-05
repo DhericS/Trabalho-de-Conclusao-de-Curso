@@ -55,9 +55,9 @@ public class TreinoController {
 
     // Endpoint para buscar treinos por ID
     @GetMapping("{id}")
-    public ResponseEntity<Treino> buscarTreino(@PathVariable Long id) {
-        return ResponseEntity.ok()
-                .body(treinoService.buscarPorId(id));
+    public ResponseEntity<TreinoResponseDTO> buscarTreino(@PathVariable Long id) {
+        Treino treino = treinoService.buscarPorId(id);
+        return ResponseEntity.ok(new TreinoResponseDTO(treino));
     }
 
 
