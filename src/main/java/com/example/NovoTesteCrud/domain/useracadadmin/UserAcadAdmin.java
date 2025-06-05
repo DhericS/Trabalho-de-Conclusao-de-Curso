@@ -36,6 +36,7 @@ public class UserAcadAdmin {
         this.id = id;
         this.cnpj = cnpj;
         this.academia = academia;
+
     }
 
     public void atualizarDados(RequestUserAcadAdmin data) {

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: academia-app
+
+  config:
+    import: "aws-parameterstore:/academia-app/prod/"
+
+aws:
+  region: us-east-1
