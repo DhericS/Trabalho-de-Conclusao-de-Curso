@@ -39,7 +39,7 @@ class ExercicioServiceTest {
 
     @Test
     void deveRegistrarExercicio() {
-        ExercicioRequestDTO dto = new ExercicioRequestDTO("Supino", 3, 12, GrupoMuscular.PEITO, 1L);
+        ExercicioRequestDTO dto = new ExercicioRequestDTO("Supino", 3, 12, GrupoMuscular.PEITO, 1L, null);
         Exercicio exercicioSalvo = new Exercicio();
         exercicioSalvo.setId(1L);
         exercicioSalvo.setNome("Supino");
@@ -61,7 +61,7 @@ class ExercicioServiceTest {
         when(exercicioRepository.findById(1L)).thenReturn(Optional.of(exercicioExistente));
         when(exercicioRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        ExercicioRequestDTO dto = new ExercicioRequestDTO("Puxada", 4, 10, GrupoMuscular.COSTA, 1L);
+        ExercicioRequestDTO dto = new ExercicioRequestDTO("Puxada", 4, 10, GrupoMuscular.COSTA, 1L, null);
         Exercicio atualizado = exercicioService.atualizarExercicio(1L, dto);
 
         assertThat(atualizado.getNome()).isEqualTo("Puxada");
@@ -71,7 +71,7 @@ class ExercicioServiceTest {
     @Test
     void deveLancarExcecao_SeNaoEncontrarAoAtualizar() {
         when(exercicioRepository.findById(99L)).thenReturn(Optional.empty());
-        ExercicioRequestDTO dto = new ExercicioRequestDTO("Remada", 4, 12, GrupoMuscular.COSTA, 1L);
+        ExercicioRequestDTO dto = new ExercicioRequestDTO("Remada", 4, 12, GrupoMuscular.COSTA, 1L, null);
 
         assertThrows(EntityNotFoundException.class, () -> exercicioService.atualizarExercicio(99L, dto));
     }
