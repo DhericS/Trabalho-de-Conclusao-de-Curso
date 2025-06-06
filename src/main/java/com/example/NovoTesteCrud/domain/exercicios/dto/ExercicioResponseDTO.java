@@ -8,7 +8,8 @@ public record ExercicioResponseDTO(
         String nome,
         Integer series,
         Integer repeticoes,
-        GrupoMuscular grupoMuscular
+        GrupoMuscular grupoMuscular,
+        String imagemUrl
 ) {
     public ExercicioResponseDTO(Exercicio exercicio) {
         this(
@@ -16,7 +17,8 @@ public record ExercicioResponseDTO(
                 exercicio.getNome(),
                 exercicio.getSeries(),
                 exercicio.getRepeticoes(),
-                exercicio.getGrupoMuscular()
+                exercicio.getGrupoMuscular(),
+                exercicio.getImagemUrl()
         );
     }
 }

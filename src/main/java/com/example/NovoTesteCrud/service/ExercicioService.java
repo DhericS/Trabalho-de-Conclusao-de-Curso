@@ -40,6 +40,7 @@ public class ExercicioService {
         exercicio.setSeries(dto.series());
         exercicio.setRepeticoes(dto.repeticoes());
         exercicio.setGrupoMuscular(dto.grupoMuscular());
+        exercicio.setImagemUrl(dto.imagemUrl());
         exercicio.setTreino(new Treino(dto.treinoId()));
         return exercicioRepository.save(exercicio);
     }
@@ -52,6 +53,7 @@ public class ExercicioService {
         exercicio.setSeries(dto.series());
         exercicio.setRepeticoes(dto.repeticoes());
         exercicio.setGrupoMuscular(dto.grupoMuscular());
+        exercicio.setImagemUrl(dto.imagemUrl());
         exercicio.setTreino(new Treino(dto.treinoId()));
         return exercicioRepository.save(exercicio);
     }

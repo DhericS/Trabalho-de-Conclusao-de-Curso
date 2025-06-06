@@ -17,6 +17,7 @@ public class Exercicio {
     private String nome;
     private Integer series;
     private Integer repeticoes;
+    private String imagemUrl;
 
     @Enumerated(EnumType.STRING)
     private GrupoMuscular grupoMuscular;
