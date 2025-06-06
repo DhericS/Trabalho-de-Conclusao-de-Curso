@@ -57,7 +57,7 @@ public class ExercicioControllerTest {
 
     @Test
     void deveRegistrarExercicio() throws Exception {
-        ExercicioRequestDTO dto = new ExercicioRequestDTO("Supino Reto", 4, 12, GrupoMuscular.PEITO, 1L);
+        ExercicioRequestDTO dto = new ExercicioRequestDTO("Supino Reto", 4, 12, GrupoMuscular.PEITO, null,1L);
         Exercicio mockExercicio = Mockito.mock(Exercicio.class);
 
         Mockito.when(exercicioService.registrarExercicio(any())).thenReturn(mockExercicio);
@@ -70,7 +70,7 @@ public class ExercicioControllerTest {
 
     @Test
     void deveAtualizarExercicio() throws Exception {
-        ExercicioRequestDTO dto = new ExercicioRequestDTO("Crucifixo", 3, 10, GrupoMuscular.PEITO, 1L);
+        ExercicioRequestDTO dto = new ExercicioRequestDTO("Crucifixo", 3, 10, GrupoMuscular.PEITO,null,1L);
         Exercicio mockExercicio = Mockito.mock(Exercicio.class);
 
         Mockito.when(exercicioService.atualizarExercicio(eq(1L), any())).thenReturn(mockExercicio);
