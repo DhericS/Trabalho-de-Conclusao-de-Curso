@@ -27,9 +27,10 @@ public class UserAcadAdmin {
     @Column(name = "cnpj", unique = true, length = 14)
     private String cnpj;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "academia_id", unique = true)
     private Academia academia;
+
 
     public UserAcadAdmin(Long id, String nome, String email, String senha, String telefone, String cnpj, Academia academia, Role role) {
         this.usuario = new Usuario(nome, email, senha, telefone, role);
@@ -44,6 +45,5 @@ public class UserAcadAdmin {
         usuario.setEmail(data.email());
         usuario.setTelefone(data.telefone());
         this.cnpj = data.cnpj();
-        this.academia = new Academia(data.academiaId());
     }
 }
