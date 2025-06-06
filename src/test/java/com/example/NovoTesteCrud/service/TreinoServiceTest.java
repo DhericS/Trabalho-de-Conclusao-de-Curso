@@ -46,7 +46,7 @@ public class TreinoServiceTest {
         when(personalRepository.findById(1L)).thenReturn(Optional.of(personal));
         when(treinoRepository.save(any())).thenAnswer(i -> i.getArgument(0));
 
-        ExercicioRequestDTO exercicio = new ExercicioRequestDTO("Supino", 4, 10, GrupoMuscular.PEITO, 1L, null);
+        ExercicioRequestDTO exercicio = new ExercicioRequestDTO("Supino", 4, 10, GrupoMuscular.PEITO, null,1L);
         TreinoRequestDTO request = new TreinoRequestDTO("Treino A", "Peito e tríceps", 1L, List.of(exercicio));
 
         var result = treinoService.registrarTreinos(request);
@@ -64,7 +64,7 @@ public class TreinoServiceTest {
         when(personalRepository.findById(1L)).thenReturn(Optional.of(personal));
         when(treinoRepository.save(any())).thenAnswer(i -> i.getArgument(0));
 
-        ExercicioRequestDTO exercicio = new ExercicioRequestDTO("Puxada", 3, 12, GrupoMuscular.COSTA, 1L, null);
+        ExercicioRequestDTO exercicio = new ExercicioRequestDTO("Puxada", 3, 12, GrupoMuscular.COSTA, null,1L);
         TreinoRequestDTO request = new TreinoRequestDTO("Treino B", "Costas e bíceps", 1L, List.of(exercicio));
 
         var atualizado = treinoService.atualizarTreinos(1L, request);
@@ -76,7 +76,7 @@ public class TreinoServiceTest {
     void deveLancarExcecao_QuandoTreinoNaoExisteAoAtualizar() {
         when(treinoRepository.findById(99L)).thenReturn(Optional.empty());
 
-        ExercicioRequestDTO exercicio = new ExercicioRequestDTO("Remada", 3, 10, GrupoMuscular.COSTA, 1L, null);
+        ExercicioRequestDTO exercicio = new ExercicioRequestDTO("Remada", 3, 10, GrupoMuscular.COSTA, null,1L);
         TreinoRequestDTO request = new TreinoRequestDTO("Treino X", "Costas", 1L, List.of(exercicio));
 
         assertThrows(EntityNotFoundException.class, () -> treinoService.atualizarTreinos(99L, request));

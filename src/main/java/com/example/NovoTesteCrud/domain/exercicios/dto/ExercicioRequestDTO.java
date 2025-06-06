@@ -10,7 +10,8 @@ public record ExercicioRequestDTO(
         @NotNull(message = "O número de séries é obrigatório") Integer series,
         @NotNull(message = "O número de repetições é obrigatório") Integer repeticoes,
         @NotNull(message = "O grupo muscular é obrigatório") GrupoMuscular grupoMuscular,
-        @NotNull(message = "O ID do treino é obrigatório") Long treinoId,
-        String imagemUrl
+        String imagemUrl,
+        @NotNull(message = "O ID do treino é obrigatório") Long treinoId
+
 ) {
 }
