@@ -27,7 +27,7 @@ public class UserAcadAdmin {
     @Column(name = "cnpj", unique = true, length = 14)
     private String cnpj;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "academia_id", unique = true)
     private Academia academia;
 
