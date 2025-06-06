@@ -46,7 +46,15 @@ public class TreinoServiceTest {
         when(personalRepository.findById(1L)).thenReturn(Optional.of(personal));
         when(treinoRepository.save(any())).thenAnswer(i -> i.getArgument(0));
 
-        ExercicioRequestDTO exercicio = new ExercicioRequestDTO("Supino", 4, 10, GrupoMuscular.PEITO, 1L);
+        ExercicioRequestDTO exercicio = new ExercicioRequestDTO(
+                "Supino",
+                Integer.valueOf(4),
+                Integer.valueOf(10),
+                GrupoMuscular.PEITO,
+                Long.valueOf(1),
+                "https://exemplo.com/imagem.jpg"
+        );
+
         TreinoRequestDTO request = new TreinoRequestDTO("Treino A", "Peito e tríceps", 1L, List.of(exercicio));
 
         var result = treinoService.registrarTreinos(request);
